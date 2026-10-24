@@ -3,6 +3,7 @@ import type { Metadata } from 'next';
 import { PhoneCall, MessageSquare, MapPin, Clock, Mail, ShieldCheck, Facebook } from 'lucide-react';
 import { companyInfo } from '@/data/content';
 import { ContactForm } from './ContactForm';
+import { TikTokIcon } from '@/components/shared/TikTokIcon';
 
 export const metadata: Metadata = {
   title: 'Contactez ARISOFT · Demande de devis & Assistance',
@@ -140,6 +141,21 @@ export default function ContactPage() {
                         className="font-semibold text-brand-green hover:underline underline-offset-2"
                       >
                         Voir notre page et nos actualités →
+                      </a>
+                    </div>
+                  </div>
+
+                  <div className="flex items-start gap-3">
+                    <TikTokIcon className="w-4 h-4 text-brand-green shrink-0 mt-0.5" aria-hidden="true" />
+                    <div>
+                      <span className="font-bold text-content-primary block">TikTok :</span>
+                      <a
+                        href={companyInfo.tiktokUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="font-semibold text-brand-green hover:underline underline-offset-2"
+                      >
+                        @arisoft5 – nos vidéos →
                       </a>
                     </div>
                   </div>

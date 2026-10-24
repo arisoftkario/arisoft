@@ -14,6 +14,7 @@ export const companyInfo: CompanyInfo = {
   phoneRaw: 'tel:+243980951694',
   whatsappUrl: 'https://wa.me/243980951694',
   facebookUrl: 'https://www.facebook.com/profile.php?id=61593903946478',
+  tiktokUrl: 'https://www.tiktok.com/@arisoft5',
   address: 'Butembo, Nord-Kivu, RD Congo',
   email: 'arisoft28@gmail.com',
   openingHours: 'Lundi au Samedi : 08h30 - 17h00',

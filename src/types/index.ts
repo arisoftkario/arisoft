@@ -46,6 +46,7 @@ export interface CompanyInfo {
   phoneRaw: string;
   whatsappUrl: string;
   facebookUrl: string;
+  tiktokUrl: string;
   address: string;
   email: string;
   openingHours: string;
