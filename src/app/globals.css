@@ -1,0 +1,45 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --color-navy: #0B1F3A;
+    --color-navy-dark: #071528;
+    --color-brand-green: #15803D;
+    --color-brand-green-light: #86EFAC;
+    --color-brand-green-pale: #DCFCE7;
+    --color-surface-alt: #F4F7FB;
+    --color-text-primary: #0F172A;
+    --color-text-secondary: #475569;
+    --color-border-subtle: #E2E8F0;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+    color: #0F172A;
+    background-color: #FFFFFF;
+    font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
+  }
+
+  body {
+    min-height: 100vh;
+    overflow-x: hidden;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Accessible focus indicators */
+  :focus-visible {
+    outline: 2px solid #15803D;
+    outline-offset: 2px;
+  }
+}
+
+/* Mobile-first touch targets */
+button,
+a {
+  touch-action: manipulation;
+}
