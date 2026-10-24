@@ -49,5 +49,6 @@ export interface CompanyInfo {
   email: string;
   openingHours: string;
   city: string;
+  province: string;
   country: string;
 }

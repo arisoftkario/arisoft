@@ -13,9 +13,9 @@ export const JsonLd: React.FC = () => {
     image: 'https://arisoft.cd/opengraph-image.png',
     address: {
       '@type': 'PostalAddress',
-      streetAddress: companyInfo.address,
       addressLocality: companyInfo.city,
-      addressCountry: companyInfo.country,
+      addressRegion: companyInfo.province,
+      addressCountry: 'CD',
     },
     openingHours: 'Mo-Fr 08:30-17:00, Sa 09:00-13:00',
     priceRange: '$$',

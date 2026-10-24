@@ -10,10 +10,11 @@ export const companyInfo: CompanyInfo = {
   phoneDisplay: '+243 980 951 694',
   phoneRaw: 'tel:+243980951694',
   whatsappUrl: 'https://wa.me/243980951694',
-  address: '[Adresse du bureau]',
+  address: 'Butembo, Nord-Kivu, RD Congo',
   email: 'contact@arisoft.cd',
   openingHours: 'Lundi au Vendredi : 08h30 - 17h00 | Samedi : 09h00 - 13h00',
-  city: '[Ville]',
+  city: 'Butembo',
+  province: 'Nord-Kivu',
   country: 'République Démocratique du Congo',
 };
 

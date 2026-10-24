@@ -134,17 +134,13 @@ export default function ContactPage() {
                 <h3 className="text-sm font-bold uppercase tracking-wider text-content-primary mb-3">
                   Localisation de l'agence
                 </h3>
-                <div className="bg-slate-100 border-2 border-dashed border-slate-300 rounded-card p-6 min-h-[220px] flex flex-col items-center justify-center text-center">
-                  <div className="w-12 h-12 rounded-full bg-white shadow-xs flex items-center justify-center text-brand-green mb-2 border border-green-200">
-                    <MapPin className="w-6 h-6" aria-hidden="true" />
-                  </div>
-                  <span className="font-extrabold text-sm text-content-primary">
-                    [Carte Google Maps de l'agence]
-                  </span>
-                  <p className="text-xs text-content-secondary mt-1 max-w-xs">
-                    Intégrer ici l'iframe Google Maps avec l'adresse exacte de vos bureaux ({companyInfo.address}).
-                  </p>
-                </div>
+                <iframe
+                  title={`Carte : ${companyInfo.address}`}
+                  src={`https://www.google.com/maps?q=${encodeURIComponent(companyInfo.address)}&output=embed`}
+                  loading="lazy"
+                  referrerPolicy="no-referrer-when-downgrade"
+                  className="w-full h-[260px] rounded-card border border-line-subtle"
+                />
               </div>
 
               {/* Réassurance */}
