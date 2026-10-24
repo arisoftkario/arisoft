@@ -1,6 +1,6 @@
 import React, { Suspense } from 'react';
 import type { Metadata } from 'next';
-import { PhoneCall, MessageSquare, MapPin, Clock, Mail, ShieldCheck, Facebook } from 'lucide-react';
+import { PhoneCall, MessageSquare, MapPin, Clock, Mail, ShieldCheck, Facebook, Instagram } from 'lucide-react';
 import { companyInfo } from '@/data/content';
 import { ContactForm } from './ContactForm';
 import { TikTokIcon } from '@/components/shared/TikTokIcon';
@@ -156,6 +156,21 @@ export default function ContactPage() {
                         className="font-semibold text-brand-green hover:underline underline-offset-2"
                       >
                         @arisoft5 – nos vidéos →
+                      </a>
+                    </div>
+                  </div>
+
+                  <div className="flex items-start gap-3">
+                    <Instagram className="w-4 h-4 text-brand-green shrink-0 mt-0.5" aria-hidden="true" />
+                    <div>
+                      <span className="font-bold text-content-primary block">Instagram :</span>
+                      <a
+                        href={companyInfo.instagramUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="font-semibold text-brand-green hover:underline underline-offset-2"
+                      >
+                        @arisoft2026 – nos photos →
                       </a>
                     </div>
                   </div>

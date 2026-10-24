@@ -47,6 +47,7 @@ export interface CompanyInfo {
   whatsappUrl: string;
   facebookUrl: string;
   tiktokUrl: string;
+  instagramUrl: string;
   address: string;
   email: string;
   openingHours: string;

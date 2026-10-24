@@ -3,7 +3,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { withBasePath } from '@/lib/basePath';
 import { TikTokIcon } from '@/components/shared/TikTokIcon';
-import { Phone, MessageSquare, MapPin, Mail, ArrowUpRight, Facebook } from 'lucide-react';
+import { Phone, MessageSquare, MapPin, Mail, ArrowUpRight, Facebook, Instagram } from 'lucide-react';
 import { companyInfo, navigationLinks, servicesData } from '@/data/content';
 
 export const Footer: React.FC = () => {
@@ -136,6 +136,16 @@ export const Footer: React.FC = () => {
               >
                 <TikTokIcon className="w-4 h-4 text-brand-green shrink-0" aria-hidden="true" />
                 <span>Nos vidéos sur TikTok</span>
+              </a>
+
+              <a
+                href={companyInfo.instagramUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2.5 text-slate-300 hover:text-brand-green-light transition-colors"
+              >
+                <Instagram className="w-4 h-4 text-brand-green shrink-0" aria-hidden="true" />
+                <span>Nos photos sur Instagram</span>
               </a>
             </div>
 
