@@ -270,6 +270,13 @@ export const clientLogos = [
     location: 'Butembo, Nord-Kivu',
     logo: '/images/clients/kisusi-tontine.jpg',
   },
+  {
+    id: 'gm-foundation',
+    name: 'GM FOUNDATION COMPANY LTD',
+    activity: 'Site web professionnel',
+    location: 'Support world change',
+    logo: '/images/clients/gm-foundation.jpg',
+  },
 ];
 
 export const advantagesData: AdvantageItem[] = [
