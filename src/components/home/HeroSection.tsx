@@ -12,6 +12,7 @@ import {
   } from 'lucide-react';
 import { companyInfo, softwareModules } from '@/data/content';
 import { ContactButtons } from '@/components/shared/ContactButtons';
+import { SocialLinks } from '@/components/shared/SocialLinks';
 
 // Map module icons
 const getModuleIcon = (id: string) => {
@@ -65,6 +66,9 @@ export const HeroSection: React.FC = () => {
                 phoneLabel={companyInfo.phoneDisplay}
               />
             </div>
+
+            {/* Réseaux sociaux */}
+            <SocialLinks label="Suivez-nous :" isDarkTheme={true} size="lg" />
 
             {/* Éléments de réassurance discrets */}
             <div className="pt-4 flex flex-wrap items-center gap-y-2 gap-x-6 text-xs text-slate-300">

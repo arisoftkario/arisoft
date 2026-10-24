@@ -1,6 +1,7 @@
 import React from 'react';
 import { HeroSection } from '@/components/home/HeroSection';
 import { ServicesGrid } from '@/components/home/ServicesGrid';
+import { AdsSection } from '@/components/home/AdsSection';
 import { SoftwareFeature } from '@/components/home/SoftwareFeature';
 import { ProjectsSection } from '@/components/home/ProjectsSection';
 import { WhyChooseUs } from '@/components/home/WhyChooseUs';
@@ -11,6 +12,9 @@ export default function HomePage() {
     <>
       {/* 2. Hero (fond marine) */}
       <HeroSection />
+
+      {/* Offres & actualités publiées depuis l'admin (masqué si aucune) */}
+      <AdsSection />
 
       {/* 3. Services (fond #F4F7FB) */}
       <ServicesGrid />

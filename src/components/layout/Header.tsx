@@ -5,7 +5,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { withBasePath } from '@/lib/basePath';
 import { usePathname } from 'next/navigation';
-import { Menu, X, ArrowRight, Phone } from 'lucide-react';
+import { Menu, X, ArrowRight, Phone, Lock } from 'lucide-react';
 import { navigationLinks, companyInfo } from '@/data/content';
 
 export const Header: React.FC = () => {
@@ -79,6 +79,14 @@ export const Header: React.FC = () => {
 
           {/* Actions Droite Bureau */}
           <div className="hidden lg:flex items-center gap-3">
+            <Link
+              href="/admin/"
+              title="Espace administrateur"
+              aria-label="Espace administrateur"
+              className="p-2 rounded-lg text-slate-400 hover:text-white border border-navy-subtle hover:border-brand-green transition-colors"
+            >
+              <Lock className="w-4 h-4" aria-hidden={true} />
+            </Link>
 
             <a
               href={companyInfo.phoneRaw}
@@ -100,6 +108,13 @@ export const Header: React.FC = () => {
 
           {/* Bouton Burger Mobile */}
           <div className="flex items-center gap-2 lg:hidden">
+            <Link
+              href="/admin/"
+              aria-label="Espace administrateur"
+              className="p-2.5 rounded-card-sm text-slate-400 hover:text-white bg-navy-light border border-navy-subtle"
+            >
+              <Lock className="w-5 h-5" aria-hidden={true} />
+            </Link>
 
             <a
               href={companyInfo.phoneRaw}

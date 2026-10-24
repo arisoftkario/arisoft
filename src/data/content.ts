@@ -308,5 +308,6 @@ export const navigationLinks = [
   { label: 'Services', href: '/services/' },
   { label: 'Logiciel de gestion', href: '/logiciel-de-gestion/' },
   { label: 'Réalisations', href: '/realisations/' },
+  { label: 'Offres', href: '/publicites/' },
   { label: 'Contact', href: '/contact/' },
 ];

@@ -7,7 +7,6 @@ import {
   signOut,
   type User,
 } from 'firebase/auth';
-import { FirebaseError } from 'firebase/app';
 import {
   Lock,
   LogOut,
@@ -20,6 +19,8 @@ import {
   CheckCircle2,
   AlertTriangle,
   Loader2,
+  Megaphone,
+  Briefcase,
 } from 'lucide-react';
 import { isFirebaseConfigured } from '@/lib/firebase';
 import { auth } from '@/lib/auth';
@@ -32,6 +33,8 @@ import {
   type ProjectInput,
 } from '@/lib/projects';
 import { servicesData } from '@/data/content';
+import { errorMessage, inputClass, labelClass } from '@/components/admin/ui';
+import { AdsManager } from '@/components/admin/AdsManager';
 import { ProjectItem } from '@/types';
 
 const emptyForm: ProjectInput = {
@@ -42,29 +45,6 @@ const emptyForm: ProjectInput = {
   imageUrl: undefined,
 };
 
-function errorMessage(err: unknown): string {
-  if (err instanceof FirebaseError) {
-    switch (err.code) {
-      case 'auth/invalid-credential':
-      case 'auth/wrong-password':
-      case 'auth/user-not-found':
-      case 'auth/invalid-email':
-        return 'Email ou mot de passe incorrect.';
-      case 'auth/too-many-requests':
-        return 'Trop de tentatives. Réessayez dans quelques minutes.';
-      case 'auth/network-request-failed':
-      case 'unavailable':
-        return 'Connexion internet indisponible.';
-      case 'permission-denied':
-        return 'Ce compte n’est pas autorisé à publier (absent de la collection « admins »).';
-    }
-  }
-  return err instanceof Error ? err.message : 'Une erreur inattendue est survenue.';
-}
-
-const inputClass =
-  'w-full px-4 py-3 rounded-card-sm border border-line-subtle text-content-primary bg-slate-50 focus:bg-white focus:border-brand-green focus:ring-1 focus:ring-brand-green text-sm transition-colors';
-const labelClass = 'block text-xs font-bold uppercase tracking-wider text-content-primary mb-1.5';
 
 export default function AdminPage() {
   const [user, setUser] = useState<User | null>(null);
@@ -190,6 +170,55 @@ function LoginForm() {
 }
 
 function Dashboard({ user }: { user: User }) {
+  const [tab, setTab] = useState<'ads' | 'projects'>('ads');
+  const tabs = [
+    { id: 'ads' as const, label: 'Publicités', Icon: Megaphone },
+    { id: 'projects' as const, label: 'Réalisations', Icon: Briefcase },
+  ];
+
+  return (
+    <div className="space-y-6">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div>
+          <h1 className="text-2xl sm:text-3xl font-extrabold text-content-primary">Espace administration</h1>
+          <p className="text-sm text-content-muted">Connecté : {user.email}</p>
+        </div>
+        <button
+          type="button"
+          onClick={() => auth && signOut(auth)}
+          className="self-start sm:self-auto inline-flex items-center font-semibold text-sm text-content-secondary bg-white border border-line-subtle hover:border-slate-400 px-3 py-2.5 rounded-card transition-colors"
+        >
+          <LogOut className="w-4 h-4 mr-1.5" aria-hidden="true" />
+          Déconnexion
+        </button>
+      </div>
+
+      <div className="flex gap-2 border-b border-line-subtle" role="tablist">
+        {tabs.map(({ id, label, Icon }) => (
+          <button
+            key={id}
+            type="button"
+            role="tab"
+            aria-selected={tab === id}
+            onClick={() => setTab(id)}
+            className={`inline-flex items-center gap-2 px-4 py-2.5 text-sm font-bold border-b-2 -mb-px transition-colors ${
+              tab === id
+                ? 'border-brand-green text-brand-green'
+                : 'border-transparent text-content-secondary hover:text-content-primary'
+            }`}
+          >
+            <Icon className="w-4 h-4" aria-hidden="true" />
+            {label}
+          </button>
+        ))}
+      </div>
+
+      {tab === 'ads' ? <AdsManager /> : <ProjectsManager />}
+    </div>
+  );
+}
+
+function ProjectsManager() {
   const [projects, setProjects] = useState<ProjectItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
@@ -300,30 +329,16 @@ function Dashboard({ user }: { user: User }) {
 
   return (
     <div className="space-y-6">
-      {/* En-tête */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-        <div>
-          <h1 className="text-2xl sm:text-3xl font-extrabold text-content-primary">Réalisations publiées</h1>
-          <p className="text-sm text-content-muted">Connecté : {user.email}</p>
-        </div>
-        <div className="flex gap-3">
-          <button
-            type="button"
-            onClick={openNew}
-            className="inline-flex items-center font-bold text-sm text-white bg-brand-green hover:bg-brand-green-hover px-4 py-2.5 rounded-card transition-colors shadow-sm"
-          >
-            <PlusCircle className="w-4 h-4 mr-2" aria-hidden="true" />
-            Publier une réalisation
-          </button>
-          <button
-            type="button"
-            onClick={() => auth && signOut(auth)}
-            className="inline-flex items-center font-semibold text-sm text-content-secondary bg-white border border-line-subtle hover:border-slate-400 px-3 py-2.5 rounded-card transition-colors"
-          >
-            <LogOut className="w-4 h-4 mr-1.5" aria-hidden="true" />
-            Déconnexion
-          </button>
-        </div>
+        <h2 className="text-xl font-extrabold text-content-primary">Réalisations publiées</h2>
+        <button
+          type="button"
+          onClick={openNew}
+          className="self-start sm:self-auto inline-flex items-center font-bold text-sm text-white bg-brand-green hover:bg-brand-green-hover px-4 py-2.5 rounded-card transition-colors shadow-sm"
+        >
+          <PlusCircle className="w-4 h-4 mr-2" aria-hidden="true" />
+          Publier une réalisation
+        </button>
       </div>
 
       {notice && (
