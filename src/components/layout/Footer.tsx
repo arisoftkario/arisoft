@@ -3,6 +3,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { withBasePath } from '@/lib/basePath';
 import { TikTokIcon } from '@/components/shared/TikTokIcon';
+import { InstallAppButton } from '@/components/layout/InstallApp';
 import { Phone, MessageSquare, MapPin, Mail, ArrowUpRight, Facebook, Instagram } from 'lucide-react';
 import { companyInfo, navigationLinks, servicesData } from '@/data/content';
 
@@ -156,6 +157,7 @@ export const Footer: React.FC = () => {
               >
                 Obtenir un devis gratuit
               </Link>
+              <InstallAppButton className="mt-3 flex items-center gap-2 text-xs font-bold text-slate-300 hover:text-white border border-slate-700 hover:border-brand-green px-3.5 py-2 rounded-card-sm transition-colors" />
             </div>
           </div>
         </div>

@@ -4,6 +4,7 @@ import './globals.css';
 import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
 import { FloatingWhatsApp } from '@/components/layout/FloatingWhatsApp';
+import { InstallApp } from '@/components/layout/InstallApp';
 import { JsonLd } from '@/components/shared/JsonLd';
 import { companyInfo, siteUrl } from '@/data/content';
 
@@ -49,6 +50,11 @@ export const metadata: Metadata = {
     title: `${companyInfo.name} · ${companyInfo.tagline}`,
     description: companyInfo.heroSubtitle,
   },
+  appleWebApp: {
+    capable: true,
+    title: companyInfo.name,
+    statusBarStyle: 'black-translucent',
+  },
   robots: {
     index: true,
     follow: true,
@@ -68,6 +74,7 @@ export default function RootLayout({
         <main className="flex-grow">{children}</main>
         <Footer />
         <FloatingWhatsApp />
+        <InstallApp />
       </body>
     </html>
   );
