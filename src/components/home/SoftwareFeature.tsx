@@ -1,6 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
-import { CheckCircle2, ArrowRight, Monitor, Laptop, Play } from 'lucide-react';
+import { CheckCircle2, ArrowRight, Monitor } from 'lucide-react';
 import { softwareKeyHighlights } from '@/data/content';
 import { SectionHeader } from '@/components/shared/SectionHeader';
 
@@ -26,21 +26,51 @@ export const SoftwareFeature: React.FC = () => {
                 <div className="w-8" />
               </div>
 
-              {/* Emplacement Capture d'écran du logiciel */}
-              <div className="bg-slate-100 border-2 border-dashed border-slate-300 rounded-card p-8 sm:p-12 text-center flex flex-col items-center justify-center min-h-[300px] sm:min-h-[360px]">
-                <div className="w-16 h-16 rounded-full bg-white shadow-sm flex items-center justify-center mb-4 text-brand-green border border-green-200">
-                  <Laptop className="w-8 h-8" aria-hidden="true" />
+              {/* Aperçu illustratif du tableau de bord */}
+              <div className="bg-slate-50 rounded-card border border-line-subtle p-4 sm:p-5 space-y-4" aria-label="Aperçu du tableau de bord ARISOFT Gestion">
+                <div className="grid grid-cols-3 gap-3">
+                  {[
+                    { label: 'Ventes du jour', value: '1 245 $', trend: '+12 %', tone: 'text-brand-green' },
+                    { label: 'Trésorerie', value: '8 930 $', trend: 'À jour', tone: 'text-brand-green' },
+                    { label: 'Alertes stock', value: '3', trend: 'À commander', tone: 'text-red-600' },
+                  ].map((kpi) => (
+                    <div key={kpi.label} className="bg-white rounded-card-sm border border-line-subtle p-3">
+                      <p className="text-[10px] sm:text-[11px] font-semibold uppercase tracking-wide text-content-muted">{kpi.label}</p>
+                      <p className="text-base sm:text-xl font-extrabold text-content-primary mt-1">{kpi.value}</p>
+                      <p className={`text-[10px] sm:text-xs font-bold ${kpi.tone}`}>{kpi.trend}</p>
+                    </div>
+                  ))}
                 </div>
-                <span className="font-extrabold text-base sm:text-lg text-content-primary mb-1">
-                  [Capture d'écran du logiciel]
-                </span>
-                <p className="text-xs sm:text-sm text-content-secondary max-w-sm mb-4">
-                  Aperçu de l’interface : suivi des ventes journalières, alertes de stocks en rouge et état de trésorerie en direct.
-                </p>
-                <span className="inline-flex items-center gap-1.5 text-xs font-semibold px-3 py-1 rounded-full bg-brand-green-pale text-brand-green">
-                  <Play className="w-3 h-3 fill-current" aria-hidden="true" />
-                  <span>Démonstration interactive disponible</span>
-                </span>
+
+                <div className="bg-white rounded-card-sm border border-line-subtle p-4">
+                  <p className="text-xs font-bold text-content-primary mb-3">Ventes de la semaine</p>
+                  <div className="flex items-end gap-2 h-28" aria-hidden="true">
+                    {[45, 62, 38, 70, 55, 88, 74].map((h, i) => (
+                      <div key={i} className="flex-1 flex flex-col items-center gap-1">
+                        <div
+                          className={`w-full rounded-t ${i === 5 ? 'bg-brand-green' : 'bg-brand-green/30'}`}
+                          style={{ height: `${h}%` }}
+                        />
+                        <span className="text-[10px] text-content-muted">{['L', 'M', 'M', 'J', 'V', 'S', 'D'][i]}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="bg-white rounded-card-sm border border-line-subtle divide-y divide-line-subtle text-xs">
+                  {[
+                    { item: 'Ciment 50 kg', stock: '4 sacs', alert: true },
+                    { item: 'Huile 5 L', stock: '18 bidons', alert: false },
+                    { item: 'Sucre 1 kg', stock: '2 cartons', alert: true },
+                  ].map((row) => (
+                    <div key={row.item} className="flex items-center justify-between px-4 py-2.5">
+                      <span className="font-semibold text-content-primary">{row.item}</span>
+                      <span className={`font-bold px-2 py-0.5 rounded-full ${row.alert ? 'bg-red-50 text-red-600' : 'bg-brand-green-pale text-brand-green'}`}>
+                        {row.stock}
+                      </span>
+                    </div>
+                  ))}
+                </div>
               </div>
 
               <div className="mt-4 flex items-center justify-between text-xs text-content-secondary">

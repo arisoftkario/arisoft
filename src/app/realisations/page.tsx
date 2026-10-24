@@ -2,7 +2,8 @@ import React from 'react';
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
-import { clientLogos, companyInfo } from '@/data/content';
+import { companyInfo } from '@/data/content';
+import { ClientLogos } from '@/components/shared/ClientLogos';
 import { ContactButtons } from '@/components/shared/ContactButtons';
 import { ProjectsGrid } from '@/components/shared/ProjectsGrid';
 
@@ -44,23 +45,12 @@ export default function RealisationsPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <ProjectsGrid headingLevel="h2" />
 
-          {/* Rangée de logos partenaires */}
+          {/* Clients */}
           <div className="mt-16 pt-12 border-t border-line-subtle">
             <h2 className="text-center text-xs font-bold uppercase tracking-wider text-content-muted mb-8">
-              Entreprises, commerces et institutions partenaires
+              Ils nous font confiance
             </h2>
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4">
-              {clientLogos.map((logo) => (
-                <div
-                  key={logo.id}
-                  className="h-20 rounded-card-sm border border-line-subtle bg-white flex items-center justify-center p-3 text-center shadow-xs"
-                >
-                  <span className="text-xs font-semibold text-content-muted">
-                    {logo.label}
-                  </span>
-                </div>
-              ))}
-            </div>
+            <ClientLogos />
           </div>
         </div>
       </section>

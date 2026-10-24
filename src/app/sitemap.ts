@@ -1,9 +1,10 @@
 import { MetadataRoute } from 'next';
+import { siteUrl } from '@/data/content';
 
 export const dynamic = 'force-static';
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = 'https://arisoft.cd';
+  const baseUrl = siteUrl;
   const lastModified = new Date();
 
   return [

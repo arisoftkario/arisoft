@@ -1,5 +1,5 @@
 import React from 'react';
-import { companyInfo } from '@/data/content';
+import { companyInfo, siteUrl } from '@/data/content';
 
 export const JsonLd: React.FC = () => {
   const structuredData = {
@@ -8,16 +8,17 @@ export const JsonLd: React.FC = () => {
     name: companyInfo.name,
     description: companyInfo.tagline,
     telephone: companyInfo.phone,
-    url: 'https://arisoft.cd',
-    logo: 'https://arisoft.cd/images/logo-dark.png',
-    image: 'https://arisoft.cd/opengraph-image.png',
+    url: siteUrl,
+    logo: `${siteUrl}/images/logo-dark.png`,
+    image: `${siteUrl}/opengraph-image.png`,
+    email: companyInfo.email,
     address: {
       '@type': 'PostalAddress',
       addressLocality: companyInfo.city,
       addressRegion: companyInfo.province,
       addressCountry: 'CD',
     },
-    openingHours: 'Mo-Fr 08:30-17:00, Sa 09:00-13:00',
+    openingHours: 'Mo-Sa 08:30-17:00',
     priceRange: '$$',
     currenciesAccepted: 'USD, CDF',
     paymentAccepted: 'Cash, Mobile Money, Bank Transfer',

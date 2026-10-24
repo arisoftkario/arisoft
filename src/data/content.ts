@@ -1,5 +1,8 @@
 import { CompanyInfo, ServiceItem, SoftwareModule, ProjectItem, AdvantageItem } from '@/types';
 
+// Adresse publique du site (à remplacer par le nom de domaine définitif)
+export const siteUrl = 'https://arisoft.vercel.app';
+
 export const companyInfo: CompanyInfo = {
   name: 'ARISOFT',
   tagline: "Assistance informatique & gestion d'entreprise",
@@ -11,8 +14,8 @@ export const companyInfo: CompanyInfo = {
   phoneRaw: 'tel:+243980951694',
   whatsappUrl: 'https://wa.me/243980951694',
   address: 'Butembo, Nord-Kivu, RD Congo',
-  email: 'contact@arisoft.cd',
-  openingHours: 'Lundi au Vendredi : 08h30 - 17h00 | Samedi : 09h00 - 13h00',
+  email: 'arisoft28@gmail.com',
+  openingHours: 'Lundi au Samedi : 08h30 - 17h00',
   city: 'Butembo',
   province: 'Nord-Kivu',
   country: 'République Démocratique du Congo',
@@ -223,38 +226,47 @@ export const projectRealizations: ProjectItem[] = [
   {
     id: '1',
     title: 'Déploiement logiciel de gestion commerciale',
-    clientName: '[Nom du client]',
+    clientName: '',
     serviceCategory: 'Logiciel de gestion',
-    imagePlaceholder: '[Photo du projet]',
+    imagePlaceholder: '',
     description:
       'Informatisation intégrale des points de vente, gestion des stocks multi-dépôts et formation des caissiers.',
   },
   {
     id: '2',
     title: 'Système de vidéosurveillance 16 caméras HD',
-    clientName: '[Nom du client]',
+    clientName: '',
     serviceCategory: 'Caméras de surveillance',
-    imagePlaceholder: '[Photo du projet]',
+    imagePlaceholder: '',
     description:
       'Sécurisation des accès entrepôts et bureaux administratifs avec contrôle à distance sur smartphone du gérant.',
   },
   {
     id: '3',
     title: 'Site web professionnel et identité visuelle',
-    clientName: '[Nom du client]',
+    clientName: '',
     serviceCategory: 'Site web & Textile',
-    imagePlaceholder: '[Photo du projet]',
+    imagePlaceholder: '',
     description:
       'Conception d’un site web optimisé mobile et confection de polos personnalisés pour le personnel d’accueil.',
   },
 ];
 
 export const clientLogos = [
-  { id: '1', label: '[Logo client 1]' },
-  { id: '2', label: '[Logo client 2]' },
-  { id: '3', label: '[Logo client 3]' },
-  { id: '4', label: '[Logo client 4]' },
-  { id: '5', label: '[Logo client 5]' },
+  {
+    id: 'kisusi-vehicules',
+    name: 'KISUSI COMPANY',
+    activity: 'Export & logistique de véhicules',
+    location: 'Butembo, Nord-Kivu',
+    logo: '/images/clients/kisusi-vehicules.jpg',
+  },
+  {
+    id: 'kisusi-tontine',
+    name: 'KISUSI COMPANY',
+    activity: 'Gestion de tontine commerciale',
+    location: 'Butembo, Nord-Kivu',
+    logo: '/images/clients/kisusi-tontine.jpg',
+  },
 ];
 
 export const advantagesData: AdvantageItem[] = [

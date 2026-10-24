@@ -1,6 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
-import { clientLogos } from '@/data/content';
+import { ClientLogos } from '@/components/shared/ClientLogos';
 import { ProjectsGrid } from '@/components/shared/ProjectsGrid';
 import { SectionHeader } from '@/components/shared/SectionHeader';
 
@@ -18,23 +18,12 @@ export const ProjectsSection: React.FC = () => {
         {/* 3 dernières réalisations publiées */}
         <ProjectsGrid limit={3} />
 
-        {/* Rangée de logos clients */}
+        {/* Clients */}
         <div className="mt-14 pt-10 border-t border-line-subtle">
           <p className="text-center text-xs font-bold uppercase tracking-wider text-content-muted mb-6">
-            Entreprises, commerces et institutions partenaires
+            Ils nous font confiance
           </p>
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4">
-            {clientLogos.map((logo) => (
-              <div
-                key={logo.id}
-                className="h-16 rounded-card-sm border border-line-subtle bg-white flex items-center justify-center p-3 text-center shadow-xs"
-              >
-                <span className="text-xs font-semibold text-content-muted">
-                  {logo.label}
-                </span>
-              </div>
-            ))}
-          </div>
+          <ClientLogos />
         </div>
 
         <div className="mt-10 text-center">

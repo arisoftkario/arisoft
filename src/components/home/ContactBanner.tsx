@@ -60,7 +60,7 @@ export const ContactBanner: React.FC = () => {
               </a>
 
               <p className="text-center text-xs text-slate-400 mt-1">
-                Aucun engagement requis · Réponse sous 30 minutes
+                Aucun engagement requis · Réponse rapide
               </p>
             </div>
           </div>

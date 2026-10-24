@@ -34,7 +34,7 @@ export async function fetchProjects(): Promise<ProjectItem[]> {
       serviceCategory: data.serviceCategory ?? '',
       description: data.description ?? '',
       imageUrl: data.imageUrl || undefined,
-      imagePlaceholder: '[Photo du projet]',
+      imagePlaceholder: '',
     };
   });
 }

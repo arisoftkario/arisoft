@@ -5,7 +5,7 @@ import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
 import { FloatingWhatsApp } from '@/components/layout/FloatingWhatsApp';
 import { JsonLd } from '@/components/shared/JsonLd';
-import { companyInfo } from '@/data/content';
+import { companyInfo, siteUrl } from '@/data/content';
 
 const plusJakartaSans = Plus_Jakarta_Sans({
   subsets: ['latin'],
@@ -35,11 +35,11 @@ export const metadata: Metadata = {
     'ARISOFT',
   ],
   authors: [{ name: companyInfo.name }],
-  metadataBase: new URL('https://arisoft.cd'),
+  metadataBase: new URL(siteUrl),
   openGraph: {
     title: `${companyInfo.name} · Solutions informatiques & gestion de A à Z`,
     description: companyInfo.heroSubtitle,
-    url: 'https://arisoft.cd',
+    url: siteUrl,
     siteName: companyInfo.name,
     locale: 'fr_FR',
     type: 'website',

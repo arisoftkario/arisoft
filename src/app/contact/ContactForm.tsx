@@ -141,7 +141,7 @@ export const ContactForm: React.FC = () => {
         </button>
 
         <p className="text-center text-xs text-content-muted">
-          Réponse garantie sous 30 minutes pendant nos heures d'ouverture.
+          Réponse rapide pendant nos heures d'ouverture, du lundi au samedi.
         </p>
       </form>
     </div>

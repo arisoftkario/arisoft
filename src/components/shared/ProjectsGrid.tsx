@@ -60,8 +60,8 @@ export const ProjectsGrid: React.FC<ProjectsGridProps> = ({ limit, headingLevel 
                   <div className="w-14 h-14 rounded-full bg-white shadow-xs flex items-center justify-center text-slate-400 mb-2">
                     <ImageIcon className="w-7 h-7" aria-hidden="true" />
                   </div>
-                  <span className="font-extrabold text-base text-content-primary">
-                    {project.imagePlaceholder}
+                  <span className="font-bold text-sm text-content-secondary">
+                    {project.serviceCategory}
                   </span>
                 </div>
               )}

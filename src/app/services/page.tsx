@@ -125,7 +125,7 @@ export default function ServicesPage() {
                     Intéressé par {service.title.toLowerCase()} ?
                   </h3>
                   <p className="text-xs sm:text-sm text-content-secondary leading-relaxed">
-                    Obtenez une proposition tarifaire détaillée sous 30 minutes adaptée à vos volumes et besoins.
+                    Obtenez rapidement une proposition tarifaire détaillée, adaptée à vos volumes et besoins.
                   </p>
 
                   <div className="space-y-2.5 pt-2">
