@@ -12,6 +12,7 @@ export const JsonLd: React.FC = () => {
     logo: `${siteUrl}/images/logo-dark.png`,
     image: `${siteUrl}/opengraph-image.png`,
     email: companyInfo.email,
+    sameAs: [companyInfo.facebookUrl],
     address: {
       '@type': 'PostalAddress',
       addressLocality: companyInfo.city,

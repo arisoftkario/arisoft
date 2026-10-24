@@ -2,7 +2,7 @@ import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { withBasePath } from '@/lib/basePath';
-import { Phone, MessageSquare, MapPin, Mail, ArrowUpRight } from 'lucide-react';
+import { Phone, MessageSquare, MapPin, Mail, ArrowUpRight, Facebook } from 'lucide-react';
 import { companyInfo, navigationLinks, servicesData } from '@/data/content';
 
 export const Footer: React.FC = () => {
@@ -109,10 +109,23 @@ export const Footer: React.FC = () => {
                 <span>{companyInfo.address}</span>
               </div>
 
-              <div className="flex items-center gap-2.5 text-slate-400">
+              <a
+                href={`mailto:${companyInfo.email}`}
+                className="flex items-center gap-2.5 text-slate-400 hover:text-brand-green-light transition-colors"
+              >
                 <Mail className="w-4 h-4 text-slate-500 shrink-0" aria-hidden="true" />
                 <span>{companyInfo.email}</span>
-              </div>
+              </a>
+
+              <a
+                href={companyInfo.facebookUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2.5 text-slate-300 hover:text-brand-green-light transition-colors"
+              >
+                <Facebook className="w-4 h-4 text-brand-green shrink-0" aria-hidden="true" />
+                <span>Suivez-nous sur Facebook</span>
+              </a>
             </div>
 
             <div className="pt-2">

@@ -13,6 +13,7 @@ export const companyInfo: CompanyInfo = {
   phoneDisplay: '+243 980 951 694',
   phoneRaw: 'tel:+243980951694',
   whatsappUrl: 'https://wa.me/243980951694',
+  facebookUrl: 'https://www.facebook.com/profile.php?id=61593903946478',
   address: 'Butembo, Nord-Kivu, RD Congo',
   email: 'arisoft28@gmail.com',
   openingHours: 'Lundi au Samedi : 08h30 - 17h00',

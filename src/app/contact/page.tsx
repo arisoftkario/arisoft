@@ -1,6 +1,6 @@
 import React, { Suspense } from 'react';
 import type { Metadata } from 'next';
-import { PhoneCall, MessageSquare, MapPin, Clock, Mail, ShieldCheck } from 'lucide-react';
+import { PhoneCall, MessageSquare, MapPin, Clock, Mail, ShieldCheck, Facebook } from 'lucide-react';
 import { companyInfo } from '@/data/content';
 import { ContactForm } from './ContactForm';
 
@@ -123,7 +123,24 @@ export default function ContactPage() {
                     <Mail className="w-4 h-4 text-brand-green shrink-0 mt-0.5" aria-hidden="true" />
                     <div>
                       <span className="font-bold text-content-primary block">Courriel :</span>
-                      <span>{companyInfo.email}</span>
+                      <a href={`mailto:${companyInfo.email}`} className="hover:text-brand-green underline-offset-2 hover:underline">
+                        {companyInfo.email}
+                      </a>
+                    </div>
+                  </div>
+
+                  <div className="flex items-start gap-3">
+                    <Facebook className="w-4 h-4 text-brand-green shrink-0 mt-0.5" aria-hidden="true" />
+                    <div>
+                      <span className="font-bold text-content-primary block">Facebook :</span>
+                      <a
+                        href={companyInfo.facebookUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="font-semibold text-brand-green hover:underline underline-offset-2"
+                      >
+                        Voir notre page et nos actualités →
+                      </a>
                     </div>
                   </div>
                 </div>
