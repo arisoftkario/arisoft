@@ -5,6 +5,7 @@ import {
   doc,
   getDocs,
   increment,
+  limit,
   orderBy,
   query,
   serverTimestamp,
@@ -36,10 +37,9 @@ function requireDb() {
   return db;
 }
 
-export async function fetchAds(): Promise<Ad[]> {
-  const snapshot = await getDocs(
-    query(collection(requireDb(), COLLECTION), orderBy('createdAt', 'desc'))
-  );
+export async function fetchAds(max?: number): Promise<Ad[]> {
+  const base = query(collection(requireDb(), COLLECTION), orderBy('createdAt', 'desc'));
+  const snapshot = await getDocs(max ? query(base, limit(max)) : base);
   return snapshot.docs.map((d) => {
     const data = d.data();
     return {
@@ -94,4 +94,40 @@ export function saveLikedAds(ids: Set<string>): void {
 
 export function adShareUrl(id: string): string {
   return `${window.location.origin}${withBasePath('/publicites/')}#pub-${id}`;
+}
+
+// --- Signalement des nouvelles publicités (pastille verte, badge de l'icône) ---
+
+const LAST_SEEN_KEY = 'arisoft_last_seen_ad';
+export const NEW_ADS_EVENT = 'arisoft:new-ads';
+
+export function getLastSeenAd(): number | null {
+  try {
+    const v = localStorage.getItem(LAST_SEEN_KEY);
+    return v === null ? null : Number(v);
+  } catch {
+    return null;
+  }
+}
+
+/** Marque toutes les publicités comme vues : retire la pastille et le badge de l'icône. */
+export function markAdsSeen(ads: Ad[]): void {
+  const newest = ads.reduce((max, ad) => Math.max(max, ad.createdAt), 0);
+  try {
+    if (newest > (getLastSeenAd() ?? 0)) localStorage.setItem(LAST_SEEN_KEY, String(newest));
+  } catch {
+    // Stockage indisponible
+  }
+  announceNewAds(0);
+}
+
+/** Informe l'en-tête et l'icône de l'application installée du nombre de nouveautés. */
+export function announceNewAds(count: number): void {
+  window.dispatchEvent(new CustomEvent(NEW_ADS_EVENT, { detail: count }));
+  const nav = navigator as Navigator & {
+    setAppBadge?: (n?: number) => Promise<void>;
+    clearAppBadge?: () => Promise<void>;
+  };
+  if (count > 0) nav.setAppBadge?.(count).catch(() => {});
+  else nav.clearAppBadge?.().catch(() => {});
 }

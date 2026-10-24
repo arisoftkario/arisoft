@@ -1,11 +1,16 @@
 'use client';
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Loader2, Megaphone } from 'lucide-react';
 import { AdsFeed, useAds } from '@/components/shared/AdsFeed';
+import { markAdsSeen } from '@/lib/ads';
 
 export const PublicitesFeed: React.FC = () => {
   const ads = useAds();
+
+  useEffect(() => {
+    if (ads && ads.length > 0) markAdsSeen(ads);
+  }, [ads]);
 
   if (ads === null) {
     return (

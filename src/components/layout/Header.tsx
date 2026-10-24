@@ -7,10 +7,25 @@ import { withBasePath } from '@/lib/basePath';
 import { usePathname } from 'next/navigation';
 import { Menu, X, ArrowRight, Phone, Lock } from 'lucide-react';
 import { navigationLinks, companyInfo } from '@/data/content';
+import { NEW_ADS_EVENT } from '@/lib/ads';
+
+// Pastille verte « nouveautés » sur le lien Offres
+const NewBadge: React.FC<{ count: number }> = ({ count }) => (
+  <span className="ml-1.5 inline-flex items-center justify-center min-w-5 h-5 px-1.5 rounded-full bg-brand-green text-white text-[11px] font-extrabold align-middle animate-pulse">
+    {count}
+  </span>
+);
 
 export const Header: React.FC = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [newAds, setNewAds] = useState(0);
   const pathname = usePathname();
+
+  useEffect(() => {
+    const onNewAds = (e: Event) => setNewAds((e as CustomEvent<number>).detail);
+    window.addEventListener(NEW_ADS_EVENT, onNewAds);
+    return () => window.removeEventListener(NEW_ADS_EVENT, onNewAds);
+  }, []);
 
   // Close mobile menu on route change
   useEffect(() => {
@@ -72,6 +87,7 @@ export const Header: React.FC = () => {
                   }`}
                 >
                   {link.label}
+                  {link.href === '/publicites/' && newAds > 0 && <NewBadge count={newAds} />}
                 </Link>
               );
             })}
@@ -127,11 +143,14 @@ export const Header: React.FC = () => {
             <button
               type="button"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="p-2.5 rounded-card-sm text-slate-200 hover:text-white bg-navy-light border border-navy-subtle focus:outline-none focus:ring-2 focus:ring-brand-green"
+              className="relative p-2.5 rounded-card-sm text-slate-200 hover:text-white bg-navy-light border border-navy-subtle focus:outline-none focus:ring-2 focus:ring-brand-green"
               aria-label={mobileMenuOpen ? 'Fermer le menu de navigation' : 'Ouvrir le menu de navigation'}
               aria-expanded={mobileMenuOpen}
               aria-controls="mobile-navigation"
             >
+              {newAds > 0 && !mobileMenuOpen && (
+                <span className="absolute -top-1 -right-1 w-3 h-3 rounded-full bg-brand-green ring-2 ring-navy" aria-hidden={true} />
+              )}
               {mobileMenuOpen ? (
                 <X className="w-6 h-6" aria-hidden={true} />
               ) : (
@@ -170,6 +189,7 @@ export const Header: React.FC = () => {
                   }`}
                 >
                   {link.label}
+                  {link.href === '/publicites/' && newAds > 0 && <NewBadge count={newAds} />}
                 </Link>
               );
             })}

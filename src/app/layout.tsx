@@ -5,6 +5,7 @@ import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
 import { FloatingWhatsApp } from '@/components/layout/FloatingWhatsApp';
 import { InstallApp } from '@/components/layout/InstallApp';
+import { NewAdsNotifier } from '@/components/layout/NewAdsNotifier';
 import { JsonLd } from '@/components/shared/JsonLd';
 import { companyInfo, siteUrl } from '@/data/content';
 
@@ -55,6 +56,8 @@ export const metadata: Metadata = {
     title: companyInfo.name,
     statusBarStyle: 'black-translucent',
   },
+  // Code fourni par Google Search Console (méthode « Balise HTML »)
+  verification: { google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION },
   robots: {
     index: true,
     follow: true,
@@ -75,6 +78,7 @@ export default function RootLayout({
         <Footer />
         <FloatingWhatsApp />
         <InstallApp />
+        <NewAdsNotifier />
       </body>
     </html>
   );

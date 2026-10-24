@@ -43,3 +43,9 @@ button,
 a {
   touch-action: manipulation;
 }
+
+/* Notification « nouvelle offre » (centrée horizontalement) */
+@keyframes slideDown {
+  from { opacity: 0; transform: translate(-50%, -12px); }
+  to { opacity: 1; transform: translate(-50%, 0); }
+}
