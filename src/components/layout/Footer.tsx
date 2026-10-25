@@ -5,7 +5,7 @@ import { withBasePath } from '@/lib/basePath';
 import { TikTokIcon } from '@/components/shared/TikTokIcon';
 import { InstallAppButton } from '@/components/layout/InstallApp';
 import { Phone, MessageSquare, MapPin, Mail, ArrowUpRight, Facebook, Instagram } from 'lucide-react';
-import { companyInfo, navigationLinks, servicesData } from '@/data/content';
+import { companyInfo, navigationLinks, servicesData, fullAddress } from '@/data/content';
 
 export const Footer: React.FC = () => {
   const currentYear = new Date().getFullYear();
@@ -70,6 +70,11 @@ export const Footer: React.FC = () => {
                 </li>
               ))}
               <li>
+                <Link href="/avis/" className="text-slate-400 hover:text-white transition-colors">
+                  Avis clients
+                </Link>
+              </li>
+              <li>
                 <Link
                   href="/logiciel-de-gestion/"
                   className="text-brand-green-light hover:underline font-medium inline-flex items-center"
@@ -108,7 +113,7 @@ export const Footer: React.FC = () => {
 
               <div className="flex items-start gap-2.5 text-slate-400">
                 <MapPin className="w-4 h-4 text-slate-500 shrink-0 mt-0.5" aria-hidden="true" />
-                <span>{companyInfo.address}</span>
+                <span>{fullAddress}</span>
               </div>
 
               <a

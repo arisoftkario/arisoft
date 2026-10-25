@@ -51,6 +51,27 @@ service cloud.firestore {
       allow delete: if isAdmin();
     }
 
+    function isValidTestimonial() {
+      let d = request.resource.data;
+      return d.keys().hasOnly(['name', 'company', 'rating', 'message', 'approved', 'createdAt'])
+        && d.name is string && d.name.size() > 0 && d.name.size() <= 80
+        && d.company is string && d.company.size() <= 100
+        && d.rating is int && d.rating >= 1 && d.rating <= 5
+        && d.message is string && d.message.size() >= 10 && d.message.size() <= 1000
+        && d.approved is bool;
+    }
+
+    // Avis clients : n'importe qui peut en envoyer un (en attente), seul un admin le publie.
+    match /avis/{avisId} {
+      allow read: if resource.data.approved == true || isAdmin();
+      allow create: if isValidTestimonial()
+        && request.resource.data.approved == false
+        && request.resource.data.createdAt == request.time;
+      allow update: if isAdmin() && isValidTestimonial()
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['approved']);
+      allow delete: if isAdmin();
+    }
+
     // Liste des admins : gérée uniquement depuis la console Firebase.
     match /admins/{uid} {
       allow read, write: if false;

@@ -1,5 +1,6 @@
 import React from 'react';
 import type { Metadata } from 'next';
+import { pageMetadata } from '@/lib/seo';
 import Link from 'next/link';
 import {
   ShoppingCart,
@@ -18,11 +19,11 @@ import {
 import { softwareModules, companyInfo } from '@/data/content';
 import { SectionHeader } from '@/components/shared/SectionHeader';
 
-export const metadata: Metadata = {
-  title: 'Logiciel de gestion d’entreprise sur mesure · ARISOFT',
-  description:
-    'Solutions logicielles modulaires pour Commerce, Ressources Humaines (RH), ONG, Restaurants et Hôtellerie. Démonstration gratuite et formation incluse.',
-};
+export const metadata: Metadata = pageMetadata(
+  '/logiciel-de-gestion/',
+  'Logiciel de gestion d’entreprise sur mesure · ARISOFT',
+  'Solutions logicielles modulaires pour Commerce, Ressources Humaines (RH), ONG, Restaurants et Hôtellerie. Démonstration gratuite et formation incluse.',
+);
 
 const getModuleIcon = (id: string) => {
   const iconProps = { className: 'w-7 h-7 text-brand-green', 'aria-hidden': true };

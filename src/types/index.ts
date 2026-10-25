@@ -25,7 +25,7 @@ export interface ProjectItem {
   serviceCategory: string;
   imagePlaceholder: string;
   description: string;
-  /** Photo publiée depuis l'admin (data URL JPEG compressée). */
+  /** Photo publiée depuis l'admin (data URL JPEG compressée) ou chemin d'une image du site (/images/realisations/…). */
   imageUrl?: string;
 }
 
@@ -49,6 +49,10 @@ export interface CompanyInfo {
   tiktokUrl: string;
   instagramUrl: string;
   address: string;
+  /** Rue, numéro, quartier : affiché avant la ville quand il est renseigné. */
+  streetAddress?: string;
+  /** Coordonnées GPS de l'agence : épingle précise sur la carte et pour Google. */
+  geo?: { latitude: number; longitude: number };
   email: string;
   openingHours: string;
   city: string;

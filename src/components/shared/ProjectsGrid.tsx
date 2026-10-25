@@ -6,6 +6,7 @@ import { Image as ImageIcon, Building2, ArrowRight } from 'lucide-react';
 import { projectRealizations } from '@/data/content';
 import { isFirebaseConfigured } from '@/lib/firebase';
 import { fetchProjects } from '@/lib/projects';
+import { withBasePath } from '@/lib/basePath';
 import { ProjectItem } from '@/types';
 
 interface ProjectsGridProps {
@@ -50,7 +51,8 @@ export const ProjectsGrid: React.FC<ProjectsGridProps> = ({ limit, headingLevel 
               {project.imageUrl ? (
                 // eslint-disable-next-line @next/next/no-img-element
                 <img
-                  src={project.imageUrl}
+                  // Photo du site (/images/realisations/…) ou photo publiée depuis l'admin (data URL)
+                  src={project.imageUrl.startsWith('/') ? withBasePath(project.imageUrl) : project.imageUrl}
                   alt={project.title}
                   loading="lazy"
                   className="w-full h-52 sm:h-56 object-cover border-b border-line-subtle"

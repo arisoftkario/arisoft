@@ -1,5 +1,6 @@
 import React from 'react';
 import type { Metadata } from 'next';
+import { pageMetadata } from '@/lib/seo';
 import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
 import { companyInfo } from '@/data/content';
@@ -7,11 +8,11 @@ import { ClientLogos } from '@/components/shared/ClientLogos';
 import { ContactButtons } from '@/components/shared/ContactButtons';
 import { ProjectsGrid } from '@/components/shared/ProjectsGrid';
 
-export const metadata: Metadata = {
-  title: 'Nos Réalisations & Références clients · ARISOFT',
-  description:
-    'Consultez les réalisations d’ARISOFT : installations logicielles, déploiements de caméras de surveillance HD, sites internet et impression textile pour entreprises.',
-};
+export const metadata: Metadata = pageMetadata(
+  '/realisations/',
+  'Nos Réalisations & Références clients · ARISOFT',
+  'Consultez les réalisations d’ARISOFT : installations logicielles, déploiements de caméras de surveillance HD, sites internet et impression textile pour entreprises.',
+);
 
 export default function RealisationsPage() {
   return (

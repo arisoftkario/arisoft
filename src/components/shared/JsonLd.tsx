@@ -15,10 +15,15 @@ export const JsonLd: React.FC = () => {
     sameAs: [companyInfo.facebookUrl, companyInfo.tiktokUrl, companyInfo.instagramUrl],
     address: {
       '@type': 'PostalAddress',
+      ...(companyInfo.streetAddress && { streetAddress: companyInfo.streetAddress }),
       addressLocality: companyInfo.city,
       addressRegion: companyInfo.province,
       addressCountry: 'CD',
     },
+    ...(companyInfo.geo && {
+      geo: { '@type': 'GeoCoordinates', ...companyInfo.geo },
+      hasMap: `https://www.google.com/maps?q=${companyInfo.geo.latitude},${companyInfo.geo.longitude}`,
+    }),
     openingHours: 'Mo-Sa 08:30-17:00',
     priceRange: '$$',
     currenciesAccepted: 'USD, CDF',

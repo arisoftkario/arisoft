@@ -1,5 +1,6 @@
 import React from 'react';
 import type { Metadata } from 'next';
+import { pageMetadata } from '@/lib/seo';
 import Link from 'next/link';
 import {
   LayoutDashboard,
@@ -16,11 +17,11 @@ import {
 import { servicesData, companyInfo } from '@/data/content';
 import { SectionHeader } from '@/components/shared/SectionHeader';
 
-export const metadata: Metadata = {
-  title: 'Nos Services informatiques & gestion · ARISOFT',
-  description:
-    'Découvrez les services complets ARISOFT : logiciels de gestion d’entreprise, sites internet rapides, applications mobiles, vidéosurveillance HD, maintenance informatique et impression textile.',
-};
+export const metadata: Metadata = pageMetadata(
+  '/services/',
+  'Nos Services informatiques & gestion · ARISOFT',
+  'Découvrez les services complets ARISOFT : logiciels de gestion d’entreprise, sites internet rapides, applications mobiles, vidéosurveillance HD, maintenance informatique et impression textile.',
+);
 
 const renderIcon = (name: string) => {
   const props = { className: 'w-7 h-7 text-brand-green', 'aria-hidden': true };

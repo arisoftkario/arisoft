@@ -17,12 +17,18 @@ export const companyInfo: CompanyInfo = {
   tiktokUrl: 'https://www.tiktok.com/@arisoft5',
   instagramUrl: 'https://www.instagram.com/arisoft2026/',
   address: 'Butembo, Nord-Kivu, RD Congo',
+  streetAddress: 'Avenue Matokeo, Boulevard Joseph Kabila, Commune Kimemi',
+  // À compléter pour une épingle précise sur la carte :
+  // geo: { latitude: 0.14, longitude: 29.29 },  // Google Maps : clic droit sur l'agence → copier les coordonnées
   email: 'arisoft28@gmail.com',
   openingHours: 'Lundi au Samedi : 08h30 - 17h00',
   city: 'Butembo',
   province: 'Nord-Kivu',
   country: 'République Démocratique du Congo',
 };
+
+// Adresse affichée sur le site : rue (si renseignée) puis ville.
+export const fullAddress = [companyInfo.streetAddress, companyInfo.address].filter(Boolean).join(', ');
 
 export const softwareModules: SoftwareModule[] = [
   {

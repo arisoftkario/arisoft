@@ -1,15 +1,20 @@
 import React, { Suspense } from 'react';
 import type { Metadata } from 'next';
-import { PhoneCall, MessageSquare, MapPin, Clock, Mail, ShieldCheck, Facebook, Instagram } from 'lucide-react';
-import { companyInfo } from '@/data/content';
+import { pageMetadata } from '@/lib/seo';
+import { PhoneCall, MessageSquare, MapPin, Clock, Mail, ShieldCheck, Facebook, Instagram, Navigation } from 'lucide-react';
+import { companyInfo, fullAddress } from '@/data/content';
 import { ContactForm } from './ContactForm';
 import { TikTokIcon } from '@/components/shared/TikTokIcon';
 
-export const metadata: Metadata = {
-  title: 'Contactez ARISOFT · Demande de devis & Assistance',
-  description:
-    'Contactez directement l’équipe technique ARISOFT par WhatsApp, téléphone ou formulaire. Réponse rapide pour vos projets informatiques et logiciels de gestion.',
-};
+const mapTarget = companyInfo.geo
+  ? `${companyInfo.geo.latitude},${companyInfo.geo.longitude}`
+  : fullAddress;
+
+export const metadata: Metadata = pageMetadata(
+  '/contact/',
+  'Contactez ARISOFT · Demande de devis & Assistance',
+  'Contactez directement l’équipe technique ARISOFT par WhatsApp, téléphone ou formulaire. Réponse rapide pour vos projets informatiques et logiciels de gestion.',
+);
 
 export default function ContactPage() {
   return (
@@ -108,7 +113,7 @@ export default function ContactPage() {
                     <MapPin className="w-4 h-4 text-brand-green shrink-0 mt-0.5" aria-hidden="true" />
                     <div>
                       <span className="font-bold text-content-primary block">Adresse :</span>
-                      <span>{companyInfo.address}</span>
+                      <span>{fullAddress}</span>
                     </div>
                   </div>
 
@@ -183,12 +188,21 @@ export default function ContactPage() {
                   Localisation de l'agence
                 </h3>
                 <iframe
-                  title={`Carte : ${companyInfo.address}`}
-                  src={`https://www.google.com/maps?q=${encodeURIComponent(companyInfo.address)}&output=embed`}
+                  title={`Carte : ${fullAddress}`}
+                  src={`https://www.google.com/maps?q=${encodeURIComponent(mapTarget)}&z=${companyInfo.geo ? 17 : 14}&output=embed`}
                   loading="lazy"
                   referrerPolicy="no-referrer-when-downgrade"
                   className="w-full h-[260px] rounded-card border border-line-subtle"
                 />
+                <a
+                  href={`https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(mapTarget)}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="mt-3 w-full inline-flex items-center justify-center font-bold text-sm text-white bg-navy hover:bg-navy-light py-3 rounded-card transition-colors"
+                >
+                  <Navigation className="w-4 h-4 mr-2 shrink-0" aria-hidden="true" />
+                  Itinéraire vers l’agence
+                </a>
               </div>
 
               {/* Réassurance */}

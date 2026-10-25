@@ -55,6 +55,8 @@ Les données sont stockées dans Firebase (Firestore + Authentication, offre gra
 Pour ajouter un autre administrateur : répéter les étapes 4 et 5.
 Tant qu'aucune réalisation n'est publiée, le site affiche les exemples de `src/data/content.ts`.
 
+**Avis clients** : les visiteurs envoient leur avis depuis `/avis/` ; il reste invisible jusqu'à ce qu'un admin clique sur « Publier » (onglet **Avis**). Après toute modification de `firestore.rules`, recoller les règles dans la console Firebase.
+
 ## Hébergement gratuit sur GitHub Pages
 Le workflow `.github/workflows/deploy.yml` construit et publie le site à chaque `git push` sur `main`.
 Adresse : `https://<compte>.github.io/<nom-du-depot>/`

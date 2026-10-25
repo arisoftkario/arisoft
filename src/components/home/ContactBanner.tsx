@@ -1,6 +1,6 @@
 import React from 'react';
 import { MapPin, Clock, MessageSquare, PhoneCall } from 'lucide-react';
-import { companyInfo } from '@/data/content';
+import { companyInfo, fullAddress } from '@/data/content';
 
 export const ContactBanner: React.FC = () => {
   return (
@@ -26,7 +26,7 @@ export const ContactBanner: React.FC = () => {
               <div className="pt-2 space-y-2.5 text-sm text-slate-300">
                 <div className="flex items-center gap-2.5">
                   <MapPin className="w-4 h-4 text-brand-green-light shrink-0" aria-hidden="true" />
-                  <span>Adresse : {companyInfo.address}</span>
+                  <span>Adresse : {fullAddress}</span>
                 </div>
                 <div className="flex items-center gap-2.5">
                   <Clock className="w-4 h-4 text-brand-green-light shrink-0" aria-hidden="true" />

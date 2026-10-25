@@ -21,6 +21,7 @@ import {
   Loader2,
   Megaphone,
   Briefcase,
+  MessageSquareQuote,
 } from 'lucide-react';
 import { isFirebaseConfigured } from '@/lib/firebase';
 import { auth } from '@/lib/auth';
@@ -35,6 +36,7 @@ import {
 import { servicesData } from '@/data/content';
 import { errorMessage, inputClass, labelClass } from '@/components/admin/ui';
 import { AdsManager } from '@/components/admin/AdsManager';
+import { TestimonialsManager } from '@/components/admin/TestimonialsManager';
 import { ProjectItem } from '@/types';
 
 const emptyForm: ProjectInput = {
@@ -170,10 +172,11 @@ function LoginForm() {
 }
 
 function Dashboard({ user }: { user: User }) {
-  const [tab, setTab] = useState<'ads' | 'projects'>('ads');
+  const [tab, setTab] = useState<'ads' | 'projects' | 'avis'>('ads');
   const tabs = [
     { id: 'ads' as const, label: 'Publicités', Icon: Megaphone },
     { id: 'projects' as const, label: 'Réalisations', Icon: Briefcase },
+    { id: 'avis' as const, label: 'Avis', Icon: MessageSquareQuote },
   ];
 
   return (
@@ -193,7 +196,7 @@ function Dashboard({ user }: { user: User }) {
         </button>
       </div>
 
-      <div className="flex gap-2 border-b border-line-subtle" role="tablist">
+      <div className="flex gap-2 border-b border-line-subtle overflow-x-auto" role="tablist">
         {tabs.map(({ id, label, Icon }) => (
           <button
             key={id}
@@ -213,7 +216,9 @@ function Dashboard({ user }: { user: User }) {
         ))}
       </div>
 
-      {tab === 'ads' ? <AdsManager /> : <ProjectsManager />}
+      {tab === 'ads' && <AdsManager />}
+      {tab === 'projects' && <ProjectsManager />}
+      {tab === 'avis' && <TestimonialsManager />}
     </div>
   );
 }

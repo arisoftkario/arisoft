@@ -1,13 +1,14 @@
 import React from 'react';
 import type { Metadata } from 'next';
+import { pageMetadata } from '@/lib/seo';
 import { SocialLinks } from '@/components/shared/SocialLinks';
 import { PublicitesFeed } from './PublicitesFeed';
 
-export const metadata: Metadata = {
-  title: 'Offres & actualités · ARISOFT',
-  description:
-    'Promotions, nouveautés et actualités ARISOFT à Butembo : logiciels de gestion, sites web, caméras de surveillance, impression textile.',
-};
+export const metadata: Metadata = pageMetadata(
+  '/publicites/',
+  'Offres & actualités · ARISOFT',
+  'Promotions, nouveautés et actualités ARISOFT à Butembo : logiciels de gestion, sites web, caméras de surveillance, impression textile.',
+);
 
 export default function PublicitesPage() {
   return (
