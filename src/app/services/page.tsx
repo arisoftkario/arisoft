@@ -9,6 +9,8 @@ import {
   Cctv,
   Headphones,
   Shirt,
+  Network,
+  ShieldCheck,
   CheckCircle2,
   ArrowRight,
   MessageSquare,
@@ -20,7 +22,7 @@ import { SectionHeader } from '@/components/shared/SectionHeader';
 export const metadata: Metadata = pageMetadata(
   '/services/',
   'Nos Services informatiques & gestion · ARISOFT',
-  'Découvrez les services complets ARISOFT : logiciels de gestion d’entreprise, sites internet rapides, applications mobiles, vidéosurveillance HD, maintenance informatique et impression textile.',
+  'Découvrez les services complets ARISOFT : logiciels de gestion d’entreprise, sites internet rapides, applications mobiles, vidéosurveillance HD, installation de réseaux informatiques, cybersécurité, maintenance informatique et impression textile.',
 );
 
 const renderIcon = (name: string) => {
@@ -38,6 +40,10 @@ const renderIcon = (name: string) => {
       return <Headphones {...props} />;
     case 'Shirt':
       return <Shirt {...props} />;
+    case 'Network':
+      return <Network {...props} />;
+    case 'ShieldCheck':
+      return <ShieldCheck {...props} />;
     default:
       return <LayoutDashboard {...props} />;
   }

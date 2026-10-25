@@ -26,13 +26,15 @@ export const viewport: Viewport = {
 export const metadata: Metadata = {
   title: `${companyInfo.name} · ${companyInfo.tagline}`,
   description:
-    "ARISOFT : Votre partenaire pour logiciels de gestion d'entreprise, création de sites web, applications mobiles, caméras de surveillance et impression textile personnalisée.",
+    "ARISOFT : Votre partenaire pour logiciels de gestion d'entreprise, création de sites web, applications mobiles, caméras de surveillance, réseaux informatiques, cybersécurité et impression textile personnalisée.",
   keywords: [
     'logiciel de gestion',
     'création site web',
     'installation caméras de surveillance',
     'impression t-shirts personnalisés',
     'assistance informatique',
+    'installation réseau informatique',
+    'cybersécurité',
     'logiciel de caisse',
     'ARISOFT',
   ],

@@ -7,6 +7,8 @@ import {
   Cctv,
   Headphones,
   Shirt,
+  Network,
+  ShieldCheck,
   ArrowRight,
 } from 'lucide-react';
 import { servicesData } from '@/data/content';
@@ -27,6 +29,10 @@ const renderServiceIcon = (iconName: string) => {
       return <Headphones {...iconProps} />;
     case 'Shirt':
       return <Shirt {...iconProps} />;
+    case 'Network':
+      return <Network {...iconProps} />;
+    case 'ShieldCheck':
+      return <ShieldCheck {...iconProps} />;
     default:
       return <LayoutDashboard {...iconProps} />;
   }
@@ -43,7 +49,7 @@ export const ServicesGrid: React.FC = () => {
           centered={true}
         />
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 sm:gap-8">
           {servicesData.map((service) => (
             <div
               key={service.id}

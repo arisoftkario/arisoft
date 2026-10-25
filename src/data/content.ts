@@ -8,7 +8,7 @@ export const companyInfo: CompanyInfo = {
   tagline: "Assistance informatique & gestion d'entreprise",
   heroHeadline: 'Vos solutions informatiques et de gestion, de A à Z.',
   heroSubtitle:
-    'Logiciels de gestion, sites web, applications mobiles, caméras de surveillance et impression textile : un seul partenaire pour faire avancer votre entreprise.',
+    'Logiciels de gestion, sites web, applications mobiles, réseaux informatiques, cybersécurité, caméras de surveillance et impression textile : un seul partenaire pour faire avancer votre entreprise.',
   phone: '+243980951694',
   phoneDisplay: '+243 980 951 694',
   phoneRaw: 'tel:+243980951694',
@@ -173,17 +173,51 @@ export const servicesData: ServiceItem[] = [
     ctaLabel: 'Demander un devis vidéosurveillance',
   },
   {
+    id: 'reseaux-informatiques',
+    slug: 'reseaux-informatiques',
+    title: 'Réseaux informatiques',
+    shortDescription:
+      'Installation de réseaux câblés et Wi-Fi pour bureaux, écoles, hôtels et entreprises : une connexion stable dans chaque pièce.',
+    fullDescription:
+      'Un réseau bien conçu, c’est des ordinateurs, imprimantes, caméras et logiciels qui communiquent sans coupure. Nous étudions vos locaux, posons le câblage, installons les équipements (switchs, routeurs, points d’accès Wi-Fi) et partageons la connexion internet entre tous vos postes, avec un plan clair de votre installation.',
+    iconName: 'Network',
+    features: [
+      'Câblage réseau structuré (RJ45) et baies de brassage',
+      'Wi-Fi professionnel couvrant tous vos locaux',
+      'Partage de connexion internet, d’imprimantes et de dossiers',
+      'Interconnexion de plusieurs bureaux ou bâtiments',
+    ],
+    ctaLabel: 'Demander un devis réseau',
+  },
+  {
+    id: 'cybersecurite',
+    slug: 'cybersecurite',
+    title: 'Cybersécurité',
+    shortDescription:
+      'Protection de vos ordinateurs, réseaux et données contre les virus, piratages, arnaques en ligne et pertes d’informations.',
+    fullDescription:
+      'Vos fichiers clients, votre comptabilité et vos comptes en ligne ont de la valeur, y compris pour les pirates. Nous analysons les points faibles de votre installation, mettons en place les protections adaptées (pare-feu, antivirus, mots de passe, sauvegardes) et formons votre personnel à reconnaître les arnaques.',
+    iconName: 'ShieldCheck',
+    features: [
+      'Audit de sécurité de vos postes et de votre réseau',
+      'Pare-feu, antivirus et sécurisation du Wi-Fi',
+      'Sauvegardes protégées et plan de reprise en cas d’incident',
+      'Sensibilisation du personnel aux arnaques et au phishing',
+    ],
+    ctaLabel: 'Demander un audit de sécurité',
+  },
+  {
     id: 'assistance-informatique',
     slug: 'assistance-informatique',
     title: 'Assistance informatique',
     shortDescription:
-      'Maintenance préventive et curative de votre parc informatique, réseaux locaux, sécurisation des données et dépannage express.',
+      'Maintenance préventive et curative de votre parc informatique, réparation des ordinateurs, suppression des virus et dépannage express.',
     fullDescription:
       'Une panne informatique ne doit jamais bloquer votre activité. Nous intervenons rapidement pour réparer vos ordinateurs, configurer vos réseaux locaux, éradiquer les virus et mettre en place des copies de sauvegarde fiables de vos données stratégiques.',
     iconName: 'Headphones',
     features: [
       'Dépannage matériel et logiciel rapide sur site ou à distance',
-      'Configuration et sécurisation de réseaux d’entreprise (Wi-Fi, LAN)',
+      'Installation de logiciels, mises à jour et remise en état des postes',
       'Sauvegardes automatiques et protection contre les pertes de données',
       'Contrats de maintenance mensuels pour parc informatique',
     ],
@@ -290,7 +324,7 @@ export const advantagesData: AdvantageItem[] = [
     id: '1',
     title: 'Un seul interlocuteur',
     description:
-      'Logiciel, site web, parc informatique, caméras et tenues : vous échangez avec un seul partenaire de confiance pour tout votre système.',
+      'Logiciel, site web, réseau, sécurité informatique, caméras et tenues : vous échangez avec un seul partenaire de confiance pour tout votre système.',
     iconName: 'UserCheck',
   },
   {

@@ -60,6 +60,22 @@ export const JsonLd: React.FC = () => {
           '@type': 'Offer',
           itemOffered: {
             '@type': 'Service',
+            name: 'Installation de réseaux informatiques',
+            description: 'Câblage, Wi-Fi professionnel et partage de connexion pour bureaux et entreprises.',
+          },
+        },
+        {
+          '@type': 'Offer',
+          itemOffered: {
+            '@type': 'Service',
+            name: 'Cybersécurité',
+            description: 'Audit, pare-feu, antivirus, sauvegardes et sensibilisation du personnel.',
+          },
+        },
+        {
+          '@type': 'Offer',
+          itemOffered: {
+            '@type': 'Service',
             name: 'Impression textile personnalisée',
             description: 'T-shirts et polos personnalisés pour entreprises et organisations.',
           },
