@@ -7,6 +7,8 @@ import {
   UtensilsCrossed,
   Hotel,
   GraduationCap,
+  Hospital,
+  HardHat,
   ArrowRight,
   ShieldCheck,
   Zap,
@@ -30,6 +32,10 @@ const getModuleIcon = (id: string) => {
       return <Hotel className="w-5 h-5 text-brand-green" aria-hidden="true" />;
     case 'ecoles':
       return <GraduationCap className="w-5 h-5 text-brand-green" aria-hidden="true" />;
+    case 'hopitaux':
+      return <Hospital className="w-5 h-5 text-brand-green" aria-hidden="true" />;
+    case 'btp':
+      return <HardHat className="w-5 h-5 text-brand-green" aria-hidden="true" />;
     default:
       return <Zap className="w-5 h-5 text-brand-green" aria-hidden="true" />;
   }

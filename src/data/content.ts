@@ -115,6 +115,34 @@ export const softwareModules: SoftwareModule[] = [
       'Présences des élèves, personnel enseignant et emplois du temps',
     ],
   },
+  {
+    id: 'hopitaux',
+    slug: 'hopitaux',
+    title: 'Hôpitaux',
+    subtitle: 'Dossiers patients, consultations, pharmacie et facturation',
+    description:
+      'Suivez chaque patient de l’accueil à la sortie : dossier médical, consultations, examens, hospitalisation, pharmacie et facturation réunis dans un seul logiciel pour votre hôpital, clinique ou centre de santé.',
+    features: [
+      'Dossier patient unique : accueil, consultations, examens et historique',
+      'Gestion des hospitalisations, des lits et des services',
+      'Pharmacie : stock des médicaments, péremptions et alertes de rupture',
+      'Facturation des soins, caisse et prises en charge (entreprises, assurances)',
+    ],
+  },
+  {
+    id: 'btp',
+    slug: 'btp-genie-civil',
+    title: 'BTP & Génie civil',
+    subtitle: 'Chantiers, devis, matériaux et main-d’œuvre',
+    description:
+      'Pilotez vos chantiers de construction et travaux publics : devis et métrés, suivi des dépenses par chantier, gestion des matériaux et des engins, pointage des ouvriers et avancement des travaux.',
+    features: [
+      'Devis, métrés et suivi du budget par chantier',
+      'Stock des matériaux (ciment, fer, gravier…) et approvisionnements',
+      'Pointage et paie des ouvriers et des équipes',
+      'Suivi des engins, de l’avancement des travaux et rapports de chantier',
+    ],
+  },
 ];
 
 export const servicesData: ServiceItem[] = [
@@ -123,7 +151,7 @@ export const servicesData: ServiceItem[] = [
     slug: 'logiciels-de-gestion',
     title: 'Logiciels de gestion',
     shortDescription:
-      'Solutions sur-mesure pour commerces, RH, ONG, restaurants, hôtels et écoles. Prenez le contrôle total de votre gestion quotidienne.',
+      'Solutions sur-mesure pour commerces, RH, ONG, restaurants, hôtels, écoles, hôpitaux et entreprises du BTP. Prenez le contrôle total de votre gestion quotidienne.',
     fullDescription:
       'Nos logiciels de gestion répondent aux réalités concrètes des entreprises locales. Fini les pertes de stocks, les calculs de paie manuels ou le manque de visibilité sur votre trésorerie. Nous configurons chaque module selon votre activité, formons vos équipes et assurons une assistance technique permanente.',
     iconName: 'LayoutDashboard',

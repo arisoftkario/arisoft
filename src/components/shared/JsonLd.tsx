@@ -37,7 +37,7 @@ export const JsonLd: React.FC = () => {
           itemOffered: {
             '@type': 'Service',
             name: 'Logiciel de gestion d’entreprise',
-            description: 'Modules Commerce, Ressources Humaines, ONG, Restaurant, Hôtellerie, Écoles.',
+            description: 'Modules Commerce, Ressources Humaines, ONG, Restaurant, Hôtellerie, Écoles, Hôpitaux, BTP & Génie civil.',
           },
         },
         {

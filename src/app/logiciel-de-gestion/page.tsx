@@ -9,6 +9,8 @@ import {
   UtensilsCrossed,
   Hotel,
   GraduationCap,
+  Hospital,
+  HardHat,
   CheckCircle2,
   ArrowRight,
   MessageSquare,
@@ -23,7 +25,7 @@ import { SectionHeader } from '@/components/shared/SectionHeader';
 export const metadata: Metadata = pageMetadata(
   '/logiciel-de-gestion/',
   'Logiciel de gestion d’entreprise sur mesure · ARISOFT',
-  'Solutions logicielles modulaires pour Commerce, Ressources Humaines (RH), ONG, Restaurants, Hôtellerie et Écoles (gestion scolaire). Démonstration gratuite et formation incluse.',
+  'Solutions logicielles modulaires pour Commerce, Ressources Humaines (RH), ONG, Restaurants, Hôtellerie, Écoles, Hôpitaux et BTP & Génie civil. Démonstration gratuite et formation incluse.',
 );
 
 const getModuleIcon = (id: string) => {
@@ -41,6 +43,10 @@ const getModuleIcon = (id: string) => {
       return <Hotel {...iconProps} />;
     case 'ecoles':
       return <GraduationCap {...iconProps} />;
+    case 'hopitaux':
+      return <Hospital {...iconProps} />;
+    case 'btp':
+      return <HardHat {...iconProps} />;
     default:
       return <ShoppingCart {...iconProps} />;
   }

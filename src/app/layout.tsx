@@ -37,6 +37,8 @@ export const metadata: Metadata = {
     'cybersécurité',
     'logiciel de caisse',
     'logiciel de gestion scolaire',
+    'logiciel de gestion hospitalière',
+    'logiciel de gestion de chantier BTP',
     'ARISOFT',
   ],
   authors: [{ name: companyInfo.name }],
