@@ -16,6 +16,16 @@ service cloud.firestore {
         && d.videoUrl is string && d.videoUrl.size() <= 500;
     }
 
+    // Visiteurs : seul le compteur « likes » peut changer, d'exactement +1 ou -1.
+    // (les publications sans compteur partent de 0)
+    function isLikeChange() {
+      let before = resource.data.get('likes', 0);
+      return request.resource.data.diff(resource.data).affectedKeys().hasOnly(['likes'])
+        && (request.resource.data.likes == before + 1
+          || request.resource.data.likes == before - 1)
+        && request.resource.data.likes >= 0;
+    }
+
     function isValidProject() {
       let d = request.resource.data;
       return d.title is string && d.title.size() > 0 && d.title.size() <= 150
@@ -26,10 +36,11 @@ service cloud.firestore {
         && isValidMedia(d);
     }
 
-    // Réalisations : lecture publique, écriture réservée aux admins.
+    // Réalisations : lecture publique, « J'aime » pour tous, le reste réservé aux admins.
     match /realisations/{projectId} {
       allow read: if true;
-      allow create, update: if isAdmin() && isValidProject();
+      allow create: if isAdmin() && isValidProject();
+      allow update: if (isAdmin() && isValidProject()) || isLikeChange();
       allow delete: if isAdmin();
     }
 
@@ -43,13 +54,6 @@ service cloud.firestore {
         && d.likes is int;
     }
 
-    // Visiteurs : seul le compteur « likes » peut changer, d'exactement +1 ou -1.
-    function isLikeChange() {
-      return request.resource.data.diff(resource.data).affectedKeys().hasOnly(['likes'])
-        && (request.resource.data.likes == resource.data.likes + 1
-          || request.resource.data.likes == resource.data.likes - 1)
-        && request.resource.data.likes >= 0;
-    }
 
     // Publicités : lecture publique, « J'aime » pour tous, le reste réservé aux admins.
     match /publicites/{adId} {
@@ -77,6 +81,21 @@ service cloud.firestore {
         && request.resource.data.createdAt == request.time;
       allow update: if isAdmin() && isValidTestimonial()
         && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['approved']);
+      allow delete: if isAdmin();
+    }
+
+    // Commentaires : publiés directement par les visiteurs, supprimables par les admins.
+    match /commentaires/{commentId} {
+      allow read: if true;
+      allow create: if request.resource.data.keys().hasOnly(['targetType', 'targetId', 'name', 'message', 'createdAt'])
+        && request.resource.data.targetType in ['publicites', 'realisations']
+        && request.resource.data.targetId is string
+        && exists(/databases/$(database)/documents/$(request.resource.data.targetType)/$(request.resource.data.targetId))
+        && request.resource.data.name is string
+        && request.resource.data.name.size() > 0 && request.resource.data.name.size() <= 60
+        && request.resource.data.message is string
+        && request.resource.data.message.size() > 0 && request.resource.data.message.size() <= 500
+        && request.resource.data.createdAt == request.time;
       allow delete: if isAdmin();
     }
 

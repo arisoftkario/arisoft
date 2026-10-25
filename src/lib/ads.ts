@@ -4,7 +4,6 @@ import {
   deleteDoc,
   doc,
   getDocs,
-  increment,
   limit,
   orderBy,
   query,
@@ -12,11 +11,9 @@ import {
   updateDoc,
 } from 'firebase/firestore/lite';
 import { db } from '@/lib/firebase';
-import { withBasePath } from '@/lib/basePath';
 import { readImages } from '@/lib/media';
 
 const COLLECTION = 'publicites';
-const LIKED_KEY = 'arisoft_liked_ads';
 
 export interface Ad {
   id: string;
@@ -74,32 +71,6 @@ export async function updateAd(id: string, input: AdInput): Promise<void> {
 
 export async function deleteAd(id: string): Promise<void> {
   await deleteDoc(doc(requireDb(), COLLECTION, id));
-}
-
-/** Ajoute (+1) ou retire (-1) un « J'aime ». Les règles Firestore n'autorisent que ce champ. */
-export async function changeAdLikes(id: string, delta: 1 | -1): Promise<void> {
-  await updateDoc(doc(requireDb(), COLLECTION, id), { likes: increment(delta) });
-}
-
-// « J'aime » mémorisés sur l'appareil du visiteur (un seul par publicité et par navigateur).
-export function getLikedAds(): Set<string> {
-  try {
-    return new Set(JSON.parse(localStorage.getItem(LIKED_KEY) || '[]'));
-  } catch {
-    return new Set();
-  }
-}
-
-export function saveLikedAds(ids: Set<string>): void {
-  try {
-    localStorage.setItem(LIKED_KEY, JSON.stringify([...ids]));
-  } catch {
-    // Stockage indisponible (navigation privée) : le J'aime reste valable pour la session.
-  }
-}
-
-export function adShareUrl(id: string): string {
-  return `${window.location.origin}${withBasePath('/publicites/')}#pub-${id}`;
 }
 
 // --- Signalement des nouvelles publicités (pastille verte, badge de l'icône) ---

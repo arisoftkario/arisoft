@@ -7,6 +7,8 @@ import { projectRealizations } from '@/data/content';
 import { isFirebaseConfigured } from '@/lib/firebase';
 import { fetchProjects } from '@/lib/projects';
 import { MediaGallery } from '@/components/shared/MediaGallery';
+import { EngagementBar, useComments } from '@/components/shared/EngagementBar';
+import { postAnchor } from '@/lib/engagement';
 import { ProjectItem } from '@/types';
 
 interface ProjectsGridProps {
@@ -22,18 +24,33 @@ export const ProjectsGrid: React.FC<ProjectsGridProps> = ({ limit, headingLevel 
     isFirebaseConfigured ? null : projectRealizations
   );
 
+  // Les exemples de content.ts ne sont pas dans Firebase : pas de J'aime ni de commentaires
+  const [fromFirebase, setFromFirebase] = useState(false);
+  const { comments, addLocal } = useComments('realisations', fromFirebase);
+
   useEffect(() => {
     if (!isFirebaseConfigured) return;
     fetchProjects()
-      .then((items) => setProjects(items.length > 0 ? items : projectRealizations))
+      .then((items) => {
+        setFromFirebase(items.length > 0);
+        setProjects(items.length > 0 ? items : projectRealizations);
+      })
       .catch(() => setProjects(projectRealizations));
   }, []);
+
+  // Lien partagé vers une réalisation précise : défile jusqu'à elle
+  useEffect(() => {
+    const hash = window.location.hash;
+    if (projects && hash.startsWith('#real-')) {
+      document.getElementById(hash.slice(1))?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+  }, [projects]);
 
   const Heading = headingLevel;
   const visible = projects ? projects.slice(0, limit ?? projects.length) : null;
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8 items-start">
       {visible === null
         ? Array.from({ length: limit ?? 3 }).map((_, i) => (
             <div
@@ -45,7 +62,8 @@ export const ProjectsGrid: React.FC<ProjectsGridProps> = ({ limit, headingLevel 
         : visible.map((project) => (
             <article
               key={project.id}
-              className="bg-white rounded-card-lg overflow-hidden border border-line-subtle shadow-sm flex flex-col justify-between hover:border-brand-green/40 transition-colors"
+              id={fromFirebase ? postAnchor('realisations', project.id) : undefined}
+              className="bg-white rounded-card-lg overflow-hidden border border-line-subtle shadow-sm flex flex-col justify-between hover:border-brand-green/40 transition-colors scroll-mt-28 target:ring-2 target:ring-brand-green"
             >
               {/* Photos et vidéo du projet */}
               <div className="border-b border-line-subtle">
@@ -96,6 +114,17 @@ export const ProjectsGrid: React.FC<ProjectsGridProps> = ({ limit, headingLevel 
                     <span>Demander un devis pour ce type de projet</span>
                     <ArrowRight className="w-4 h-4 ml-1.5 group-hover:translate-x-1 transition-transform" aria-hidden="true" />
                   </Link>
+
+                  {fromFirebase && (
+                    <EngagementBar
+                      type="realisations"
+                      postId={project.id}
+                      title={project.title}
+                      likes={project.likes ?? 0}
+                      comments={comments[project.id] ?? []}
+                      onCommentAdded={addLocal}
+                    />
+                  )}
                 </div>
               </div>
             </article>

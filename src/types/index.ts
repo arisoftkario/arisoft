@@ -29,6 +29,8 @@ export interface ProjectItem {
   images?: string[];
   /** Lien d'une vidéo TikTok, YouTube ou Facebook. */
   videoUrl?: string;
+  /** Nombre de « J'aime » des visiteurs. */
+  likes?: number;
 }
 
 export interface AdvantageItem {

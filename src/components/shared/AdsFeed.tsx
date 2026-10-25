@@ -1,19 +1,14 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import { Heart, Share2, Link2, Check, Megaphone, Facebook } from 'lucide-react';
+import { Megaphone } from 'lucide-react';
 import { companyInfo } from '@/data/content';
 import { isFirebaseConfigured } from '@/lib/firebase';
-import {
-  type Ad,
-  adShareUrl,
-  changeAdLikes,
-  fetchAds,
-  getLikedAds,
-  saveLikedAds,
-} from '@/lib/ads';
+import { type Ad, fetchAds } from '@/lib/ads';
+import { postAnchor } from '@/lib/engagement';
 import { WhatsAppIcon } from '@/components/shared/WhatsAppIcon';
 import { MediaGallery } from '@/components/shared/MediaGallery';
+import { EngagementBar, useComments } from '@/components/shared/EngagementBar';
 
 /** Charge les publicités une fois ; null pendant le chargement. */
 export function useAds(): Ad[] | null {
@@ -38,14 +33,7 @@ interface AdsFeedProps {
 }
 
 export const AdsFeed: React.FC<AdsFeedProps> = ({ ads, limit }) => {
-  const [likes, setLikes] = useState<Record<string, number>>({});
-  const [liked, setLiked] = useState<Set<string>>(new Set());
-  const [shareOpen, setShareOpen] = useState<string | null>(null);
-  const [copied, setCopied] = useState<string | null>(null);
-
-  useEffect(() => {
-    setLiked(getLikedAds());
-  }, []);
+  const { comments, addLocal } = useComments('publicites', ads.length > 0);
 
   // Lien partagé vers une publicité précise : défile jusqu'à elle
   useEffect(() => {
@@ -55,55 +43,11 @@ export const AdsFeed: React.FC<AdsFeedProps> = ({ ads, limit }) => {
     }
   }, [ads]);
 
-  const toggleLike = async (ad: Ad) => {
-    const isLiked = liked.has(ad.id);
-    const delta = isLiked ? -1 : 1;
-    const next = new Set(liked);
-    if (isLiked) next.delete(ad.id);
-    else next.add(ad.id);
-
-    // Mise à jour immédiate à l'écran, annulée si Firebase refuse
-    setLiked(next);
-    setLikes((l) => ({ ...l, [ad.id]: (l[ad.id] ?? ad.likes) + delta }));
-    try {
-      await changeAdLikes(ad.id, delta);
-      saveLikedAds(next);
-    } catch {
-      setLiked(liked);
-      setLikes((l) => ({ ...l, [ad.id]: (l[ad.id] ?? ad.likes) - delta }));
-    }
-  };
-
-  const share = async (ad: Ad) => {
-    const url = adShareUrl(ad.id);
-    if (navigator.share) {
-      try {
-        await navigator.share({ title: ad.title, text: `${ad.title} – ARISOFT`, url });
-        return;
-      } catch {
-        // Partage annulé : on affiche le menu de secours
-      }
-    }
-    setShareOpen(shareOpen === ad.id ? null : ad.id);
-  };
-
-  const copyLink = async (ad: Ad) => {
-    try {
-      await navigator.clipboard.writeText(adShareUrl(ad.id));
-      setCopied(ad.id);
-      setTimeout(() => setCopied(null), 2000);
-    } catch {
-      window.prompt('Copiez ce lien :', adShareUrl(ad.id));
-    }
-  };
-
   const visible = ads.slice(0, limit ?? ads.length);
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 items-start">
       {visible.map((ad) => {
-        const count = likes[ad.id] ?? ad.likes;
-        const isLiked = liked.has(ad.id);
         const interestedUrl = `${companyInfo.whatsappUrl}?text=${encodeURIComponent(
           `Bonjour ARISOFT, je suis intéressé(e) par votre offre : « ${ad.title} ».`
         )}`;
@@ -111,7 +55,7 @@ export const AdsFeed: React.FC<AdsFeedProps> = ({ ads, limit }) => {
         return (
           <article
             key={ad.id}
-            id={`pub-${ad.id}`}
+            id={postAnchor('publicites', ad.id)}
             className="bg-white rounded-card-lg overflow-hidden border border-line-subtle shadow-sm flex flex-col scroll-mt-28 target:ring-2 target:ring-brand-green"
           >
             <MediaGallery
@@ -151,66 +95,14 @@ export const AdsFeed: React.FC<AdsFeedProps> = ({ ads, limit }) => {
                 Je suis intéressé(e)
               </a>
 
-              {/* J'aime / Partager */}
-              <div className="mt-4 pt-3 border-t border-line-subtle flex items-center justify-between">
-                <button
-                  type="button"
-                  onClick={() => toggleLike(ad)}
-                  aria-pressed={isLiked}
-                  className={`inline-flex items-center gap-1.5 text-sm font-bold px-3 py-1.5 rounded-full transition-colors ${
-                    isLiked ? 'text-red-600 bg-red-50' : 'text-content-secondary hover:bg-slate-100'
-                  }`}
-                >
-                  <Heart className={`w-5 h-5 ${isLiked ? 'fill-current' : ''}`} aria-hidden="true" />
-                  <span>J’aime</span>
-                  <span className="tabular-nums">{count > 0 ? count : ''}</span>
-                </button>
-
-                <button
-                  type="button"
-                  onClick={() => share(ad)}
-                  aria-expanded={shareOpen === ad.id}
-                  className="inline-flex items-center gap-1.5 text-sm font-bold text-content-secondary hover:bg-slate-100 px-3 py-1.5 rounded-full transition-colors"
-                >
-                  <Share2 className="w-5 h-5" aria-hidden="true" />
-                  Partager
-                </button>
-              </div>
-
-              {shareOpen === ad.id && (
-                <div className="mt-3 grid grid-cols-3 gap-2 text-xs font-bold">
-                  <a
-                    href={`https://wa.me/?text=${encodeURIComponent(`${ad.title} – ${adShareUrl(ad.id)}`)}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex flex-col items-center gap-1 py-2 rounded-card-sm bg-[#25D366]/10 text-[#128C4B] hover:bg-[#25D366]/20"
-                  >
-                    <WhatsAppIcon className="w-5 h-5" aria-hidden="true" />
-                    WhatsApp
-                  </a>
-                  <a
-                    href={`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(adShareUrl(ad.id))}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex flex-col items-center gap-1 py-2 rounded-card-sm bg-[#1877F2]/10 text-[#1877F2] hover:bg-[#1877F2]/20"
-                  >
-                    <Facebook className="w-5 h-5" aria-hidden="true" />
-                    Facebook
-                  </a>
-                  <button
-                    type="button"
-                    onClick={() => copyLink(ad)}
-                    className="flex flex-col items-center gap-1 py-2 rounded-card-sm bg-slate-100 text-content-primary hover:bg-slate-200"
-                  >
-                    {copied === ad.id ? (
-                      <Check className="w-5 h-5 text-brand-green" aria-hidden="true" />
-                    ) : (
-                      <Link2 className="w-5 h-5" aria-hidden="true" />
-                    )}
-                    {copied === ad.id ? 'Copié !' : 'Copier le lien'}
-                  </button>
-                </div>
-              )}
+              <EngagementBar
+                type="publicites"
+                postId={ad.id}
+                title={ad.title}
+                likes={ad.likes}
+                comments={comments[ad.id] ?? []}
+                onCommentAdded={addLocal}
+              />
             </div>
           </article>
         );

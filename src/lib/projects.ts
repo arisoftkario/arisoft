@@ -39,6 +39,7 @@ export async function fetchProjects(): Promise<ProjectItem[]> {
       description: data.description ?? '',
       images: readImages(data),
       videoUrl: data.videoUrl ?? '',
+      likes: typeof data.likes === 'number' ? data.likes : 0,
       imagePlaceholder: '',
     };
   });

@@ -23,6 +23,7 @@ import {
   Briefcase,
   MessageSquareQuote,
   LayoutGrid,
+  MessageCircle,
 } from 'lucide-react';
 import { isFirebaseConfigured } from '@/lib/firebase';
 import { auth } from '@/lib/auth';
@@ -39,6 +40,7 @@ import { AdsManager } from '@/components/admin/AdsManager';
 import { TestimonialsManager } from '@/components/admin/TestimonialsManager';
 import { MediaFields } from '@/components/admin/MediaFields';
 import { ServicesManager } from '@/components/admin/ServicesManager';
+import { CommentsManager } from '@/components/admin/CommentsManager';
 import { ProjectItem } from '@/types';
 
 const emptyForm: ProjectInput = {
@@ -175,11 +177,12 @@ function LoginForm() {
 }
 
 function Dashboard({ user }: { user: User }) {
-  const [tab, setTab] = useState<'ads' | 'projects' | 'services' | 'avis'>('ads');
+  const [tab, setTab] = useState<'ads' | 'projects' | 'services' | 'comments' | 'avis'>('ads');
   const tabs = [
     { id: 'ads' as const, label: 'Publicités', Icon: Megaphone },
     { id: 'projects' as const, label: 'Réalisations', Icon: Briefcase },
     { id: 'services' as const, label: 'Services', Icon: LayoutGrid },
+    { id: 'comments' as const, label: 'Commentaires', Icon: MessageCircle },
     { id: 'avis' as const, label: 'Avis', Icon: MessageSquareQuote },
   ];
 
@@ -208,7 +211,7 @@ function Dashboard({ user }: { user: User }) {
             role="tab"
             aria-selected={tab === id}
             onClick={() => setTab(id)}
-            className={`inline-flex items-center gap-2 px-4 py-2.5 text-sm font-bold border-b-2 -mb-px transition-colors ${
+            className={`inline-flex items-center gap-2 px-4 py-2.5 text-sm font-bold border-b-2 -mb-px transition-colors whitespace-nowrap shrink-0 ${
               tab === id
                 ? 'border-brand-green text-brand-green'
                 : 'border-transparent text-content-secondary hover:text-content-primary'
@@ -223,6 +226,7 @@ function Dashboard({ user }: { user: User }) {
       {tab === 'ads' && <AdsManager />}
       {tab === 'projects' && <ProjectsManager />}
       {tab === 'services' && <ServicesManager />}
+      {tab === 'comments' && <CommentsManager />}
       {tab === 'avis' && <TestimonialsManager />}
     </div>
   );
