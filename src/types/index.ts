@@ -7,6 +7,18 @@ export interface ServiceItem {
   iconName: string;
   features: string[];
   ctaLabel?: string;
+  /** Position dans le catalogue (admin). */
+  order?: number;
+}
+
+export interface ClientItem {
+  id: string;
+  name: string;
+  activity: string;
+  location: string;
+  /** Chemin d'une image du site (/images/clients/…) ou logo publié depuis l'admin (data URL). */
+  logo: string;
+  order?: number;
 }
 
 export interface SoftwareModule {

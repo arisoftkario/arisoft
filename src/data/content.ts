@@ -1,4 +1,4 @@
-import { CompanyInfo, ServiceItem, SoftwareModule, ProjectItem, AdvantageItem } from '@/types';
+import { CompanyInfo, ServiceItem, SoftwareModule, ProjectItem, AdvantageItem, ClientItem } from '@/types';
 
 // Adresse publique du site (à remplacer par le nom de domaine définitif)
 export const siteUrl = 'https://arisoft.vercel.app';
@@ -337,7 +337,7 @@ export const projectRealizations: ProjectItem[] = [
   },
 ];
 
-export const clientLogos = [
+export const clientLogos: ClientItem[] = [
   {
     id: 'kisusi-vehicules',
     name: 'KISUSI COMPANY',

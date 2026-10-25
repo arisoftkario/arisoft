@@ -3,20 +3,14 @@ import type { Metadata } from 'next';
 import { pageMetadata } from '@/lib/seo';
 import Link from 'next/link';
 import {
-  LayoutDashboard,
-  Globe,
-  Smartphone,
-  Cctv,
-  Headphones,
-  Shirt,
-  Network,
-  ShieldCheck,
   CheckCircle2,
   ArrowRight,
   MessageSquare,
   PhoneCall,
 } from 'lucide-react';
-import { servicesData, companyInfo } from '@/data/content';
+import { companyInfo } from '@/data/content';
+import { getServices } from '@/lib/catalogServer';
+import { ServiceIcon } from '@/components/shared/ServiceIcon';
 import { SectionHeader } from '@/components/shared/SectionHeader';
 import { ServiceGallery } from '@/components/shared/ServiceMedia';
 
@@ -26,31 +20,9 @@ export const metadata: Metadata = pageMetadata(
   'Découvrez les services complets ARISOFT : logiciels de gestion d’entreprise, sites internet rapides, applications mobiles, vidéosurveillance HD, installation de réseaux informatiques, cybersécurité, maintenance informatique et impression textile.',
 );
 
-const renderIcon = (name: string) => {
-  const props = { className: 'w-7 h-7 text-brand-green', 'aria-hidden': true };
-  switch (name) {
-    case 'LayoutDashboard':
-      return <LayoutDashboard {...props} />;
-    case 'Globe':
-      return <Globe {...props} />;
-    case 'Smartphone':
-      return <Smartphone {...props} />;
-    case 'Cctv':
-      return <Cctv {...props} />;
-    case 'Headphones':
-      return <Headphones {...props} />;
-    case 'Shirt':
-      return <Shirt {...props} />;
-    case 'Network':
-      return <Network {...props} />;
-    case 'ShieldCheck':
-      return <ShieldCheck {...props} />;
-    default:
-      return <LayoutDashboard {...props} />;
-  }
-};
+export default async function ServicesPage() {
+  const servicesData = await getServices();
 
-export default function ServicesPage() {
   return (
     <div className="bg-white">
       {/* En-tête de page */}
@@ -93,7 +65,7 @@ export default function ServicesPage() {
                 <div className="lg:col-span-8 space-y-5">
                   <div className="flex items-center gap-4">
                     <div className="w-14 h-14 rounded-card-sm bg-brand-green-pale border border-green-200 flex items-center justify-center shrink-0">
-                      {renderIcon(service.iconName)}
+                      <ServiceIcon name={service.iconName} className="w-7 h-7 text-brand-green" />
                     </div>
                     <div>
                       <span className="text-xs font-mono font-bold text-slate-400 uppercase">

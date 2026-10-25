@@ -82,6 +82,9 @@ export async function compressImage(
   canvas.height = Math.round(bitmap.height * scale);
   const ctx = canvas.getContext('2d');
   if (!ctx) throw new Error('Impossible de traiter l’image.');
+  // Fond blanc : les logos PNG transparents ne deviennent pas noirs en JPEG
+  ctx.fillStyle = '#ffffff';
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
   ctx.drawImage(bitmap, 0, 0, canvas.width, canvas.height);
   bitmap.close();
 

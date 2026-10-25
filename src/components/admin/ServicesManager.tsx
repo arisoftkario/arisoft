@@ -3,6 +3,8 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { Edit3, Save, X, CheckCircle2, AlertTriangle, Loader2, Image as ImageIcon, Video, ExternalLink } from 'lucide-react';
 import { servicesData } from '@/data/content';
+import { ServiceItem } from '@/types';
+import { fetchCatalog } from '@/lib/catalogAdmin';
 import { type ServiceMedia, fetchServiceMedias, saveServiceMedia } from '@/lib/services';
 import { withBasePath } from '@/lib/basePath';
 import { errorMessage } from '@/components/admin/ui';
@@ -22,9 +24,16 @@ export const ServicesManager: React.FC = () => {
   const [saving, setSaving] = useState(false);
   const [imageBusy, setImageBusy] = useState(false);
 
+  const [services, setServices] = useState<ServiceItem[]>(servicesData);
+
   const reload = useCallback(async () => {
     setLoading(true);
-    setMedias(await fetchServiceMedias());
+    const [loadedMedias, catalog] = await Promise.all([
+      fetchServiceMedias(),
+      fetchCatalog().catch(() => ({ items: servicesData })),
+    ]);
+    setMedias(loadedMedias);
+    setServices(catalog.items);
     setLoading(false);
   }, []);
 
@@ -97,7 +106,7 @@ export const ServicesManager: React.FC = () => {
         </div>
       ) : (
         <ul className="space-y-3">
-          {servicesData.map((service) => {
+          {services.map((service) => {
             const media = medias[service.id] ?? emptyMedia;
             const isEditing = editingId === service.id;
             return (

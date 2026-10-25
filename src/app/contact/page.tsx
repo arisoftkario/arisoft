@@ -4,6 +4,7 @@ import { pageMetadata } from '@/lib/seo';
 import { PhoneCall, MessageSquare, MapPin, Clock, Mail, ShieldCheck, Facebook, Instagram, Navigation } from 'lucide-react';
 import { companyInfo, fullAddress } from '@/data/content';
 import { ContactForm } from './ContactForm';
+import { getServices } from '@/lib/catalogServer';
 import { TikTokIcon } from '@/components/shared/TikTokIcon';
 
 const mapTarget = companyInfo.geo
@@ -16,7 +17,9 @@ export const metadata: Metadata = pageMetadata(
   'Contactez directement l’équipe technique ARISOFT par WhatsApp, téléphone ou formulaire. Réponse rapide pour vos projets informatiques et logiciels de gestion.',
 );
 
-export default function ContactPage() {
+export default async function ContactPage() {
+  const services = (await getServices()).map((s) => s.title);
+
   return (
     <div className="bg-surface-alt min-h-screen">
       {/* En-tête */}
@@ -49,7 +52,7 @@ export default function ContactPage() {
                   </div>
                 }
               >
-                <ContactForm />
+                <ContactForm services={services} />
               </Suspense>
             </div>
 

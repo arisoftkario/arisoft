@@ -3,16 +3,16 @@
 import React, { useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { MessageSquare, Send, CheckCircle2 } from 'lucide-react';
-import { servicesData, companyInfo } from '@/data/content';
+import { companyInfo } from '@/data/content';
 
-export const ContactForm: React.FC = () => {
+export const ContactForm: React.FC<{ services: string[] }> = ({ services }) => {
   const searchParams = useSearchParams();
   const initialService = searchParams.get('service') || '';
 
   const [formData, setFormData] = useState({
     name: '',
     phone: '',
-    service: initialService || servicesData[0].title,
+    service: initialService || services[0] || 'Projet global sur mesure',
     message: '',
   });
 
@@ -107,9 +107,9 @@ export const ContactForm: React.FC = () => {
             onChange={(e) => setFormData({ ...formData, service: e.target.value })}
             className="w-full px-4 py-3 rounded-card-sm border border-line-subtle text-content-primary bg-slate-50 focus:bg-white focus:border-brand-green focus:ring-1 focus:ring-brand-green text-sm transition-colors"
           >
-            {servicesData.map((s) => (
-              <option key={s.id} value={s.title}>
-                {s.title}
+            {services.map((title) => (
+              <option key={title} value={title}>
+                {title}
               </option>
             ))}
             <option value="Projet global sur mesure">Projet global multi-services</option>

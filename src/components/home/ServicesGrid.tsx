@@ -1,45 +1,14 @@
 import React from 'react';
 import Link from 'next/link';
-import {
-  LayoutDashboard,
-  Globe,
-  Smartphone,
-  Cctv,
-  Headphones,
-  Shirt,
-  Network,
-  ShieldCheck,
-  ArrowRight,
-} from 'lucide-react';
-import { servicesData } from '@/data/content';
+import { ArrowRight } from 'lucide-react';
+import { getServices } from '@/lib/catalogServer';
 import { SectionHeader } from '@/components/shared/SectionHeader';
 import { ServiceCover } from '@/components/shared/ServiceMedia';
+import { ServiceIcon } from '@/components/shared/ServiceIcon';
 
-const renderServiceIcon = (iconName: string) => {
-  const iconProps = { className: 'w-6 h-6 text-brand-green', 'aria-hidden': true };
-  switch (iconName) {
-    case 'LayoutDashboard':
-      return <LayoutDashboard {...iconProps} />;
-    case 'Globe':
-      return <Globe {...iconProps} />;
-    case 'Smartphone':
-      return <Smartphone {...iconProps} />;
-    case 'Cctv':
-      return <Cctv {...iconProps} />;
-    case 'Headphones':
-      return <Headphones {...iconProps} />;
-    case 'Shirt':
-      return <Shirt {...iconProps} />;
-    case 'Network':
-      return <Network {...iconProps} />;
-    case 'ShieldCheck':
-      return <ShieldCheck {...iconProps} />;
-    default:
-      return <LayoutDashboard {...iconProps} />;
-  }
-};
+export async function ServicesGrid() {
+  const servicesData = await getServices();
 
-export const ServicesGrid: React.FC = () => {
   return (
     <section className="bg-surface-alt py-16 sm:py-24 border-b border-line-subtle" id="services">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -59,7 +28,7 @@ export const ServicesGrid: React.FC = () => {
               <div>
                 <ServiceCover serviceId={service.id} title={service.title} />
                 <div className="w-12 h-12 rounded-card-sm bg-brand-green-pale flex items-center justify-center mb-5 border border-green-200">
-                  {renderServiceIcon(service.iconName)}
+                  <ServiceIcon name={service.iconName} className="w-6 h-6 text-brand-green" />
                 </div>
                 <h3 className="text-xl font-bold text-content-primary mb-2.5">
                   {service.title}
@@ -105,4 +74,4 @@ export const ServicesGrid: React.FC = () => {
       </div>
     </section>
   );
-};
+}

@@ -24,6 +24,8 @@ import {
   MessageSquareQuote,
   LayoutGrid,
   MessageCircle,
+  ListChecks,
+  Building2,
 } from 'lucide-react';
 import { isFirebaseConfigured } from '@/lib/firebase';
 import { auth } from '@/lib/auth';
@@ -41,6 +43,9 @@ import { TestimonialsManager } from '@/components/admin/TestimonialsManager';
 import { MediaFields } from '@/components/admin/MediaFields';
 import { ServicesManager } from '@/components/admin/ServicesManager';
 import { CommentsManager } from '@/components/admin/CommentsManager';
+import { CatalogManager } from '@/components/admin/CatalogManager';
+import { ClientsManager } from '@/components/admin/ClientsManager';
+import { fetchServiceTitles } from '@/lib/catalogAdmin';
 import { NotifyCheckbox } from '@/components/admin/NotifyCheckbox';
 import { announcePublication } from '@/lib/notify';
 import { postAnchor } from '@/lib/engagement';
@@ -180,11 +185,13 @@ function LoginForm() {
 }
 
 function Dashboard({ user }: { user: User }) {
-  const [tab, setTab] = useState<'ads' | 'projects' | 'services' | 'comments' | 'avis'>('ads');
+  const [tab, setTab] = useState<'ads' | 'projects' | 'catalog' | 'services' | 'clients' | 'comments' | 'avis'>('ads');
   const tabs = [
     { id: 'ads' as const, label: 'Publicités', Icon: Megaphone },
     { id: 'projects' as const, label: 'Réalisations', Icon: Briefcase },
-    { id: 'services' as const, label: 'Services', Icon: LayoutGrid },
+    { id: 'catalog' as const, label: 'Catalogue', Icon: ListChecks },
+    { id: 'services' as const, label: 'Photos services', Icon: LayoutGrid },
+    { id: 'clients' as const, label: 'Clients', Icon: Building2 },
     { id: 'comments' as const, label: 'Commentaires', Icon: MessageCircle },
     { id: 'avis' as const, label: 'Avis', Icon: MessageSquareQuote },
   ];
@@ -228,7 +235,9 @@ function Dashboard({ user }: { user: User }) {
 
       {tab === 'ads' && <AdsManager />}
       {tab === 'projects' && <ProjectsManager />}
+      {tab === 'catalog' && <CatalogManager />}
       {tab === 'services' && <ServicesManager />}
+      {tab === 'clients' && <ClientsManager />}
       {tab === 'comments' && <CommentsManager />}
       {tab === 'avis' && <TestimonialsManager />}
     </div>
@@ -247,6 +256,11 @@ function ProjectsManager() {
   const [saving, setSaving] = useState(false);
   const [imageBusy, setImageBusy] = useState(false);
   const [notify, setNotify] = useState(true);
+  const [serviceTitles, setServiceTitles] = useState<string[]>(servicesData.map((s) => s.title));
+
+  useEffect(() => {
+    fetchServiceTitles().then(setServiceTitles);
+  }, []);
 
   const reload = useCallback(async () => {
     setLoading(true);
@@ -411,10 +425,10 @@ function ProjectsManager() {
               onChange={(e) => setForm({ ...form, serviceCategory: e.target.value })}
               className={inputClass}
             >
-              {servicesData.map((s) => (
-                <option key={s.id} value={s.title}>{s.title}</option>
+              {serviceTitles.map((title) => (
+                <option key={title} value={title}>{title}</option>
               ))}
-              {!servicesData.some((s) => s.title === form.serviceCategory) && (
+              {!serviceTitles.includes(form.serviceCategory) && (
                 <option value={form.serviceCategory}>{form.serviceCategory}</option>
               )}
             </select>

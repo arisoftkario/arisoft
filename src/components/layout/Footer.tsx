@@ -5,9 +5,11 @@ import { withBasePath } from '@/lib/basePath';
 import { TikTokIcon } from '@/components/shared/TikTokIcon';
 import { InstallAppButton } from '@/components/layout/InstallApp';
 import { Phone, MessageSquare, MapPin, Mail, ArrowUpRight, Facebook, Instagram } from 'lucide-react';
-import { companyInfo, navigationLinks, servicesData, fullAddress } from '@/data/content';
+import { companyInfo, navigationLinks, fullAddress } from '@/data/content';
+import { getServices } from '@/lib/catalogServer';
 
-export const Footer: React.FC = () => {
+export async function Footer() {
+  const servicesData = await getServices();
   const currentYear = new Date().getFullYear();
 
   return (
@@ -183,4 +185,4 @@ export const Footer: React.FC = () => {
       </div>
     </footer>
   );
-};
+}
