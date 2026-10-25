@@ -18,6 +18,7 @@ const COLLECTION = 'realisations';
 export type ProjectInput = Pick<ProjectItem, 'title' | 'clientName' | 'serviceCategory' | 'description'> & {
   images: string[];
   videoUrl: string;
+  link: string;
 };
 
 function requireDb() {
@@ -40,6 +41,7 @@ export async function fetchProjects(): Promise<ProjectItem[]> {
       images: readImages(data),
       videoUrl: data.videoUrl ?? '',
       likes: typeof data.likes === 'number' ? data.likes : 0,
+      link: data.link ?? '',
       imagePlaceholder: '',
     };
   });
@@ -94,4 +96,15 @@ export async function compressImage(
     if (dataUrl.length < maxChars) return dataUrl;
   }
   throw new Error('Image trop lourde, même après compression. Essayez une photo plus petite.');
+}
+
+/** Lien affichable : uniquement une adresse web (jamais « javascript: » ou autre schéma). */
+export function safeLink(url: string | undefined): string | null {
+  if (!url) return null;
+  try {
+    const u = new URL(url.trim());
+    return u.protocol === 'https:' || u.protocol === 'http:' ? u.toString() : null;
+  } catch {
+    return null;
+  }
 }

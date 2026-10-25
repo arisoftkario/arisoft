@@ -2,10 +2,10 @@
 
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { Image as ImageIcon, Building2, ArrowRight } from 'lucide-react';
+import { Image as ImageIcon, Building2, ArrowRight, ExternalLink } from 'lucide-react';
 import { projectRealizations } from '@/data/content';
 import { isFirebaseConfigured } from '@/lib/firebase';
-import { fetchProjects } from '@/lib/projects';
+import { fetchProjects, safeLink } from '@/lib/projects';
 import { MediaGallery } from '@/components/shared/MediaGallery';
 import { EngagementBar, useComments } from '@/components/shared/EngagementBar';
 import { postAnchor } from '@/lib/engagement';
@@ -105,6 +105,17 @@ export const ProjectsGrid: React.FC<ProjectsGridProps> = ({ limit, headingLevel 
                 </div>
 
                 <div className="pt-4 border-t border-line-subtle">
+                  {safeLink(project.link) && (
+                    <a
+                      href={safeLink(project.link)!}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="mb-3 w-full inline-flex items-center justify-center gap-2 font-bold text-sm text-white bg-navy hover:bg-navy-light py-2.5 rounded-card transition-colors"
+                    >
+                      Voir le site
+                      <ExternalLink className="w-4 h-4" aria-hidden="true" />
+                    </a>
+                  )}
                   <Link
                     href={`/contact/?service=${encodeURIComponent(
                       project.serviceCategory

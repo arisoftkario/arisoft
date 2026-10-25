@@ -43,6 +43,8 @@ export interface ProjectItem {
   videoUrl?: string;
   /** Nombre de « J'aime » des visiteurs. */
   likes?: number;
+  /** Adresse du site ou de l'application réalisée (bouton « Voir le site »). */
+  link?: string;
 }
 
 export interface AdvantageItem {

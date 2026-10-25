@@ -58,6 +58,7 @@ const emptyForm: ProjectInput = {
   description: '',
   images: [],
   videoUrl: '',
+  link: '',
 };
 
 
@@ -298,6 +299,7 @@ function ProjectsManager() {
       description: p.description,
       images: p.images ?? [],
       videoUrl: p.videoUrl ?? '',
+      link: p.link ?? '',
     });
     setEditingId(p.id);
     setError('');
@@ -317,6 +319,7 @@ function ProjectsManager() {
         ...form,
         title: form.title.trim(),
         clientName: form.clientName.trim(),
+        link: form.link.trim(),
         description: form.description.trim(),
       };
       if (editingId) {
@@ -415,6 +418,20 @@ function ProjectsManager() {
                 className={inputClass}
               />
             </div>
+          </div>
+
+          <div>
+            <label htmlFor="link" className={labelClass}>Lien du site ou de l’application (facultatif)</label>
+            <input
+              id="link"
+              type="url"
+              maxLength={300}
+              value={form.link}
+              onChange={(e) => setForm({ ...form, link: e.target.value })}
+              placeholder="https://kisusicompany.vercel.app"
+              className={inputClass}
+            />
+            <p className="text-xs text-content-muted mt-1">Affiche un bouton « Voir le site » sur la réalisation.</p>
           </div>
 
           <div>

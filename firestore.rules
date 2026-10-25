@@ -33,6 +33,7 @@ service cloud.firestore {
         && d.serviceCategory is string && d.serviceCategory.size() <= 100
         && d.description is string && d.description.size() <= 2000
         && d.imageUrl is string
+        && d.get('link', '') is string && d.get('link', '').size() <= 300
         && isValidMedia(d);
     }
 
