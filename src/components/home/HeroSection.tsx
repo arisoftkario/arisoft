@@ -6,6 +6,7 @@ import {
   Building,
   UtensilsCrossed,
   Hotel,
+  GraduationCap,
   ArrowRight,
   ShieldCheck,
   Zap,
@@ -27,6 +28,8 @@ const getModuleIcon = (id: string) => {
       return <UtensilsCrossed className="w-5 h-5 text-brand-green" aria-hidden="true" />;
     case 'hotellerie':
       return <Hotel className="w-5 h-5 text-brand-green" aria-hidden="true" />;
+    case 'ecoles':
+      return <GraduationCap className="w-5 h-5 text-brand-green" aria-hidden="true" />;
     default:
       return <Zap className="w-5 h-5 text-brand-green" aria-hidden="true" />;
   }
@@ -104,7 +107,7 @@ export const HeroSection: React.FC = () => {
                 Une interface unique adaptée aux besoins stricts de votre secteur. Sélectionnez votre métier :
               </p>
 
-              {/* Les 5 modules en tuiles + 1 tuile démo */}
+              {/* Une tuile par module + la tuile démo */}
               <div className="grid grid-cols-2 gap-2.5">
                 {softwareModules.map((module) => (
                   <Link
@@ -131,7 +134,7 @@ export const HeroSection: React.FC = () => {
                 {/* Tuile Voir une démo */}
                 <Link
                   href="/logiciel-de-gestion/"
-                  className="p-3 rounded-card-sm bg-brand-green text-white hover:bg-brand-green-hover transition-colors flex flex-col justify-between group active:scale-[0.98]"
+                  className={`p-3 rounded-card-sm bg-brand-green text-white hover:bg-brand-green-hover transition-colors flex flex-col justify-between group active:scale-[0.98] ${softwareModules.length % 2 === 0 ? 'col-span-2' : ''}`}
                 >
                   <div className="flex items-center justify-between mb-1.5">
                     <span className="text-[10px] uppercase font-bold tracking-wider text-green-200">

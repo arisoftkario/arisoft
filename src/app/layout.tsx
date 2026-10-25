@@ -36,6 +36,7 @@ export const metadata: Metadata = {
     'installation réseau informatique',
     'cybersécurité',
     'logiciel de caisse',
+    'logiciel de gestion scolaire',
     'ARISOFT',
   ],
   authors: [{ name: companyInfo.name }],

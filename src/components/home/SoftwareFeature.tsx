@@ -1,7 +1,7 @@
 import React from 'react';
 import Link from 'next/link';
 import { CheckCircle2, ArrowRight, Monitor } from 'lucide-react';
-import { softwareKeyHighlights } from '@/data/content';
+import { softwareKeyHighlights, softwareModules } from '@/data/content';
 import { SectionHeader } from '@/components/shared/SectionHeader';
 
 export const SoftwareFeature: React.FC = () => {
@@ -122,7 +122,7 @@ export const SoftwareFeature: React.FC = () => {
                 href="/logiciel-de-gestion/"
                 className="inline-flex items-center justify-center font-semibold text-content-primary hover:text-brand-green border border-line-subtle hover:border-slate-400 bg-white px-5 py-3.5 rounded-card transition-colors text-sm"
               >
-                <span>Découvrir les 5 modules métier</span>
+                <span>Découvrir les {softwareModules.length} modules métier</span>
               </Link>
             </div>
           </div>

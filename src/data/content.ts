@@ -101,6 +101,20 @@ export const softwareModules: SoftwareModule[] = [
       'Facturation centralisée et statistiques de taux d’occupation',
     ],
   },
+  {
+    id: 'ecoles',
+    slug: 'ecoles',
+    title: 'Écoles',
+    subtitle: 'Inscriptions, frais scolaires, notes et bulletins',
+    description:
+      'Centralisez la gestion de votre établissement : inscriptions des élèves, suivi des paiements des frais scolaires, saisie des notes et impression des bulletins, en quelques clics.',
+    features: [
+      'Inscriptions et dossiers des élèves par classe et par année scolaire',
+      'Suivi des frais scolaires, reçus de paiement et relances des retards',
+      'Saisie des notes, calcul des moyennes et impression des bulletins',
+      'Présences des élèves, personnel enseignant et emplois du temps',
+    ],
+  },
 ];
 
 export const servicesData: ServiceItem[] = [
@@ -109,7 +123,7 @@ export const servicesData: ServiceItem[] = [
     slug: 'logiciels-de-gestion',
     title: 'Logiciels de gestion',
     shortDescription:
-      'Solutions sur-mesure pour commerces, RH, ONG, restaurants et hôtels. Prenez le contrôle total de votre gestion quotidienne.',
+      'Solutions sur-mesure pour commerces, RH, ONG, restaurants, hôtels et écoles. Prenez le contrôle total de votre gestion quotidienne.',
     fullDescription:
       'Nos logiciels de gestion répondent aux réalités concrètes des entreprises locales. Fini les pertes de stocks, les calculs de paie manuels ou le manque de visibilité sur votre trésorerie. Nous configurons chaque module selon votre activité, formons vos équipes et assurons une assistance technique permanente.',
     iconName: 'LayoutDashboard',

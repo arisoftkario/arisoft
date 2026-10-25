@@ -8,6 +8,7 @@ import {
   Building,
   UtensilsCrossed,
   Hotel,
+  GraduationCap,
   CheckCircle2,
   ArrowRight,
   MessageSquare,
@@ -22,7 +23,7 @@ import { SectionHeader } from '@/components/shared/SectionHeader';
 export const metadata: Metadata = pageMetadata(
   '/logiciel-de-gestion/',
   'Logiciel de gestion d’entreprise sur mesure · ARISOFT',
-  'Solutions logicielles modulaires pour Commerce, Ressources Humaines (RH), ONG, Restaurants et Hôtellerie. Démonstration gratuite et formation incluse.',
+  'Solutions logicielles modulaires pour Commerce, Ressources Humaines (RH), ONG, Restaurants, Hôtellerie et Écoles (gestion scolaire). Démonstration gratuite et formation incluse.',
 );
 
 const getModuleIcon = (id: string) => {
@@ -38,6 +39,8 @@ const getModuleIcon = (id: string) => {
       return <UtensilsCrossed {...iconProps} />;
     case 'hotellerie':
       return <Hotel {...iconProps} />;
+    case 'ecoles':
+      return <GraduationCap {...iconProps} />;
     default:
       return <ShoppingCart {...iconProps} />;
   }
@@ -126,7 +129,7 @@ export default function SoftwarePage() {
         </div>
       </nav>
 
-      {/* Les 5 sections de modules détaillées */}
+      {/* Sections détaillées des modules */}
       <section className="py-16 sm:py-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-16">
           {softwareModules.map((module, index) => (
