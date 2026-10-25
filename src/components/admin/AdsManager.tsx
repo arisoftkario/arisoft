@@ -14,12 +14,12 @@ import {
   Heart,
   ExternalLink,
 } from 'lucide-react';
-import { compressImage } from '@/lib/projects';
 import { type Ad, type AdInput, createAd, deleteAd, fetchAds, updateAd } from '@/lib/ads';
 import { withBasePath } from '@/lib/basePath';
 import { errorMessage, inputClass, labelClass } from '@/components/admin/ui';
+import { MediaFields } from '@/components/admin/MediaFields';
 
-const emptyForm: AdInput = { title: '', description: '', badge: '', imageUrl: '' };
+const emptyForm: AdInput = { title: '', description: '', badge: '', images: [], videoUrl: '' };
 
 export const AdsManager: React.FC = () => {
   const [ads, setAds] = useState<Ad[]>([]);
@@ -61,7 +61,7 @@ export const AdsManager: React.FC = () => {
   };
 
   const openEdit = (ad: Ad) => {
-    setForm({ title: ad.title, description: ad.description, badge: ad.badge, imageUrl: ad.imageUrl });
+    setForm({ title: ad.title, description: ad.description, badge: ad.badge, images: ad.images, videoUrl: ad.videoUrl });
     setEditingId(ad.id);
     setError('');
   };
@@ -69,21 +69,6 @@ export const AdsManager: React.FC = () => {
   const closeForm = () => {
     setEditingId(null);
     setForm(emptyForm);
-  };
-
-  const handleImage = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    e.target.value = '';
-    if (!file) return;
-    setImageBusy(true);
-    try {
-      const imageUrl = await compressImage(file);
-      setForm((f) => ({ ...f, imageUrl }));
-    } catch (err) {
-      setError(errorMessage(err));
-    } finally {
-      setImageBusy(false);
-    }
   };
 
   const handleSave = async (e: React.FormEvent) => {
@@ -213,36 +198,15 @@ export const AdsManager: React.FC = () => {
             />
           </div>
 
-          <div>
-            <span className={labelClass}>Photo ou affiche</span>
-            <div className="flex flex-col sm:flex-row gap-4 items-start">
-              {form.imageUrl ? (
-                // eslint-disable-next-line @next/next/no-img-element
-                <img src={form.imageUrl} alt="Aperçu" className="w-48 h-36 object-cover rounded-card-sm border border-line-subtle" />
-              ) : (
-                <div className="w-48 h-36 rounded-card-sm border border-dashed border-slate-300 bg-slate-50 flex items-center justify-center text-slate-400">
-                  <ImageIcon className="w-8 h-8" aria-hidden="true" />
-                </div>
-              )}
-              <div className="space-y-2">
-                <label className="inline-flex items-center cursor-pointer font-semibold text-sm text-content-primary bg-white border border-line-subtle hover:border-brand-green px-4 py-2.5 rounded-card transition-colors">
-                  {imageBusy ? <Loader2 className="w-4 h-4 mr-2 animate-spin" aria-hidden="true" /> : <ImageIcon className="w-4 h-4 mr-2" aria-hidden="true" />}
-                  {form.imageUrl ? 'Changer l’image' : 'Choisir une image'}
-                  <input type="file" accept="image/*" onChange={handleImage} className="sr-only" />
-                </label>
-                {form.imageUrl && (
-                  <button
-                    type="button"
-                    onClick={() => setForm({ ...form, imageUrl: '' })}
-                    className="block text-xs font-semibold text-red-700 hover:underline"
-                  >
-                    Retirer l’image
-                  </button>
-                )}
-                <p className="text-xs text-content-muted">Format conseillé : 4:3 (paysage). Redimensionnée automatiquement.</p>
-              </div>
-            </div>
-          </div>
+          <MediaFields
+            idPrefix="ad"
+            images={form.images}
+            videoUrl={form.videoUrl}
+            onImagesChange={(images) => setForm((f) => ({ ...f, images }))}
+            onVideoChange={(videoUrl) => setForm((f) => ({ ...f, videoUrl }))}
+            onBusyChange={setImageBusy}
+            onError={setError}
+          />
 
           <div className="flex gap-3 pt-2">
             <button
@@ -279,9 +243,9 @@ export const AdsManager: React.FC = () => {
         <ul className="space-y-3">
           {ads.map((ad) => (
             <li key={ad.id} className="bg-white rounded-card p-4 border border-line-subtle shadow-xs flex items-center gap-4">
-              {ad.imageUrl ? (
+              {ad.images[0] ? (
                 // eslint-disable-next-line @next/next/no-img-element
-                <img src={ad.imageUrl} alt="" className="w-20 h-16 object-cover rounded-card-sm shrink-0" />
+                <img src={ad.images[0]} alt="" className="w-20 h-16 object-cover rounded-card-sm shrink-0" />
               ) : (
                 <div className="w-20 h-16 rounded-card-sm bg-slate-100 flex items-center justify-center text-slate-400 shrink-0">
                   <ImageIcon className="w-6 h-6" aria-hidden="true" />

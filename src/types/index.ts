@@ -25,8 +25,10 @@ export interface ProjectItem {
   serviceCategory: string;
   imagePlaceholder: string;
   description: string;
-  /** Photo publiée depuis l'admin (data URL JPEG compressée) ou chemin d'une image du site (/images/realisations/…). */
-  imageUrl?: string;
+  /** Jusqu'à 4 photos : data URL publiées depuis l'admin ou chemins d'images du site (/images/realisations/…). */
+  images?: string[];
+  /** Lien d'une vidéo TikTok, YouTube ou Facebook. */
+  videoUrl?: string;
 }
 
 export interface AdvantageItem {

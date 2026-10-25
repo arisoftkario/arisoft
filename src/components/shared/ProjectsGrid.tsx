@@ -6,7 +6,7 @@ import { Image as ImageIcon, Building2, ArrowRight } from 'lucide-react';
 import { projectRealizations } from '@/data/content';
 import { isFirebaseConfigured } from '@/lib/firebase';
 import { fetchProjects } from '@/lib/projects';
-import { withBasePath } from '@/lib/basePath';
+import { MediaGallery } from '@/components/shared/MediaGallery';
 import { ProjectItem } from '@/types';
 
 interface ProjectsGridProps {
@@ -47,26 +47,25 @@ export const ProjectsGrid: React.FC<ProjectsGridProps> = ({ limit, headingLevel 
               key={project.id}
               className="bg-white rounded-card-lg overflow-hidden border border-line-subtle shadow-sm flex flex-col justify-between hover:border-brand-green/40 transition-colors"
             >
-              {/* Photo du projet */}
-              {project.imageUrl ? (
-                // eslint-disable-next-line @next/next/no-img-element
-                <img
-                  // Photo du site (/images/realisations/…) ou photo publiée depuis l'admin (data URL)
-                  src={project.imageUrl.startsWith('/') ? withBasePath(project.imageUrl) : project.imageUrl}
+              {/* Photos et vidéo du projet */}
+              <div className="border-b border-line-subtle">
+                <MediaGallery
+                  images={project.images ?? []}
+                  videoUrl={project.videoUrl}
                   alt={project.title}
-                  loading="lazy"
-                  className="w-full h-52 sm:h-56 object-cover border-b border-line-subtle"
+                  frameClass="h-52 sm:h-56"
+                  placeholder={
+                    <div className="bg-slate-100 h-full flex flex-col items-center justify-center p-6 text-center">
+                      <div className="w-14 h-14 rounded-full bg-white shadow-xs flex items-center justify-center text-slate-400 mb-2">
+                        <ImageIcon className="w-7 h-7" aria-hidden="true" />
+                      </div>
+                      <span className="font-bold text-sm text-content-secondary">
+                        {project.serviceCategory}
+                      </span>
+                    </div>
+                  }
                 />
-              ) : (
-                <div className="bg-slate-100 border-b border-line-subtle h-52 sm:h-56 flex flex-col items-center justify-center p-6 text-center">
-                  <div className="w-14 h-14 rounded-full bg-white shadow-xs flex items-center justify-center text-slate-400 mb-2">
-                    <ImageIcon className="w-7 h-7" aria-hidden="true" />
-                  </div>
-                  <span className="font-bold text-sm text-content-secondary">
-                    {project.serviceCategory}
-                  </span>
-                </div>
-              )}
+              </div>
 
               <div className="p-6 sm:p-7 flex-1 flex flex-col justify-between">
                 <div>

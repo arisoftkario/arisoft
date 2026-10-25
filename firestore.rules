@@ -10,13 +10,20 @@ service cloud.firestore {
         && exists(/databases/$(database)/documents/admins/$(request.auth.uid));
     }
 
+    // Jusqu'à 4 photos et un lien vidéo (TikTok, YouTube, Facebook).
+    function isValidMedia(d) {
+      return d.images is list && d.images.size() <= 4
+        && d.videoUrl is string && d.videoUrl.size() <= 500;
+    }
+
     function isValidProject() {
       let d = request.resource.data;
       return d.title is string && d.title.size() > 0 && d.title.size() <= 150
         && d.clientName is string && d.clientName.size() <= 150
         && d.serviceCategory is string && d.serviceCategory.size() <= 100
         && d.description is string && d.description.size() <= 2000
-        && d.imageUrl is string;
+        && d.imageUrl is string
+        && isValidMedia(d);
     }
 
     // Réalisations : lecture publique, écriture réservée aux admins.
@@ -32,6 +39,7 @@ service cloud.firestore {
         && d.description is string && d.description.size() <= 1500
         && d.badge is string && d.badge.size() <= 20
         && d.imageUrl is string
+        && isValidMedia(d)
         && d.likes is int;
     }
 

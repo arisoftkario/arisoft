@@ -13,6 +13,7 @@ import {
   saveLikedAds,
 } from '@/lib/ads';
 import { WhatsAppIcon } from '@/components/shared/WhatsAppIcon';
+import { MediaGallery } from '@/components/shared/MediaGallery';
 
 /** Charge les publicités une fois ; null pendant le chargement. */
 export function useAds(): Ad[] | null {
@@ -113,21 +114,23 @@ export const AdsFeed: React.FC<AdsFeedProps> = ({ ads, limit }) => {
             id={`pub-${ad.id}`}
             className="bg-white rounded-card-lg overflow-hidden border border-line-subtle shadow-sm flex flex-col scroll-mt-28 target:ring-2 target:ring-brand-green"
           >
-            <div className="relative">
-              {ad.imageUrl ? (
-                // eslint-disable-next-line @next/next/no-img-element
-                <img src={ad.imageUrl} alt={ad.title} loading="lazy" className="w-full aspect-[4/3] object-cover" />
-              ) : (
-                <div className="w-full aspect-[4/3] bg-gradient-to-br from-navy to-navy-subtle flex items-center justify-center">
+            <MediaGallery
+              images={ad.images}
+              videoUrl={ad.videoUrl}
+              alt={ad.title}
+              frameClass="aspect-[4/3]"
+              placeholder={
+                <div className="w-full h-full bg-gradient-to-br from-navy to-navy-subtle flex items-center justify-center">
                   <Megaphone className="w-14 h-14 text-brand-green-light" aria-hidden="true" />
                 </div>
-              )}
+              }
+            >
               {ad.badge && (
                 <span className="absolute top-3 left-3 px-3 py-1 rounded-full bg-red-600 text-white text-xs font-extrabold shadow-md">
                   {ad.badge}
                 </span>
               )}
-            </div>
+            </MediaGallery>
 
             <div className="p-5 sm:p-6 flex-1 flex flex-col">
               <p className="text-xs text-content-muted mb-1">{formatDate(ad.createdAt)}</p>

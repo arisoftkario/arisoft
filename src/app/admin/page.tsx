@@ -26,7 +26,6 @@ import {
 import { isFirebaseConfigured } from '@/lib/firebase';
 import { auth } from '@/lib/auth';
 import {
-  compressImage,
   createProject,
   deleteProject,
   fetchProjects,
@@ -37,6 +36,7 @@ import { servicesData } from '@/data/content';
 import { errorMessage, inputClass, labelClass } from '@/components/admin/ui';
 import { AdsManager } from '@/components/admin/AdsManager';
 import { TestimonialsManager } from '@/components/admin/TestimonialsManager';
+import { MediaFields } from '@/components/admin/MediaFields';
 import { ProjectItem } from '@/types';
 
 const emptyForm: ProjectInput = {
@@ -44,7 +44,8 @@ const emptyForm: ProjectInput = {
   clientName: '',
   serviceCategory: servicesData[0].title,
   description: '',
-  imageUrl: undefined,
+  images: [],
+  videoUrl: '',
 };
 
 
@@ -268,7 +269,8 @@ function ProjectsManager() {
       clientName: p.clientName,
       serviceCategory: p.serviceCategory,
       description: p.description,
-      imageUrl: p.imageUrl,
+      images: p.images ?? [],
+      videoUrl: p.videoUrl ?? '',
     });
     setEditingId(p.id);
     setError('');
@@ -277,21 +279,6 @@ function ProjectsManager() {
   const closeForm = () => {
     setEditingId(null);
     setForm(emptyForm);
-  };
-
-  const handleImage = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    e.target.value = '';
-    if (!file) return;
-    setImageBusy(true);
-    try {
-      const imageUrl = await compressImage(file);
-      setForm((f) => ({ ...f, imageUrl }));
-    } catch (err) {
-      setError(errorMessage(err));
-    } finally {
-      setImageBusy(false);
-    }
   };
 
   const handleSave = async (e: React.FormEvent) => {
@@ -431,36 +418,15 @@ function ProjectsManager() {
             />
           </div>
 
-          <div>
-            <span className={labelClass}>Photo</span>
-            <div className="flex flex-col sm:flex-row gap-4 items-start">
-              {form.imageUrl ? (
-                // eslint-disable-next-line @next/next/no-img-element
-                <img src={form.imageUrl} alt="Aperçu" className="w-48 h-36 object-cover rounded-card-sm border border-line-subtle" />
-              ) : (
-                <div className="w-48 h-36 rounded-card-sm border border-dashed border-slate-300 bg-slate-50 flex items-center justify-center text-slate-400">
-                  <ImageIcon className="w-8 h-8" aria-hidden="true" />
-                </div>
-              )}
-              <div className="space-y-2">
-                <label className="inline-flex items-center cursor-pointer font-semibold text-sm text-content-primary bg-white border border-line-subtle hover:border-brand-green px-4 py-2.5 rounded-card transition-colors">
-                  {imageBusy ? <Loader2 className="w-4 h-4 mr-2 animate-spin" aria-hidden="true" /> : <ImageIcon className="w-4 h-4 mr-2" aria-hidden="true" />}
-                  {form.imageUrl ? 'Changer la photo' : 'Choisir une photo'}
-                  <input type="file" accept="image/*" onChange={handleImage} className="sr-only" />
-                </label>
-                {form.imageUrl && (
-                  <button
-                    type="button"
-                    onClick={() => setForm({ ...form, imageUrl: undefined })}
-                    className="block text-xs font-semibold text-red-700 hover:underline"
-                  >
-                    Retirer la photo
-                  </button>
-                )}
-                <p className="text-xs text-content-muted">La photo est redimensionnée automatiquement.</p>
-              </div>
-            </div>
-          </div>
+          <MediaFields
+            idPrefix="project"
+            images={form.images}
+            videoUrl={form.videoUrl}
+            onImagesChange={(images) => setForm((f) => ({ ...f, images }))}
+            onVideoChange={(videoUrl) => setForm((f) => ({ ...f, videoUrl }))}
+            onBusyChange={setImageBusy}
+            onError={setError}
+          />
 
           <div className="flex gap-3 pt-2">
             <button
@@ -500,9 +466,9 @@ function ProjectsManager() {
               key={p.id}
               className="bg-white rounded-card p-4 border border-line-subtle shadow-xs flex items-center gap-4"
             >
-              {p.imageUrl ? (
+              {p.images?.[0] ? (
                 // eslint-disable-next-line @next/next/no-img-element
-                <img src={p.imageUrl} alt="" className="w-20 h-16 object-cover rounded-card-sm shrink-0" />
+                <img src={p.images[0]} alt="" className="w-20 h-16 object-cover rounded-card-sm shrink-0" />
               ) : (
                 <div className="w-20 h-16 rounded-card-sm bg-slate-100 flex items-center justify-center text-slate-400 shrink-0">
                   <ImageIcon className="w-6 h-6" aria-hidden="true" />

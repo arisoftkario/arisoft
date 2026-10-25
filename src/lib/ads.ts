@@ -13,6 +13,7 @@ import {
 } from 'firebase/firestore/lite';
 import { db } from '@/lib/firebase';
 import { withBasePath } from '@/lib/basePath';
+import { readImages } from '@/lib/media';
 
 const COLLECTION = 'publicites';
 const LIKED_KEY = 'arisoft_liked_ads';
@@ -23,14 +24,16 @@ export interface Ad {
   description: string;
   /** Petit badge mis en avant (ex : « -20 % », « Nouveau »). */
   badge: string;
-  /** Photo (data URL JPEG compressée), vide si aucune. */
-  imageUrl: string;
+  /** Jusqu'à 4 photos (data URL JPEG compressées). */
+  images: string[];
+  /** Lien d'une vidéo TikTok, YouTube ou Facebook, vide si aucune. */
+  videoUrl: string;
   likes: number;
   /** Date de publication en millisecondes. */
   createdAt: number;
 }
 
-export type AdInput = Pick<Ad, 'title' | 'description' | 'badge' | 'imageUrl'>;
+export type AdInput = Pick<Ad, 'title' | 'description' | 'badge' | 'images' | 'videoUrl'>;
 
 function requireDb() {
   if (!db) throw new Error('Firebase n’est pas configuré (.env.local manquant).');
@@ -47,7 +50,8 @@ export async function fetchAds(max?: number): Promise<Ad[]> {
       title: data.title ?? '',
       description: data.description ?? '',
       badge: data.badge ?? '',
-      imageUrl: data.imageUrl ?? '',
+      images: readImages(data),
+      videoUrl: data.videoUrl ?? '',
       likes: typeof data.likes === 'number' ? data.likes : 0,
       createdAt: data.createdAt?.toMillis?.() ?? 0,
     };
@@ -57,13 +61,15 @@ export async function fetchAds(max?: number): Promise<Ad[]> {
 export async function createAd(input: AdInput): Promise<void> {
   await addDoc(collection(requireDb(), COLLECTION), {
     ...input,
+    // Ancien champ à photo unique : laissé vide (les photos sont dans « images »)
+    imageUrl: '',
     likes: 0,
     createdAt: serverTimestamp(),
   });
 }
 
 export async function updateAd(id: string, input: AdInput): Promise<void> {
-  await updateDoc(doc(requireDb(), COLLECTION, id), { ...input });
+  await updateDoc(doc(requireDb(), COLLECTION, id), { ...input, imageUrl: '' });
 }
 
 export async function deleteAd(id: string): Promise<void> {
