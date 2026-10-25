@@ -68,7 +68,11 @@ export async function deleteProject(id: string): Promise<void> {
  * Redimensionne et compresse une photo en JPEG pour que les 4 photos tiennent
  * ensemble dans un document Firestore (limite 1 Mo), sans Firebase Storage.
  */
-export async function compressImage(file: File, maxWidth = 1000): Promise<string> {
+export async function compressImage(
+  file: Blob,
+  maxWidth = 1000,
+  maxChars = PHOTO_MAX_CHARS
+): Promise<string> {
   const bitmap = await createImageBitmap(file);
   const scale = Math.min(1, maxWidth / bitmap.width);
   const canvas = document.createElement('canvas');
@@ -79,10 +83,10 @@ export async function compressImage(file: File, maxWidth = 1000): Promise<string
   ctx.drawImage(bitmap, 0, 0, canvas.width, canvas.height);
   bitmap.close();
 
-  // Réduit la qualité jusqu'à passer sous ~200 Ko
+  // Réduit la qualité jusqu'à passer sous la taille maximale (~200 Ko par défaut)
   for (const quality of [0.8, 0.7, 0.6, 0.5, 0.4, 0.3]) {
     const dataUrl = canvas.toDataURL('image/jpeg', quality);
-    if (dataUrl.length < PHOTO_MAX_CHARS) return dataUrl;
+    if (dataUrl.length < maxChars) return dataUrl;
   }
   throw new Error('Image trop lourde, même après compression. Essayez une photo plus petite.');
 }

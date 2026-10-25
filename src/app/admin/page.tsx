@@ -22,6 +22,7 @@ import {
   Megaphone,
   Briefcase,
   MessageSquareQuote,
+  LayoutGrid,
 } from 'lucide-react';
 import { isFirebaseConfigured } from '@/lib/firebase';
 import { auth } from '@/lib/auth';
@@ -37,6 +38,7 @@ import { errorMessage, inputClass, labelClass } from '@/components/admin/ui';
 import { AdsManager } from '@/components/admin/AdsManager';
 import { TestimonialsManager } from '@/components/admin/TestimonialsManager';
 import { MediaFields } from '@/components/admin/MediaFields';
+import { ServicesManager } from '@/components/admin/ServicesManager';
 import { ProjectItem } from '@/types';
 
 const emptyForm: ProjectInput = {
@@ -173,10 +175,11 @@ function LoginForm() {
 }
 
 function Dashboard({ user }: { user: User }) {
-  const [tab, setTab] = useState<'ads' | 'projects' | 'avis'>('ads');
+  const [tab, setTab] = useState<'ads' | 'projects' | 'services' | 'avis'>('ads');
   const tabs = [
     { id: 'ads' as const, label: 'Publicités', Icon: Megaphone },
     { id: 'projects' as const, label: 'Réalisations', Icon: Briefcase },
+    { id: 'services' as const, label: 'Services', Icon: LayoutGrid },
     { id: 'avis' as const, label: 'Avis', Icon: MessageSquareQuote },
   ];
 
@@ -219,6 +222,7 @@ function Dashboard({ user }: { user: User }) {
 
       {tab === 'ads' && <AdsManager />}
       {tab === 'projects' && <ProjectsManager />}
+      {tab === 'services' && <ServicesManager />}
       {tab === 'avis' && <TestimonialsManager />}
     </div>
   );

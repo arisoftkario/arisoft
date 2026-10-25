@@ -13,6 +13,7 @@ import {
 } from 'lucide-react';
 import { servicesData } from '@/data/content';
 import { SectionHeader } from '@/components/shared/SectionHeader';
+import { ServiceCover } from '@/components/shared/ServiceMedia';
 
 const renderServiceIcon = (iconName: string) => {
   const iconProps = { className: 'w-6 h-6 text-brand-green', 'aria-hidden': true };
@@ -53,9 +54,10 @@ export const ServicesGrid: React.FC = () => {
           {servicesData.map((service) => (
             <div
               key={service.id}
-              className="bg-white rounded-card p-6 sm:p-7 border border-line-subtle shadow-sm hover:shadow-md hover:border-brand-green/40 transition-all duration-200 flex flex-col justify-between"
+              className="bg-white rounded-card overflow-hidden p-6 sm:p-7 border border-line-subtle shadow-sm hover:shadow-md hover:border-brand-green/40 transition-all duration-200 flex flex-col justify-between"
             >
               <div>
+                <ServiceCover serviceId={service.id} title={service.title} />
                 <div className="w-12 h-12 rounded-card-sm bg-brand-green-pale flex items-center justify-center mb-5 border border-green-200">
                   {renderServiceIcon(service.iconName)}
                 </div>

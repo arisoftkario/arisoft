@@ -18,6 +18,7 @@ import {
 } from 'lucide-react';
 import { servicesData, companyInfo } from '@/data/content';
 import { SectionHeader } from '@/components/shared/SectionHeader';
+import { ServiceGallery } from '@/components/shared/ServiceMedia';
 
 export const metadata: Metadata = pageMetadata(
   '/services/',
@@ -79,7 +80,7 @@ export default function ServicesPage() {
         </div>
       </section>
 
-      {/* Liste détaillée des 6 services */}
+      {/* Liste détaillée des services */}
       <section className="py-16 sm:py-24 bg-surface-alt">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
           {servicesData.map((service, index) => (
@@ -121,6 +122,9 @@ export default function ServicesPage() {
                       ))}
                     </ul>
                   </div>
+
+                  {/* Photos et vidéo publiées depuis l'admin */}
+                  <ServiceGallery serviceId={service.id} title={service.title} />
                 </div>
 
                 {/* Bloc CTA du service */}

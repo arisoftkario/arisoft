@@ -14,7 +14,7 @@ export function errorMessage(err: unknown): string {
       case 'unavailable':
         return 'Connexion internet indisponible.';
       case 'permission-denied':
-        return 'Ce compte n’est pas autorisé à publier (absent de la collection « admins »).';
+        return 'Accès refusé par Firebase : ce compte est absent de la collection « admins », ou les règles Firestore ne sont pas à jour (recollez firestore.rules dans Firestore → Règles).';
     }
   }
   return err instanceof Error ? err.message : 'Une erreur inattendue est survenue.';

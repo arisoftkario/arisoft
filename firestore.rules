@@ -80,6 +80,25 @@ service cloud.firestore {
       allow delete: if isAdmin();
     }
 
+    // Photos des services : lecture publique, écriture réservée aux admins.
+    // « services » = miniature légère de l'accueil ; « servicesMedias » = photos complètes et vidéo.
+    match /services/{serviceId} {
+      allow read: if true;
+      allow create, update: if isAdmin()
+        && request.resource.data.keys().hasOnly(['cover', 'updatedAt'])
+        && request.resource.data.cover is string
+        && request.resource.data.cover.size() <= 100000;
+      allow delete: if isAdmin();
+    }
+
+    match /servicesMedias/{serviceId} {
+      allow read: if true;
+      allow create, update: if isAdmin()
+        && request.resource.data.keys().hasOnly(['images', 'videoUrl', 'updatedAt'])
+        && isValidMedia(request.resource.data);
+      allow delete: if isAdmin();
+    }
+
     // Liste des admins : gérée uniquement depuis la console Firebase.
     match /admins/{uid} {
       allow read, write: if false;
