@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useCallback, useEffect, useState } from 'react';
-import { Heart, UserPlus, Share2, MessageCircle, Link2, Check, Facebook, Send, Loader2 } from 'lucide-react';
+import { Heart, UserPlus, UserCheck, Share2, MessageCircle, Link2, Check, Facebook, Send, Loader2, Bell, BellOff } from 'lucide-react';
 import { isFirebaseConfigured } from '@/lib/firebase';
 import {
   type Comment,
@@ -15,6 +15,7 @@ import {
   saveCommentName,
   saveLiked,
 } from '@/lib/engagement';
+import { type PushState, getPushState, needsIosInstall, subscribeToPush, unsubscribeFromPush } from '@/lib/push';
 import { socialNetworks } from '@/components/shared/SocialLinks';
 import { WhatsAppIcon } from '@/components/shared/WhatsAppIcon';
 
@@ -33,6 +34,22 @@ export function useComments(type: PostType, enabled = true) {
   }, []);
 
   return { comments, addLocal };
+}
+
+// Toutes les barres de la page se mettent à jour quand le visiteur s'abonne depuis l'une d'elles.
+const PUSH_EVENT = 'arisoft:push-state';
+
+/** État de l'abonnement aux notifications, partagé entre toutes les publications. */
+function usePushState() {
+  const [state, setState] = useState<PushState | null>(null);
+  useEffect(() => {
+    getPushState().then(setState).catch(() => setState('unsupported'));
+    const onChange = (e: Event) => setState((e as CustomEvent<PushState>).detail);
+    window.addEventListener(PUSH_EVENT, onChange);
+    return () => window.removeEventListener(PUSH_EVENT, onChange);
+  }, []);
+  const update = (next: PushState) => window.dispatchEvent(new CustomEvent(PUSH_EVENT, { detail: next }));
+  return [state, update] as const;
 }
 
 function formatDate(ms: number): string {
@@ -68,6 +85,30 @@ export const EngagementBar: React.FC<EngagementBarProps> = ({
   const [message, setMessage] = useState('');
   const [sending, setSending] = useState(false);
   const [error, setError] = useState('');
+
+  const [pushState, setPushState] = usePushState();
+  const [pushBusy, setPushBusy] = useState(false);
+  const following = pushState === 'subscribed';
+
+  const follow = async () => {
+    setPushBusy(true);
+    try {
+      setPushState(await subscribeToPush());
+    } catch {
+      setPushState('unsupported');
+    } finally {
+      setPushBusy(false);
+    }
+  };
+
+  const unfollow = async () => {
+    setPushBusy(true);
+    try {
+      setPushState(await unsubscribeFromPush());
+    } finally {
+      setPushBusy(false);
+    }
+  };
 
   useEffect(() => {
     setIsLiked(getLiked(type).has(postId));
@@ -154,9 +195,14 @@ export const EngagementBar: React.FC<EngagementBarProps> = ({
           J’aime
         </button>
 
-        <button type="button" onClick={() => toggle('follow')} aria-expanded={panel === 'follow'} className={buttonClass(panel === 'follow')}>
-          <UserPlus className="w-5 h-5" aria-hidden="true" />
-          Suivre
+        <button
+          type="button"
+          onClick={() => toggle('follow')}
+          aria-expanded={panel === 'follow'}
+          className={`${buttonClass(panel === 'follow')} ${following ? '!text-brand-green' : ''}`}
+        >
+          {following ? <UserCheck className="w-5 h-5" aria-hidden="true" /> : <UserPlus className="w-5 h-5" aria-hidden="true" />}
+          {following ? 'Abonné' : 'Suivre'}
         </button>
 
         <button type="button" onClick={share} aria-expanded={panel === 'share'} className={buttonClass(panel === 'share')}>
@@ -173,10 +219,57 @@ export const EngagementBar: React.FC<EngagementBarProps> = ({
         </button>
       </div>
 
-      {/* Suivre ARISOFT sur ses réseaux */}
+      {/* Suivre ARISOFT : notifications à chaque nouvelle publication, et réseaux sociaux */}
       {panel === 'follow' && (
-        <div className="mt-3 space-y-2">
-          <p className="text-xs text-content-muted text-center">Suivez ARISOFT pour ne rien manquer de nos offres :</p>
+        <div className="mt-3 space-y-3">
+          <div className="rounded-card-sm bg-brand-green-pale/60 border border-green-200 p-3 text-center space-y-2">
+            {following ? (
+              <>
+                <p className="text-sm font-bold text-brand-green flex items-center justify-center gap-1.5">
+                  <Bell className="w-4 h-4" aria-hidden="true" />
+                  Vous suivez ARISOFT
+                </p>
+                <p className="text-xs text-content-secondary">Vous recevrez une notification à chaque nouvelle publication.</p>
+                <button
+                  type="button"
+                  onClick={unfollow}
+                  disabled={pushBusy}
+                  className="inline-flex items-center gap-1 text-xs font-semibold text-content-muted hover:text-red-700 hover:underline"
+                >
+                  <BellOff className="w-3.5 h-3.5" aria-hidden="true" />
+                  Ne plus suivre
+                </button>
+              </>
+            ) : pushState === 'denied' ? (
+              <p className="text-xs text-content-secondary">
+                Les notifications sont bloquées pour ce site. Autorisez-les dans les réglages du navigateur (icône à
+                gauche de l’adresse du site), puis réessayez.
+              </p>
+            ) : pushState === 'unsupported' ? (
+              <p className="text-xs text-content-secondary">
+                {needsIosInstall()
+                  ? 'Sur iPhone : touchez Partager puis « Sur l’écran d’accueil », ouvrez ARISOFT depuis cette icône, puis touchez Suivre.'
+                  : 'Ce navigateur ne permet pas de recevoir nos notifications. Suivez-nous plutôt sur nos réseaux ci-dessous.'}
+              </p>
+            ) : (
+              <>
+                <button
+                  type="button"
+                  onClick={follow}
+                  disabled={pushBusy || pushState === null}
+                  className="w-full inline-flex items-center justify-center gap-2 font-bold text-sm text-white bg-brand-green hover:bg-brand-green-hover disabled:opacity-60 py-2.5 rounded-card-sm transition-colors"
+                >
+                  {pushBusy ? <Loader2 className="w-4 h-4 animate-spin" aria-hidden="true" /> : <Bell className="w-4 h-4" aria-hidden="true" />}
+                  Suivre ARISOFT
+                </button>
+                <p className="text-xs text-content-secondary">
+                  Recevez une notification à chaque nouvelle offre ou réalisation. Gratuit, sans inscription.
+                </p>
+              </>
+            )}
+          </div>
+
+          <p className="text-xs text-content-muted text-center">Et sur nos réseaux :</p>
           <div className="grid grid-cols-2 gap-2">
             {socialNetworks.map(({ id, label, href, Icon, className }) => (
               <a

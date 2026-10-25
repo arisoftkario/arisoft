@@ -18,6 +18,9 @@ import { type Ad, type AdInput, createAd, deleteAd, fetchAds, updateAd } from '@
 import { withBasePath } from '@/lib/basePath';
 import { errorMessage, inputClass, labelClass } from '@/components/admin/ui';
 import { MediaFields } from '@/components/admin/MediaFields';
+import { NotifyCheckbox } from '@/components/admin/NotifyCheckbox';
+import { announcePublication } from '@/lib/notify';
+import { postAnchor } from '@/lib/engagement';
 
 const emptyForm: AdInput = { title: '', description: '', badge: '', images: [], videoUrl: '' };
 
@@ -32,6 +35,7 @@ export const AdsManager: React.FC = () => {
   const [form, setForm] = useState<AdInput>(emptyForm);
   const [saving, setSaving] = useState(false);
   const [imageBusy, setImageBusy] = useState(false);
+  const [notify, setNotify] = useState(true);
 
   const reload = useCallback(async () => {
     setLoading(true);
@@ -51,13 +55,14 @@ export const AdsManager: React.FC = () => {
 
   const flash = (message: string) => {
     setNotice(message);
-    setTimeout(() => setNotice(''), 3500);
+    setTimeout(() => setNotice(''), 6000);
   };
 
   const openNew = () => {
     setForm(emptyForm);
     setEditingId('');
     setError('');
+    setNotify(true);
   };
 
   const openEdit = (ad: Ad) => {
@@ -86,8 +91,11 @@ export const AdsManager: React.FC = () => {
         await updateAd(editingId, input);
         flash('Publicité mise à jour. Elle est visible sur le site.');
       } else {
-        await createAd(input);
-        flash('Publicité publiée ! Elle est maintenant visible sur le site.');
+        const id = await createAd(input);
+        const sentInfo = notify
+          ? await announcePublication(input.title, input.description || 'Nouvelle offre ARISOFT', `/publicites/#${postAnchor('publicites', id)}`)
+          : '';
+        flash(`Publicité publiée ! Elle est maintenant visible sur le site.${sentInfo}`);
       }
       closeForm();
       await reload();
@@ -207,6 +215,8 @@ export const AdsManager: React.FC = () => {
             onBusyChange={setImageBusy}
             onError={setError}
           />
+
+          {!editingId && <NotifyCheckbox checked={notify} onChange={setNotify} />}
 
           <div className="flex gap-3 pt-2">
             <button

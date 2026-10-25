@@ -55,14 +55,15 @@ export async function fetchAds(max?: number): Promise<Ad[]> {
   });
 }
 
-export async function createAd(input: AdInput): Promise<void> {
-  await addDoc(collection(requireDb(), COLLECTION), {
+export async function createAd(input: AdInput): Promise<string> {
+  const ref = await addDoc(collection(requireDb(), COLLECTION), {
     ...input,
     // Ancien champ à photo unique : laissé vide (les photos sont dans « images »)
     imageUrl: '',
     likes: 0,
     createdAt: serverTimestamp(),
   });
+  return ref.id;
 }
 
 export async function updateAd(id: string, input: AdInput): Promise<void> {

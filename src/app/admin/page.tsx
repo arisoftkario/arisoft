@@ -41,6 +41,9 @@ import { TestimonialsManager } from '@/components/admin/TestimonialsManager';
 import { MediaFields } from '@/components/admin/MediaFields';
 import { ServicesManager } from '@/components/admin/ServicesManager';
 import { CommentsManager } from '@/components/admin/CommentsManager';
+import { NotifyCheckbox } from '@/components/admin/NotifyCheckbox';
+import { announcePublication } from '@/lib/notify';
+import { postAnchor } from '@/lib/engagement';
 import { ProjectItem } from '@/types';
 
 const emptyForm: ProjectInput = {
@@ -243,6 +246,7 @@ function ProjectsManager() {
   const [form, setForm] = useState<ProjectInput>(emptyForm);
   const [saving, setSaving] = useState(false);
   const [imageBusy, setImageBusy] = useState(false);
+  const [notify, setNotify] = useState(true);
 
   const reload = useCallback(async () => {
     setLoading(true);
@@ -262,13 +266,14 @@ function ProjectsManager() {
 
   const flash = (message: string) => {
     setNotice(message);
-    setTimeout(() => setNotice(''), 3500);
+    setTimeout(() => setNotice(''), 6000);
   };
 
   const openNew = () => {
     setForm(emptyForm);
     setEditingId('');
     setError('');
+    setNotify(true);
   };
 
   const openEdit = (p: ProjectItem) => {
@@ -304,8 +309,11 @@ function ProjectsManager() {
         await updateProject(editingId, input);
         flash('Réalisation mise à jour. Elle est visible sur le site.');
       } else {
-        await createProject(input);
-        flash('Réalisation publiée ! Elle est maintenant visible sur le site.');
+        const id = await createProject(input);
+        const sentInfo = notify
+          ? await announcePublication(input.title, `Nouvelle réalisation : ${input.serviceCategory}`, `/realisations/#${postAnchor('realisations', id)}`)
+          : '';
+        flash(`Réalisation publiée ! Elle est maintenant visible sur le site.${sentInfo}`);
       }
       closeForm();
       await reload();
@@ -435,6 +443,8 @@ function ProjectsManager() {
             onBusyChange={setImageBusy}
             onError={setError}
           />
+
+          {!editingId && <NotifyCheckbox checked={notify} onChange={setNotify} />}
 
           <div className="flex gap-3 pt-2">
             <button

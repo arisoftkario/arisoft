@@ -1,5 +1,5 @@
 // Service worker ARISOFT : rend le site installable et utilisable avec une connexion faible.
-const CACHE = 'arisoft-v1';
+const CACHE = 'arisoft-v2';
 const SCOPE = new URL(self.registration.scope).pathname; // « / » ou « /arisoft/ »
 
 self.addEventListener('install', (event) => {
@@ -52,4 +52,37 @@ self.addEventListener('fetch', (event) => {
       )
     );
   }
+});
+
+// Notifications : nouvelle publicité ou réalisation publiée par ARISOFT
+self.addEventListener('push', (event) => {
+  let data = {};
+  try {
+    data = event.data ? event.data.json() : {};
+  } catch {
+    data = { body: event.data ? event.data.text() : '' };
+  }
+  const title = data.title || 'ARISOFT';
+  event.waitUntil(
+    self.registration.showNotification(title, {
+      body: data.body || 'Nouvelle publication sur le site ARISOFT.',
+      icon: `${SCOPE}icons/icon-192.png`,
+      badge: `${SCOPE}icons/icon-192.png`,
+      data: { url: data.url || SCOPE },
+      tag: data.url || 'arisoft',
+    })
+  );
+});
+
+// Clic sur la notification : ouvre la publication (ou réutilise un onglet du site déjà ouvert)
+self.addEventListener('notificationclick', (event) => {
+  event.notification.close();
+  const target = new URL(event.notification.data?.url || SCOPE, self.location.origin).href;
+  event.waitUntil(
+    self.clients.matchAll({ type: 'window', includeUncontrolled: true }).then((windows) => {
+      const open = windows.find((w) => w.url.startsWith(self.location.origin));
+      if (open) return open.navigate(target).then((w) => (w || open).focus());
+      return self.clients.openWindow(target);
+    })
+  );
 });

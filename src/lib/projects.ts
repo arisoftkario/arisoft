@@ -45,13 +45,14 @@ export async function fetchProjects(): Promise<ProjectItem[]> {
   });
 }
 
-export async function createProject(input: ProjectInput): Promise<void> {
-  await addDoc(collection(requireDb(), COLLECTION), {
+export async function createProject(input: ProjectInput): Promise<string> {
+  const ref = await addDoc(collection(requireDb(), COLLECTION), {
     ...input,
     // Ancien champ à photo unique : laissé vide (les photos sont dans « images »)
     imageUrl: '',
     createdAt: serverTimestamp(),
   });
+  return ref.id;
 }
 
 export async function updateProject(id: string, input: ProjectInput): Promise<void> {

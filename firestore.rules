@@ -54,7 +54,6 @@ service cloud.firestore {
         && d.likes is int;
     }
 
-
     // Publicités : lecture publique, « J'aime » pour tous, le reste réservé aux admins.
     match /publicites/{adId} {
       allow read: if true;
@@ -97,6 +96,19 @@ service cloud.firestore {
         && request.resource.data.message.size() > 0 && request.resource.data.message.size() <= 500
         && request.resource.data.createdAt == request.time;
       allow delete: if isAdmin();
+    }
+
+    // Abonnés aux notifications : chaque navigateur s'inscrit lui-même ;
+    // seul un admin peut lire la liste (envoi) et supprimer les abonnements expirés.
+    match /abonnes/{subscriptionId} {
+      allow read, delete: if isAdmin();
+      allow create: if request.resource.data.keys().hasOnly(['endpoint', 'p256dh', 'auth', 'createdAt'])
+        && request.resource.data.endpoint is string
+        && request.resource.data.endpoint.matches('https://.+')
+        && request.resource.data.endpoint.size() <= 1000
+        && request.resource.data.p256dh is string && request.resource.data.p256dh.size() <= 200
+        && request.resource.data.auth is string && request.resource.data.auth.size() <= 100
+        && request.resource.data.createdAt == request.time;
     }
 
     // Photos des services : lecture publique, écriture réservée aux admins.
