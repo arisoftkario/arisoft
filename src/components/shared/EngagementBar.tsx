@@ -15,7 +15,8 @@ import {
   saveCommentName,
   saveLiked,
 } from '@/lib/engagement';
-import { type PushState, getPushState, needsIosInstall, subscribeToPush, unsubscribeFromPush } from '@/lib/push';
+import { needsIosInstall, subscribeToPush, unsubscribeFromPush } from '@/lib/push';
+import { usePushState } from '@/components/shared/FollowButton';
 import { socialNetworks } from '@/components/shared/SocialLinks';
 import { WhatsAppIcon } from '@/components/shared/WhatsAppIcon';
 
@@ -34,22 +35,6 @@ export function useComments(type: PostType, enabled = true) {
   }, []);
 
   return { comments, addLocal };
-}
-
-// Toutes les barres de la page se mettent à jour quand le visiteur s'abonne depuis l'une d'elles.
-const PUSH_EVENT = 'arisoft:push-state';
-
-/** État de l'abonnement aux notifications, partagé entre toutes les publications. */
-function usePushState() {
-  const [state, setState] = useState<PushState | null>(null);
-  useEffect(() => {
-    getPushState().then(setState).catch(() => setState('unsupported'));
-    const onChange = (e: Event) => setState((e as CustomEvent<PushState>).detail);
-    window.addEventListener(PUSH_EVENT, onChange);
-    return () => window.removeEventListener(PUSH_EVENT, onChange);
-  }, []);
-  const update = (next: PushState) => window.dispatchEvent(new CustomEvent(PUSH_EVENT, { detail: next }));
-  return [state, update] as const;
 }
 
 function formatDate(ms: number): string {

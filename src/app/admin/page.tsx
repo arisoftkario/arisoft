@@ -46,6 +46,7 @@ import { CommentsManager } from '@/components/admin/CommentsManager';
 import { CatalogManager } from '@/components/admin/CatalogManager';
 import { ClientsManager } from '@/components/admin/ClientsManager';
 import { fetchServiceTitles } from '@/lib/catalogAdmin';
+import { type StaffRole, fetchStaffRole } from '@/lib/roles';
 import { NotifyCheckbox } from '@/components/admin/NotifyCheckbox';
 import { announcePublication } from '@/lib/notify';
 import { postAnchor } from '@/lib/engagement';
@@ -185,24 +186,72 @@ function LoginForm() {
   );
 }
 
+type TabId = 'ads' | 'projects' | 'catalog' | 'services' | 'clients' | 'comments' | 'avis';
+
+// agentToo : onglet aussi accessible aux agents (les autres sont réservés à l'administrateur)
+const TABS: { id: TabId; label: string; Icon: typeof Megaphone; agentToo: boolean }[] = [
+  { id: 'ads', label: 'Publicités', Icon: Megaphone, agentToo: true },
+  { id: 'projects', label: 'Réalisations', Icon: Briefcase, agentToo: true },
+  { id: 'catalog', label: 'Catalogue', Icon: ListChecks, agentToo: false },
+  { id: 'services', label: 'Photos services', Icon: LayoutGrid, agentToo: true },
+  { id: 'clients', label: 'Clients', Icon: Building2, agentToo: false },
+  { id: 'comments', label: 'Commentaires', Icon: MessageCircle, agentToo: false },
+  { id: 'avis', label: 'Avis', Icon: MessageSquareQuote, agentToo: false },
+];
+
 function Dashboard({ user }: { user: User }) {
-  const [tab, setTab] = useState<'ads' | 'projects' | 'catalog' | 'services' | 'clients' | 'comments' | 'avis'>('ads');
-  const tabs = [
-    { id: 'ads' as const, label: 'Publicités', Icon: Megaphone },
-    { id: 'projects' as const, label: 'Réalisations', Icon: Briefcase },
-    { id: 'catalog' as const, label: 'Catalogue', Icon: ListChecks },
-    { id: 'services' as const, label: 'Photos services', Icon: LayoutGrid },
-    { id: 'clients' as const, label: 'Clients', Icon: Building2 },
-    { id: 'comments' as const, label: 'Commentaires', Icon: MessageCircle },
-    { id: 'avis' as const, label: 'Avis', Icon: MessageSquareQuote },
-  ];
+  const [tab, setTab] = useState<TabId>('ads');
+  // undefined = chargement ; null = compte absent de la collection « admins »
+  const [role, setRole] = useState<StaffRole | null | undefined>(undefined);
+
+  useEffect(() => {
+    fetchStaffRole(user.uid)
+      .then(setRole)
+      .catch(() => setRole(null));
+  }, [user.uid]);
+
+  if (role === undefined) {
+    return (
+      <div className="flex justify-center py-16 text-content-muted">
+        <Loader2 className="w-6 h-6 animate-spin" aria-label="Chargement" />
+      </div>
+    );
+  }
+
+  if (role === null) {
+    return (
+      <div className="max-w-md mx-auto bg-white rounded-card-lg p-6 sm:p-8 border border-line-subtle shadow-md text-center space-y-4">
+        <AlertTriangle className="w-10 h-10 text-amber-500 mx-auto" aria-hidden="true" />
+        <p className="font-bold text-content-primary">Ce compte n’a pas accès à l’administration.</p>
+        <p className="text-sm text-content-secondary">
+          Connecté avec {user.email}. Demandez à l’administrateur d’ARISOFT de vous ajouter comme agent.
+        </p>
+        <button
+          type="button"
+          onClick={() => auth && signOut(auth)}
+          className="inline-flex items-center font-semibold text-sm text-content-secondary bg-white border border-line-subtle hover:border-slate-400 px-3 py-2.5 rounded-card transition-colors"
+        >
+          <LogOut className="w-4 h-4 mr-1.5" aria-hidden="true" />
+          Déconnexion
+        </button>
+      </div>
+    );
+  }
+
+  const isAdmin = role === 'admin';
+  const tabs = TABS.filter((t) => isAdmin || t.agentToo);
 
   return (
     <div className="space-y-6">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <h1 className="text-2xl sm:text-3xl font-extrabold text-content-primary">Espace administration</h1>
-          <p className="text-sm text-content-muted">Connecté : {user.email}</p>
+          <p className="text-sm text-content-muted">
+            Connecté : {user.email}
+            <span className={`ml-2 px-2 py-0.5 rounded-full text-[11px] font-bold ${isAdmin ? 'bg-navy text-white' : 'bg-brand-green-pale text-brand-green'}`}>
+              {isAdmin ? 'Administrateur' : 'Agent'}
+            </span>
+          </p>
         </div>
         <button
           type="button"
@@ -234,18 +283,18 @@ function Dashboard({ user }: { user: User }) {
         ))}
       </div>
 
-      {tab === 'ads' && <AdsManager />}
-      {tab === 'projects' && <ProjectsManager />}
-      {tab === 'catalog' && <CatalogManager />}
+      {tab === 'ads' && <AdsManager canDelete={isAdmin} />}
+      {tab === 'projects' && <ProjectsManager canDelete={isAdmin} />}
       {tab === 'services' && <ServicesManager />}
-      {tab === 'clients' && <ClientsManager />}
-      {tab === 'comments' && <CommentsManager />}
-      {tab === 'avis' && <TestimonialsManager />}
+      {isAdmin && tab === 'catalog' && <CatalogManager />}
+      {isAdmin && tab === 'clients' && <ClientsManager />}
+      {isAdmin && tab === 'comments' && <CommentsManager />}
+      {isAdmin && tab === 'avis' && <TestimonialsManager />}
     </div>
   );
 }
 
-function ProjectsManager() {
+function ProjectsManager({ canDelete }: { canDelete: boolean }) {
   const [projects, setProjects] = useState<ProjectItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
@@ -539,14 +588,16 @@ function ProjectsManager() {
                 >
                   <Edit3 className="w-4 h-4" />
                 </button>
-                <button
-                  type="button"
-                  onClick={() => handleDelete(p)}
-                  aria-label={`Supprimer ${p.title}`}
-                  className="p-2 rounded-card-sm text-red-600 hover:bg-red-50"
-                >
-                  <Trash2 className="w-4 h-4" />
-                </button>
+                {canDelete && (
+                  <button
+                    type="button"
+                    onClick={() => handleDelete(p)}
+                    aria-label={`Supprimer ${p.title}`}
+                    className="p-2 rounded-card-sm text-red-600 hover:bg-red-50"
+                  >
+                    <Trash2 className="w-4 h-4" />
+                  </button>
+                )}
               </div>
             </li>
           ))}

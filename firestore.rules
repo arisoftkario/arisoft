@@ -4,10 +4,17 @@ rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
 
-    // Un admin = un utilisateur connecté dont l'UID existe dans la collection « admins ».
-    function isAdmin() {
+    // Équipe ARISOFT = utilisateur connecté dont l'UID existe dans la collection « admins ».
+    // Champ « role » du document : « admin » (tous les droits, valeur par défaut) ou « agent ».
+    function isStaff() {
       return request.auth != null
         && exists(/databases/$(database)/documents/admins/$(request.auth.uid));
+    }
+
+    // Administrateur : supprime, gère le catalogue, les clients, les commentaires et les avis.
+    function isAdmin() {
+      return isStaff()
+        && get(/databases/$(database)/documents/admins/$(request.auth.uid)).data.get('role', 'admin') == 'admin';
     }
 
     // Jusqu'à 4 photos et un lien vidéo (TikTok, YouTube, Facebook).
@@ -37,11 +44,11 @@ service cloud.firestore {
         && isValidMedia(d);
     }
 
-    // Réalisations : lecture publique, « J'aime » pour tous, le reste réservé aux admins.
+    // Réalisations : lecture publique, « J'aime » pour tous, publication par l'équipe, suppression par l'admin.
     match /realisations/{projectId} {
       allow read: if true;
-      allow create: if isAdmin() && isValidProject();
-      allow update: if (isAdmin() && isValidProject()) || isLikeChange();
+      allow create: if isStaff() && isValidProject();
+      allow update: if (isStaff() && isValidProject()) || isLikeChange();
       allow delete: if isAdmin();
     }
 
@@ -55,11 +62,11 @@ service cloud.firestore {
         && d.likes is int;
     }
 
-    // Publicités : lecture publique, « J'aime » pour tous, le reste réservé aux admins.
+    // Publicités : lecture publique, « J'aime » pour tous, publication par l'équipe, suppression par l'admin.
     match /publicites/{adId} {
       allow read: if true;
-      allow create: if isAdmin() && isValidAd() && request.resource.data.likes == 0;
-      allow update: if (isAdmin() && isValidAd()) || isLikeChange();
+      allow create: if isStaff() && isValidAd() && request.resource.data.likes == 0;
+      allow update: if (isStaff() && isValidAd()) || isLikeChange();
       allow delete: if isAdmin();
     }
 
@@ -100,9 +107,9 @@ service cloud.firestore {
     }
 
     // Abonnés aux notifications : chaque navigateur s'inscrit lui-même ;
-    // seul un admin peut lire la liste (envoi) et supprimer les abonnements expirés.
+    // seule l'équipe peut lire la liste (envoi) et supprimer les abonnements expirés.
     match /abonnes/{subscriptionId} {
-      allow read, delete: if isAdmin();
+      allow read, delete: if isStaff();
       allow create: if request.resource.data.keys().hasOnly(['endpoint', 'p256dh', 'auth', 'createdAt'])
         && request.resource.data.endpoint is string
         && request.resource.data.endpoint.matches('https://.+')
@@ -149,11 +156,11 @@ service cloud.firestore {
       allow delete: if isAdmin();
     }
 
-    // Photos des services : lecture publique, écriture réservée aux admins.
+    // Photos des services : lecture publique, ajout par l'équipe, suppression par l'admin.
     // « services » = miniature légère de l'accueil ; « servicesMedias » = photos complètes et vidéo.
     match /services/{serviceId} {
       allow read: if true;
-      allow create, update: if isAdmin()
+      allow create, update: if isStaff()
         && request.resource.data.keys().hasOnly(['cover', 'updatedAt'])
         && request.resource.data.cover is string
         && request.resource.data.cover.size() <= 100000;
@@ -162,15 +169,16 @@ service cloud.firestore {
 
     match /servicesMedias/{serviceId} {
       allow read: if true;
-      allow create, update: if isAdmin()
+      allow create, update: if isStaff()
         && request.resource.data.keys().hasOnly(['images', 'videoUrl', 'updatedAt'])
         && isValidMedia(request.resource.data);
       allow delete: if isAdmin();
     }
 
-    // Liste des admins : gérée uniquement depuis la console Firebase.
+    // Équipe : gérée uniquement depuis la console Firebase ; chacun peut lire son propre rôle.
     match /admins/{uid} {
-      allow read, write: if false;
+      allow read: if request.auth != null && request.auth.uid == uid;
+      allow write: if false;
     }
   }
 }

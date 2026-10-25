@@ -8,6 +8,7 @@ import { usePathname } from 'next/navigation';
 import { Menu, X, ArrowRight, Phone, Lock } from 'lucide-react';
 import { navigationLinks, companyInfo } from '@/data/content';
 import { NEW_ADS_EVENT } from '@/lib/ads';
+import { FollowButton } from '@/components/shared/FollowButton';
 
 // Pastille verte « nouveautés » sur le lien Offres
 const NewBadge: React.FC<{ count: number }> = ({ count }) => (
@@ -104,6 +105,8 @@ export const Header: React.FC = () => {
               <Lock className="w-4 h-4" aria-hidden={true} />
             </Link>
 
+            <FollowButton />
+
             <a
               href={companyInfo.phoneRaw}
               className="text-xs text-slate-300 hover:text-white flex items-center gap-1.5 py-1.5 px-2.5 rounded-lg border border-navy-subtle"
@@ -124,13 +127,7 @@ export const Header: React.FC = () => {
 
           {/* Bouton Burger Mobile */}
           <div className="flex items-center gap-2 lg:hidden">
-            <Link
-              href="/admin/"
-              aria-label="Espace administrateur"
-              className="p-2.5 rounded-card-sm text-slate-400 hover:text-white bg-navy-light border border-navy-subtle"
-            >
-              <Lock className="w-5 h-5" aria-hidden={true} />
-            </Link>
+            <FollowButton compact />
 
             <a
               href={companyInfo.phoneRaw}
@@ -214,6 +211,14 @@ export const Header: React.FC = () => {
             <p className="text-center text-xs text-slate-400 pt-2">
               Ligne directe : {companyInfo.phoneDisplay}
             </p>
+            <Link
+              href="/admin/"
+              onClick={() => setMobileMenuOpen(false)}
+              className="flex items-center justify-center gap-1.5 text-xs text-slate-500 hover:text-slate-300 pt-1"
+            >
+              <Lock className="w-3.5 h-3.5" aria-hidden={true} />
+              Espace administrateur
+            </Link>
           </div>
         </div>
       )}

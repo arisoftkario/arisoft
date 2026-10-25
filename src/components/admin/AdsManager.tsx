@@ -24,7 +24,8 @@ import { postAnchor } from '@/lib/engagement';
 
 const emptyForm: AdInput = { title: '', description: '', badge: '', images: [], videoUrl: '' };
 
-export const AdsManager: React.FC = () => {
+/** canDelete : faux pour un agent (seul l'administrateur supprime). */
+export const AdsManager: React.FC<{ canDelete: boolean }> = ({ canDelete }) => {
   const [ads, setAds] = useState<Ad[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
@@ -280,14 +281,16 @@ export const AdsManager: React.FC = () => {
                 >
                   <Edit3 className="w-4 h-4" />
                 </button>
-                <button
-                  type="button"
-                  onClick={() => handleDelete(ad)}
-                  aria-label={`Supprimer ${ad.title}`}
-                  className="p-2 rounded-card-sm text-red-600 hover:bg-red-50"
-                >
-                  <Trash2 className="w-4 h-4" />
-                </button>
+                {canDelete && (
+                  <button
+                    type="button"
+                    onClick={() => handleDelete(ad)}
+                    aria-label={`Supprimer ${ad.title}`}
+                    className="p-2 rounded-card-sm text-red-600 hover:bg-red-50"
+                  >
+                    <Trash2 className="w-4 h-4" />
+                  </button>
+                )}
               </div>
             </li>
           ))}

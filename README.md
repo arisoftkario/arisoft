@@ -52,7 +52,10 @@ Les données sont stockées dans Firebase (Firestore + Authentication, offre gra
 5. **Firestore** → Démarrer une collection `admins` → ID du document = l'UID copié (ajouter un champ quelconque, ex. `role: "admin"`).
 6. Relancer `npm run dev` (ou `npm run build` avant mise en ligne). Se connecter sur `/admin/`.
 
-Pour ajouter un autre administrateur : répéter les étapes 4 et 5.
+Pour ajouter un membre de l'équipe : répéter les étapes 4 et 5, avec le champ `role` :
+- `admin` : tous les droits ;
+- `agent` : publie et modifie publicités, réalisations et photos des services, sans rien supprimer
+  ni accéder au catalogue, aux clients, aux commentaires et aux avis.
 Tant qu'aucune réalisation n'est publiée, le site affiche les exemples de `src/data/content.ts`.
 
 **Avis clients** : les visiteurs envoient leur avis depuis `/avis/` ; il reste invisible jusqu'à ce qu'un admin clique sur « Publier » (onglet **Avis**). Après toute modification de `firestore.rules`, recoller les règles dans la console Firebase.
