@@ -5,6 +5,7 @@ import { ServicesGrid } from '@/components/home/ServicesGrid';
 import { AdsSection } from '@/components/home/AdsSection';
 import { SoftwareFeature } from '@/components/home/SoftwareFeature';
 import { ProjectsSection } from '@/components/home/ProjectsSection';
+import { QuoteSection } from '@/components/home/QuoteSection';
 import { ProcessSection } from '@/components/home/ProcessSection';
 import { FaqSection } from '@/components/home/FaqSection';
 import { WhyChooseUs } from '@/components/home/WhyChooseUs';
@@ -12,7 +13,7 @@ import { TestimonialsSection } from '@/components/home/TestimonialsSection';
 import { ContactBanner } from '@/components/home/ContactBanner';
 
 export const metadata: Metadata = {
-  alternates: { canonical: '/' },
+  alternates: { canonical: '/', languages: { fr: '/', sw: '/sw/' } },
 };
 
 export default function HomePage() {
@@ -26,6 +27,9 @@ export default function HomePage() {
 
       {/* 3. Services (fond #F4F7FB) */}
       <ServicesGrid />
+
+      {/* Devis guidé en 4 clics → message WhatsApp */}
+      <QuoteSection />
 
       {/* 4. Logiciel de gestion (produit phare) */}
       <SoftwareFeature />

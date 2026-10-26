@@ -6,6 +6,7 @@ import { Footer } from '@/components/layout/Footer';
 import { FloatingWhatsApp } from '@/components/layout/FloatingWhatsApp';
 import { InstallApp } from '@/components/layout/InstallApp';
 import { NewAdsNotifier } from '@/components/layout/NewAdsNotifier';
+import { AutoLanguage } from '@/components/layout/AutoLanguage';
 import { JsonLd } from '@/components/shared/JsonLd';
 import { companyInfo, siteUrl } from '@/data/content';
 
@@ -84,6 +85,7 @@ export default function RootLayout({
         <FloatingWhatsApp />
         <InstallApp />
         <NewAdsNotifier />
+        <AutoLanguage />
       </body>
     </html>
   );

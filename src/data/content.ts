@@ -38,6 +38,8 @@ export const softwareModules: SoftwareModule[] = [
     subtitle: 'Point de vente, gestion des stocks et facturation',
     description:
       'Gérez vos ventes au comptoir, surveillez vos niveaux de stocks en temps réel et éditez vos reçus et factures normalisées sans coupure.',
+    seoTitle: 'Logiciel de caisse et de gestion de stock',
+    audience: 'boutiques, alimentations, quincailleries, pharmacies, dépôts et grossistes',
     features: [
       'Caisse enregistreuse rapide et gestion code-barres',
       'Suivi des stocks avec alertes de rupture',
@@ -52,6 +54,8 @@ export const softwareModules: SoftwareModule[] = [
     subtitle: 'Paie, pointage, présences et dossiers du personnel',
     description:
       'Automatisez le calcul des bulletins de paie, contrôlez les présences et conservez les dossiers administratifs de vos employés en toute conformité.',
+    seoTitle: 'Logiciel de paie et de gestion du personnel',
+    audience: 'entreprises, administrations, ONG et établissements qui emploient du personnel',
     features: [
       'Génération automatisée des bulletins de paie',
       'Suivi des congés, absences et contrats',
@@ -66,6 +70,8 @@ export const softwareModules: SoftwareModule[] = [
     subtitle: 'Suivi budgétaire multi-bailleurs et logistique de projets',
     description:
       'Pilotez les dépenses de vos subventions par bailleur de fonds, assurez la traçabilité complète des justificatifs et facilitez vos audits.',
+    seoTitle: 'Logiciel de gestion de projets pour ONG',
+    audience: 'ONG locales et internationales, associations et projets financés par des bailleurs',
     features: [
       'Gestion budgétaire multi-projets et devises multiples',
       'Rapprochement des dépenses avec les lignes de subventions',
@@ -80,6 +86,8 @@ export const softwareModules: SoftwareModule[] = [
     subtitle: 'Commandes en salle, gestion de cuisine et fiches techniques',
     description:
       'Synchronisez les commandes des serveurs directement avec la cuisine ou le bar, gérez vos tables et maîtrisez le coût de revient de vos recettes.',
+    seoTitle: 'Logiciel de gestion de restaurant',
+    audience: 'restaurants, bars, snacks, terrasses et services traiteur',
     features: [
       'Prise de commande mobile ou sur écran tactile',
       'Envoi immédiat des tickets en cuisine ou au bar',
@@ -94,6 +102,8 @@ export const softwareModules: SoftwareModule[] = [
     subtitle: 'Réservations, planning des chambres et facturation globale',
     description:
       'Gérez les arrivées et départs, visualisez le planning d’occupation de vos chambres et regroupez l’hébergement et les consommations sur une facture unique.',
+    seoTitle: 'Logiciel de gestion hôtelière',
+    audience: 'hôtels, guest-houses, motels et résidences meublées',
     features: [
       'Planning visuel des réservations et des disponibilités',
       'Check-in et check-out rapides avec historique client',
@@ -108,6 +118,8 @@ export const softwareModules: SoftwareModule[] = [
     subtitle: 'Inscriptions, frais scolaires, notes et bulletins',
     description:
       'Centralisez la gestion de votre établissement : inscriptions des élèves, suivi des paiements des frais scolaires, saisie des notes et impression des bulletins, en quelques clics.',
+    seoTitle: 'Logiciel de gestion scolaire',
+    audience: 'écoles maternelles, primaires et secondaires, instituts et centres de formation',
     features: [
       'Inscriptions et dossiers des élèves par classe et par année scolaire',
       'Suivi des frais scolaires, reçus de paiement et relances des retards',
@@ -122,6 +134,8 @@ export const softwareModules: SoftwareModule[] = [
     subtitle: 'Dossiers patients, consultations, pharmacie et facturation',
     description:
       'Suivez chaque patient de l’accueil à la sortie : dossier médical, consultations, examens, hospitalisation, pharmacie et facturation réunis dans un seul logiciel pour votre hôpital, clinique ou centre de santé.',
+    seoTitle: 'Logiciel de gestion hospitalière',
+    audience: 'hôpitaux, cliniques, centres de santé, polycliniques et pharmacies d’hôpital',
     features: [
       'Dossier patient unique : accueil, consultations, examens et historique',
       'Gestion des hospitalisations, des lits et des services',
@@ -136,6 +150,8 @@ export const softwareModules: SoftwareModule[] = [
     subtitle: 'Chantiers, devis, matériaux et main-d’œuvre',
     description:
       'Pilotez vos chantiers de construction et travaux publics : devis et métrés, suivi des dépenses par chantier, gestion des matériaux et des engins, pointage des ouvriers et avancement des travaux.',
+    seoTitle: 'Logiciel de gestion de chantier BTP',
+    audience: 'entreprises de construction, de génie civil, de travaux publics et quincailleries de chantier',
     features: [
       'Devis, métrés et suivi du budget par chantier',
       'Stock des matériaux (ciment, fer, gravier…) et approvisionnements',

@@ -9,6 +9,7 @@ import { Menu, X, ArrowRight, Phone, Lock } from 'lucide-react';
 import { navigationLinks, companyInfo } from '@/data/content';
 import { NEW_ADS_EVENT } from '@/lib/ads';
 import { FollowButton } from '@/components/shared/FollowButton';
+import { LanguageSelector } from '@/components/layout/LanguageSelector';
 
 // Pastille verte « nouveautés » sur le lien Offres
 const NewBadge: React.FC<{ count: number }> = ({ count }) => (
@@ -96,6 +97,8 @@ export const Header: React.FC = () => {
 
           {/* Actions Droite Bureau */}
           <div className="hidden lg:flex items-center gap-3">
+            <LanguageSelector />
+
             <Link
               href="/admin/"
               title="Espace administrateur"
@@ -127,6 +130,8 @@ export const Header: React.FC = () => {
 
           {/* Bouton Burger Mobile */}
           <div className="flex items-center gap-2 lg:hidden">
+            <LanguageSelector compact />
+
             <FollowButton compact />
 
             <a

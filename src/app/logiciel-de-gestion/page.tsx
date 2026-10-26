@@ -3,14 +3,6 @@ import type { Metadata } from 'next';
 import { pageMetadata } from '@/lib/seo';
 import Link from 'next/link';
 import {
-  ShoppingCart,
-  Users,
-  Building,
-  UtensilsCrossed,
-  Hotel,
-  GraduationCap,
-  Hospital,
-  HardHat,
   CheckCircle2,
   ArrowRight,
   MessageSquare,
@@ -21,36 +13,13 @@ import {
 } from 'lucide-react';
 import { softwareModules, companyInfo } from '@/data/content';
 import { SectionHeader } from '@/components/shared/SectionHeader';
+import { ModuleIcon } from '@/components/shared/ModuleIcon';
 
 export const metadata: Metadata = pageMetadata(
   '/logiciel-de-gestion/',
   'Logiciel de gestion d’entreprise sur mesure · ARISOFT',
   'Solutions logicielles modulaires pour Commerce, Ressources Humaines (RH), ONG, Restaurants, Hôtellerie, Écoles, Hôpitaux et BTP & Génie civil. Démonstration gratuite et formation incluse.',
 );
-
-const getModuleIcon = (id: string) => {
-  const iconProps = { className: 'w-7 h-7 text-brand-green', 'aria-hidden': true };
-  switch (id) {
-    case 'commerce':
-      return <ShoppingCart {...iconProps} />;
-    case 'rh':
-      return <Users {...iconProps} />;
-    case 'ong':
-      return <Building {...iconProps} />;
-    case 'restaurant':
-      return <UtensilsCrossed {...iconProps} />;
-    case 'hotellerie':
-      return <Hotel {...iconProps} />;
-    case 'ecoles':
-      return <GraduationCap {...iconProps} />;
-    case 'hopitaux':
-      return <Hospital {...iconProps} />;
-    case 'btp':
-      return <HardHat {...iconProps} />;
-    default:
-      return <ShoppingCart {...iconProps} />;
-  }
-};
 
 export default function SoftwarePage() {
   return (
@@ -148,7 +117,7 @@ export default function SoftwarePage() {
                 <div className="lg:col-span-8 space-y-4">
                   <div className="flex items-center gap-3.5">
                     <div className="w-12 h-12 rounded-card-sm bg-brand-green-pale border border-green-200 flex items-center justify-center shrink-0">
-                      {getModuleIcon(module.id)}
+                      <ModuleIcon id={module.id} className="w-7 h-7 text-brand-green" />
                     </div>
                     <div>
                       <span className="text-xs font-mono font-bold text-slate-400 uppercase">
@@ -181,6 +150,14 @@ export default function SoftwarePage() {
                       ))}
                     </ul>
                   </div>
+
+                  <Link
+                    href={`/logiciel-de-gestion/${module.slug}/`}
+                    className="inline-flex items-center text-sm font-bold text-brand-green hover:text-brand-green-hover"
+                  >
+                    <span>Tout savoir sur le module {module.title}</span>
+                    <ArrowRight className="w-4 h-4 ml-1.5" aria-hidden="true" />
+                  </Link>
                 </div>
 
                 {/* Encadré d'action pour le module */}

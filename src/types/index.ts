@@ -28,6 +28,10 @@ export interface SoftwareModule {
   subtitle: string;
   description: string;
   features: string[];
+  /** Expression recherchée sur Google, titre de la page dédiée (ex : « Logiciel de gestion scolaire »). */
+  seoTitle: string;
+  /** Établissements concernés, cités sur la page dédiée. */
+  audience: string;
 }
 
 export interface ProjectItem {

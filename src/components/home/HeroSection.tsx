@@ -1,45 +1,10 @@
 import React from 'react';
 import Link from 'next/link';
-import {
-  ShoppingCart,
-  Users,
-  Building,
-  UtensilsCrossed,
-  Hotel,
-  GraduationCap,
-  Hospital,
-  HardHat,
-  ArrowRight,
-  ShieldCheck,
-  Zap,
-  } from 'lucide-react';
+import { ArrowRight, ShieldCheck } from 'lucide-react';
 import { companyInfo, softwareModules } from '@/data/content';
 import { ContactButtons } from '@/components/shared/ContactButtons';
 import { SocialLinks } from '@/components/shared/SocialLinks';
-
-// Map module icons
-const getModuleIcon = (id: string) => {
-  switch (id) {
-    case 'commerce':
-      return <ShoppingCart className="w-5 h-5 text-brand-green" aria-hidden="true" />;
-    case 'rh':
-      return <Users className="w-5 h-5 text-brand-green" aria-hidden="true" />;
-    case 'ong':
-      return <Building className="w-5 h-5 text-brand-green" aria-hidden="true" />;
-    case 'restaurant':
-      return <UtensilsCrossed className="w-5 h-5 text-brand-green" aria-hidden="true" />;
-    case 'hotellerie':
-      return <Hotel className="w-5 h-5 text-brand-green" aria-hidden="true" />;
-    case 'ecoles':
-      return <GraduationCap className="w-5 h-5 text-brand-green" aria-hidden="true" />;
-    case 'hopitaux':
-      return <Hospital className="w-5 h-5 text-brand-green" aria-hidden="true" />;
-    case 'btp':
-      return <HardHat className="w-5 h-5 text-brand-green" aria-hidden="true" />;
-    default:
-      return <Zap className="w-5 h-5 text-brand-green" aria-hidden="true" />;
-  }
-};
+import { ModuleIcon } from '@/components/shared/ModuleIcon';
 
 const heroStats = [
   { value: String(softwareModules.length), label: 'secteurs couverts par notre logiciel' },
@@ -143,12 +108,12 @@ export const HeroSection: React.FC = () => {
                 {softwareModules.map((module) => (
                   <Link
                     key={module.id}
-                    href={`/logiciel-de-gestion/#${module.slug}`}
+                    href={`/logiciel-de-gestion/${module.slug}/`}
                     className="p-3 rounded-card-sm border border-line-subtle hover:border-brand-green hover:bg-slate-50 transition-colors flex flex-col justify-between group"
                   >
                     <div className="flex items-center justify-between mb-1.5">
                       <div className="p-1.5 rounded-lg bg-green-50 group-hover:bg-brand-green-pale transition-colors">
-                        {getModuleIcon(module.id)}
+                        <ModuleIcon id={module.id} className="w-5 h-5 text-brand-green" />
                       </div>
                     </div>
                     <div>

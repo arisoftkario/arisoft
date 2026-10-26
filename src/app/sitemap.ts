@@ -1,5 +1,5 @@
 import { MetadataRoute } from 'next';
-import { siteUrl } from '@/data/content';
+import { siteUrl, softwareModules } from '@/data/content';
 
 export const dynamic = 'force-static';
 
@@ -15,6 +15,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       priority: 1.0,
     },
     {
+      url: `${baseUrl}/sw/`,
+      lastModified,
+      changeFrequency: 'monthly',
+      priority: 0.8,
+    },
+    {
       url: `${baseUrl}/services/`,
       lastModified,
       changeFrequency: 'weekly',
@@ -26,6 +32,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: 'weekly',
       priority: 0.9,
     },
+    ...softwareModules.map((m) => ({
+      url: `${baseUrl}/logiciel-de-gestion/${m.slug}/`,
+      lastModified,
+      changeFrequency: 'monthly' as const,
+      priority: 0.8,
+    })),
     {
       url: `${baseUrl}/realisations/`,
       lastModified,
