@@ -35,7 +35,7 @@ export const WhyChooseUs: React.FC = () => {
           {advantagesData.map((advantage, index) => (
             <div
               key={advantage.id}
-              className="bg-surface-alt rounded-card p-6 border border-line-subtle flex flex-col justify-between hover:border-brand-green/30 transition-colors"
+              className="reveal bg-surface-alt rounded-card p-6 border border-line-subtle flex flex-col justify-between hover:border-brand-green/30 transition-colors"
             >
               <div>
                 <div className="flex items-center justify-between mb-4">

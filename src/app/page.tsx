@@ -5,6 +5,8 @@ import { ServicesGrid } from '@/components/home/ServicesGrid';
 import { AdsSection } from '@/components/home/AdsSection';
 import { SoftwareFeature } from '@/components/home/SoftwareFeature';
 import { ProjectsSection } from '@/components/home/ProjectsSection';
+import { ProcessSection } from '@/components/home/ProcessSection';
+import { FaqSection } from '@/components/home/FaqSection';
 import { WhyChooseUs } from '@/components/home/WhyChooseUs';
 import { TestimonialsSection } from '@/components/home/TestimonialsSection';
 import { ContactBanner } from '@/components/home/ContactBanner';
@@ -31,11 +33,17 @@ export default function HomePage() {
       {/* 5. Réalisations (fond #F4F7FB) */}
       <ProjectsSection />
 
+      {/* Déroulement d'un projet en 4 étapes (fond marine) */}
+      <ProcessSection />
+
       {/* 6. Pourquoi choisir ARISOFT ? */}
       <WhyChooseUs />
 
       {/* Avis clients validés depuis l'admin (masqué si aucun) */}
       <TestimonialsSection />
+
+      {/* Questions fréquentes (+ données FAQPage pour Google) */}
+      <FaqSection />
 
       {/* 7. Bloc contact (carte marine arrondie) */}
       <ContactBanner />

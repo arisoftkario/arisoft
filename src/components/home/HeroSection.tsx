@@ -41,10 +41,22 @@ const getModuleIcon = (id: string) => {
   }
 };
 
+const heroStats = [
+  { value: String(softwareModules.length), label: 'secteurs couverts par notre logiciel' },
+  { value: '1', label: 'seul interlocuteur pour tout votre système' },
+  { value: '6 j/7', label: 'du lundi au samedi' },
+];
+
 export const HeroSection: React.FC = () => {
   return (
-    <section className="bg-navy text-white pt-10 sm:pt-16 pb-16 sm:pb-24 border-b border-navy-light/60">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section className="bg-navy text-white pt-10 sm:pt-16 pb-16 sm:pb-24 border-b border-navy-light/60 relative overflow-hidden">
+      {/* Halos lumineux et quadrillage décoratifs */}
+      <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
+        <div className="absolute -top-40 -left-40 w-[28rem] h-[28rem] rounded-full bg-brand-green/25 blur-3xl" />
+        <div className="absolute top-1/3 -right-40 w-[32rem] h-[32rem] rounded-full bg-sky-500/10 blur-3xl" />
+        <div className="absolute inset-0 hero-grid" />
+      </div>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center">
           {/* Colonne Gauche : Pitch & CTA */}
           <div className="lg:col-span-7 space-y-6">
@@ -90,11 +102,24 @@ export const HeroSection: React.FC = () => {
                 <span>Installation et formation sur place</span>
               </div>
             </div>
+
+            {/* Chiffres clés */}
+            <dl className="grid grid-cols-3 gap-3 pt-2 max-w-lg">
+              {heroStats.map((stat) => (
+                <div key={stat.label} className="rounded-card-sm bg-white/5 border border-white/10 px-3 py-3 backdrop-blur-sm">
+                  <dt className="sr-only">{stat.label}</dt>
+                  <dd>
+                    <span className="block text-2xl sm:text-3xl font-extrabold text-white">{stat.value}</span>
+                    <span className="block text-[11px] sm:text-xs text-slate-300 leading-snug mt-0.5">{stat.label}</span>
+                  </dd>
+                </div>
+              ))}
+            </dl>
           </div>
 
           {/* Colonne Droite : Carte blanche Logiciel de gestion ARISOFT */}
           <div className="lg:col-span-5">
-            <div className="bg-white text-content-primary rounded-card-lg p-6 sm:p-7 shadow-xl border border-line-subtle relative overflow-hidden">
+            <div className="bg-white text-content-primary rounded-card-lg p-6 sm:p-7 shadow-2xl shadow-black/30 ring-1 ring-white/10 border border-line-subtle relative overflow-hidden">
               <div className="flex items-center justify-between pb-4 mb-4 border-b border-line-subtle">
                 <div>
                   <span className="text-[11px] font-bold uppercase tracking-wider text-brand-green">

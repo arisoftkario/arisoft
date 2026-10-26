@@ -23,7 +23,7 @@ export async function ServicesGrid() {
           {servicesData.map((service) => (
             <div
               key={service.id}
-              className="bg-white rounded-card overflow-hidden p-6 sm:p-7 border border-line-subtle shadow-sm hover:shadow-md hover:border-brand-green/40 transition-all duration-200 flex flex-col justify-between"
+              className="reveal bg-white rounded-card overflow-hidden p-6 sm:p-7 border border-line-subtle shadow-sm hover:shadow-md hover:border-brand-green/40 transition-all duration-200 flex flex-col justify-between"
             >
               <div>
                 <ServiceCover serviceId={service.id} title={service.title} />

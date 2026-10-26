@@ -400,3 +400,59 @@ export const navigationLinks = [
   { label: 'Offres', href: '/publicites/' },
   { label: 'Contact', href: '/contact/' },
 ];
+
+// Déroulement d'un projet, du premier message au suivi (section « Comment ça se passe »).
+export const processSteps = [
+  {
+    id: 'echange',
+    title: 'On vous écoute',
+    description: 'Un message WhatsApp, un appel ou une visite à l’agence : vous nous expliquez votre activité et votre besoin.',
+  },
+  {
+    id: 'devis',
+    title: 'Devis gratuit',
+    description: 'Nous vous proposons une solution adaptée et un devis clair, sans engagement de votre part.',
+  },
+  {
+    id: 'installation',
+    title: 'Installation & formation',
+    description: 'Nos techniciens installent tout dans vos locaux et forment vos équipes jusqu’à ce qu’elles soient autonomes.',
+  },
+  {
+    id: 'suivi',
+    title: 'Suivi au quotidien',
+    description: 'Après la livraison, nous restons joignables par téléphone et WhatsApp pour l’assistance et les mises à jour.',
+  },
+];
+
+// Questions fréquentes (affichées sur l'accueil et déclarées à Google).
+export const faqItems = [
+  {
+    question: 'Le devis est-il vraiment gratuit ?',
+    answer:
+      'Oui. Nous étudions votre besoin et vous remettons un devis détaillé gratuitement et sans engagement. Vous décidez ensuite librement.',
+  },
+  {
+    question: 'Mes employés sauront-ils utiliser le logiciel ?',
+    answer:
+      'La formation est incluse : nous formons vos équipes sur place jusqu’à ce qu’elles maîtrisent l’outil, et nous restons disponibles pour répondre à leurs questions.',
+  },
+  {
+    question: 'Le logiciel de gestion fonctionne-t-il sans internet ?',
+    answer:
+      'Il peut être installé en local sur vos ordinateurs ou partagé sur votre réseau : votre activité ne s’arrête pas quand la connexion internet est coupée.',
+  },
+  {
+    question: 'Que se passe-t-il en cas de panne ?',
+    answer:
+      'Contactez-nous par téléphone ou WhatsApp : nous intervenons à distance ou directement dans vos locaux. Des contrats de maintenance mensuels sont aussi possibles.',
+  },
+  {
+    question: 'Quels moyens de paiement acceptez-vous ?',
+    answer: 'Espèces, Mobile Money et virement bancaire, en dollars américains (USD) ou en francs congolais (CDF).',
+  },
+  {
+    question: 'Où se trouve ARISOFT ?',
+    answer: `Notre agence est située ${fullAddress}. Horaires d’ouverture : ${companyInfo.openingHours}.`,
+  },
+];
