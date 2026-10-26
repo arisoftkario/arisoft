@@ -5,6 +5,7 @@ import { companyInfo, softwareModules } from '@/data/content';
 import { ContactButtons } from '@/components/shared/ContactButtons';
 import { SocialLinks } from '@/components/shared/SocialLinks';
 import { ModuleIcon } from '@/components/shared/ModuleIcon';
+import { withBasePath } from '@/lib/basePath';
 
 const heroStats = [
   { value: String(softwareModules.length), label: 'secteurs couverts par notre logiciel' },
@@ -15,6 +16,21 @@ const heroStats = [
 export const HeroSection: React.FC = () => {
   return (
     <section className="bg-navy text-white pt-10 sm:pt-16 pb-16 sm:pb-24 border-b border-navy-light/60 relative overflow-hidden">
+      {/* Photo de fond : bureau moderne d'informaticiens, sous un voile marine pour la lisibilité */}
+      <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
+        <picture>
+          <source media="(max-width: 767px)" srcSet={withBasePath('/images/hero-bureau-mobile.webp')} />
+          <img
+            src={withBasePath('/images/hero-bureau.webp')}
+            alt=""
+            fetchPriority="high"
+            className="absolute inset-0 w-full h-full object-cover object-center"
+          />
+        </picture>
+        <div className="absolute inset-0 bg-gradient-to-r from-navy/95 via-navy/75 to-navy/35" />
+        <div className="absolute inset-0 bg-gradient-to-t from-navy/90 via-transparent to-navy/30" />
+      </div>
+
       {/* Halos lumineux et quadrillage décoratifs */}
       <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
         <div className="absolute -top-40 -left-40 w-[28rem] h-[28rem] rounded-full bg-brand-green/25 blur-3xl" />

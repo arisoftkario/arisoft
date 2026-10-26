@@ -58,7 +58,7 @@ export const Header: React.FC = () => {
           {/* Logo ARISOFT officiel */}
           <Link
             href="/"
-            className="flex items-center group focus:outline-none py-1"
+            className="flex items-center group focus:outline-none py-1 shrink-0 mr-2 lg:mr-6"
             aria-label="Accueil ARISOFT"
           >
             <Image
@@ -67,12 +67,12 @@ export const Header: React.FC = () => {
               width={967}
               height={266}
               priority
-              className="h-10 sm:h-12 w-auto object-contain transition-opacity group-hover:opacity-90"
+              className="h-8 min-[380px]:h-10 sm:h-12 w-auto object-contain transition-opacity group-hover:opacity-90"
             />
           </Link>
 
           {/* Navigation Bureau */}
-          <nav className="hidden lg:flex items-center gap-8" aria-label="Navigation principale">
+          <nav className="hidden lg:flex items-center gap-5 xl:gap-7" aria-label="Navigation principale">
             {navigationLinks.map((link) => {
               const isActive =
                 link.href === '/'
@@ -82,7 +82,7 @@ export const Header: React.FC = () => {
                 <Link
                   key={link.href}
                   href={link.href}
-                  className={`text-sm font-medium transition-colors hover:text-brand-green-light py-1.5 border-b-2 ${
+                  className={`whitespace-nowrap text-sm font-medium transition-colors hover:text-brand-green-light py-1.5 border-b-2 ${
                     isActive
                       ? 'text-white border-brand-green font-semibold'
                       : 'text-slate-300 border-transparent'
@@ -96,7 +96,7 @@ export const Header: React.FC = () => {
           </nav>
 
           {/* Actions Droite Bureau */}
-          <div className="hidden lg:flex items-center gap-3">
+          <div className="hidden lg:flex items-center gap-2 xl:gap-3 shrink-0 ml-4">
             <LanguageSelector />
 
             <Link
@@ -116,12 +116,12 @@ export const Header: React.FC = () => {
               aria-label={`Appeler le ${companyInfo.phoneDisplay}`}
             >
               <Phone className="w-3.5 h-3.5 text-brand-green-light" aria-hidden={true} />
-              <span>{companyInfo.phoneDisplay}</span>
+              <span className="hidden 2xl:inline whitespace-nowrap">{companyInfo.phoneDisplay}</span>
             </a>
 
             <Link
               href="/contact/"
-              className="inline-flex items-center justify-center font-bold text-sm text-white bg-brand-green hover:bg-brand-green-hover px-4 py-2.5 rounded-card transition-colors duration-150 shadow-sm active:translate-y-0.5"
+              className="whitespace-nowrap inline-flex items-center justify-center font-bold text-sm text-white bg-brand-green hover:bg-brand-green-hover px-4 py-2.5 rounded-card transition-colors duration-150 shadow-sm active:translate-y-0.5"
             >
               <span>Demander un devis</span>
               <ArrowRight className="w-4 h-4 ml-1.5" aria-hidden={true} />
@@ -129,7 +129,7 @@ export const Header: React.FC = () => {
           </div>
 
           {/* Bouton Burger Mobile */}
-          <div className="flex items-center gap-2 lg:hidden">
+          <div className="flex items-center gap-1.5 min-[380px]:gap-2 lg:hidden">
             <LanguageSelector compact />
 
             <FollowButton compact />
